@@ -2,25 +2,14 @@
 
 require "securerandom"
 
-class FilePushesController < ApplicationController
+class FilePushesController < BaseController
   helper FilePushesHelper
 
-  before_action :set_push, only: %i[show passphrase access preview preliminary audit destroy]
+  before_action :set_push, except: %i[new create active expired]
 
-  # Authentication always except for :show
-  acts_as_token_authentication_handler_for User, except: %i[show new preliminary destroy passphrase access]
+  # Authentication always except for these actions
+  before_action :authenticate_user!, except: %i[preliminary passphrase access show destroy]
 
-  resource_description do
-    name "File Pushes"
-    short "Interact directly with file pushes.  This feature (and corresponding API) is currently in beta."
-  end
-
-  api :GET, "/f/:url_token.json", "Retrieve a file push."
-  param :url_token, String, desc: "Secret URL token of a previously created push.", required: true
-  formats ["json"]
-  example 'curl -X GET -H "X-User-Email: <email>" -H "X-User-Token: MyAPIToken" https://pwpush.com/f/fk27vnslkd.json'
-  description "Retrieves a push including it's payload and details.  If the push is still active, " \
-              "this will burn a view and the transaction will be logged in the push audit log."
   def show
     # This file_push may have expired since the last view.  Validate the file_push
     # expiration before doing anything.
@@ -28,10 +17,7 @@ class FilePushesController < ApplicationController
 
     if @push.expired
       log_view(@push)
-      respond_to do |format|
-        format.html { render template: "file_pushes/show_expired", layout: "naked" }
-        format.json { render json: @push.to_json(payload: true) }
-      end
+      render template: "file_pushes/show_expired", layout: "naked"
       return
     else
       @payload = @push.payload
@@ -50,10 +36,7 @@ class FilePushesController < ApplicationController
       unless has_passphrase
         # Passphrase hasn't been provided or is incorrect
         # Redirect to the passphrase page
-        respond_to do |format|
-          format.html { redirect_to passphrase_file_push_path(@push.url_token) }
-          format.json { render json: {error: "This push has a passphrase that was incorrect or not provided."} }
-        end
+        redirect_to passphrase_file_push_path(@push.url_token)
         return
       end
 
@@ -67,10 +50,7 @@ class FilePushesController < ApplicationController
     # Optionally blur the text payload
     @blur_css_class = Settings.files.enable_blur ? "spoiler" : ""
 
-    respond_to do |format|
-      format.html { render layout: "bare" }
-      format.json { render json: @push.to_json(payload: true) }
-    end
+    render layout: "bare"
 
     # We can't expire in this case because the attached files would be deleted and
     # downloading wouldn't work.
@@ -95,7 +75,13 @@ class FilePushesController < ApplicationController
     if @push.passphrase == params[:passphrase]
       # Passphrase is valid
       # Set the passphrase cookie
-      cookies[name] = {value: @push.passphrase_ciphertext, expires: 10.minutes.from_now}
+      cookies[name] = {
+        value: @push.passphrase_ciphertext,
+        expires: 3.minutes.from_now,
+        httponly: true,                # Prevent JavaScript access to the cookie
+        same_site: :strict             # Restrict the cookie to same-site requests
+      }
+
       # Redirect to the payload
       redirect_to file_push_path(@push.url_token)
     else
@@ -109,33 +95,9 @@ class FilePushesController < ApplicationController
 
   # GET /file_pushes/new
   def new
-    if user_signed_in?
-      @push = FilePush.new
-
-      respond_to(&:html)
-    else
-      respond_to do |format|
-        format.html { render template: "file_pushes/new_anonymous" }
-      end
-    end
+    @push = FilePush.new
   end
 
-  api :POST, "/f.json", "Create a new file push."
-  param :file_push, Hash, "Push details", required: true do
-    param :payload, String, desc: "The URL encoded secret text to share.", required: true
-    param :passphrase, String, desc: "Require recipients to enter this passphrase to view the created push."
-    param :note, String,
-      desc: "If authenticated, the URL encoded note for this push.  Visible only to the push creator.", allow_blank: true
-    param :expire_after_days, Integer, desc: "Expire secret link and delete after this many days."
-    param :expire_after_views, Integer, desc: "Expire secret link and delete after this many views."
-    param :deletable_by_viewer, %w[true false], desc: "Allow users to delete the push once retrieved."
-    param :retrieval_step, %w[true false],
-      desc: "Helps to avoid chat systems and URL scanners from eating up views."
-  end
-  formats ["json"]
-  example 'curl -X POST -H "X-User-Email: <email>" -H "X-User-Token: MyAPIToken" ' \
-          '-F "file_push[files][]=@/path/to/file/file1.extension" ' \
-          '-F "file_push[files][]=@/path/to/file/file2.extension" https://pwpush.com/f.json'
   def create
     # Require authentication if allow_anonymous is false
     # See config/settings.yml
@@ -143,30 +105,11 @@ class FilePushesController < ApplicationController
 
     @push = FilePush.new(file_push_params)
 
-    if ENV.key?("PWPUSH_COM")
-      @push_count = FilePush.where(user_id: current_user.id, expired: false).count
-      if @push_count >= 20
-        msg = _("Only 20 active file pushes allowed while in Beta. If it's an option, you can manually expire existing pushes before creating new ones.")
-        respond_to do |format|
-          format.html do
-            flash.now[:warning] = msg
-            render :new, status: :unprocessable_entity
-          end
-          format.json { render json: {error: msg}, status: :unprocessable_entity }
-        end
-        return
-      end
-    end
-
-    if file_push_params.key?(:files) && file_push_params[:files].count > Settings.files.max_file_uploads
-      msg = t("file_pushes.new.upload_limit", count: Settings.files.max_file_uploads)
-      respond_to do |format|
-        format.html do
-          flash.now[:warning] = msg
-          render :new, status: :unprocessable_entity
-        end
-        format.json { render json: {error: msg}, status: :unprocessable_entity }
-      end
+    if file_push_params.key?(:files) &&
+        file_push_params[:files].count { |e| e != "" } > Settings.files.max_file_uploads
+      msg = t("pushes.form.upload_limit", count: Settings.files.max_file_uploads)
+      flash.now[:alert] = msg
+      render :new, status: :unprocessable_entity
       return
     end
 
@@ -181,94 +124,63 @@ class FilePushesController < ApplicationController
 
     @push.validate!
 
-    respond_to do |format|
-      if @push.save
-        format.html { redirect_to preview_file_push_path(@push) }
-        format.json { render json: @push, status: :created }
-      else
-        format.html { render action: "new", status: :unprocessable_entity }
-        format.json { render json: @push.errors, status: :unprocessable_entity }
-      end
+    if @push.save
+      redirect_to preview_file_push_path(@push)
+    else
+      render action: "new", status: :unprocessable_entity
     end
   end
 
-  api :GET, "/f/:url_token/preview.json", "Helper endpoint to retrieve the fully qualified secret URL of a push."
-  param :url_token, String, desc: "Secret URL token of a previously created push.", required: true
-  formats ["json"]
-  example 'curl -X GET -H "X-User-Email: <email>" -H "X-User-Token: MyAPIToken" https://pwpush.com/f/fk27vnslkd/preview.json'
-  description ""
   def preview
     @secret_url = helpers.secret_url(@push)
+    @qr_code = helpers.qr_code(@secret_url)
+  end
 
-    respond_to do |format|
-      format.html { render action: "preview" }
-      format.json { render json: {url: @secret_url}, status: :ok }
-    end
+  def print_preview
+    @secret_url = helpers.secret_url(@push)
+    @qr_code = helpers.qr_code(@secret_url)
+
+    @message = print_preview_params[:message]
+    @show_expiration = print_preview_params[:show_expiration]
+    @show_id = print_preview_params[:show_id]
+
+    render action: "print_preview", layout: "naked"
   end
 
   def preliminary
-    @secret_url = helpers.raw_secret_url(@push)
+    # This password may have expired since the last view.  Validate the password
+    # expiration before doing anything.
+    @push.validate!
 
-    respond_to do |format|
-      format.html { render action: "preliminary", layout: "naked" }
+    if @push.expired
+      log_view(@push)
+      render template: "file_pushes/show_expired", layout: "naked"
+      return
+    else
+      @secret_url = helpers.secret_url(@push, with_retrieval_step: false, locale: params[:locale])
     end
+
+    render action: "preliminary", layout: "naked"
   end
 
-  api :GET, "/f/:url_token/audit.json", "Retrieve the audit log for a push."
-  param :url_token, String, desc: "Secret URL token of a previously created push.", required: true
-  formats ["json"]
-  example 'curl -X GET -H "X-User-Email: <email>" -H "X-User-Token: MyAPIToken" https://pwpush.com/f/fk27vnslkd/audit.json'
-  description "This will return array of views including IP, referrer and other such metadata.  The " \
-              "_successful_ field indicates whether the view was made while the push was still active " \
-              "(and not expired).  Note that you must be the owner of the push to retrieve the audit log " \
-              "and this call will always return 401 Unauthorized for pushes not owned by the credentials provided."
   def audit
     if @push.user_id != current_user.id
-      respond_to do |format|
-        format.html { redirect_to :root, notice: _("That push doesn't belong to you.") }
-        format.json { render json: {error: "That push doesn't belong to you."} }
-      end
+      redirect_to :root, notice: _("That push doesn't belong to you.")
       return
     end
 
     @secret_url = helpers.secret_url(@push)
-
-    respond_to do |format|
-      format.html {}
-      format.json do
-        render json: {views: @push.views}.to_json(except: %i[user_id file_push_id id])
-      end
-    end
   end
 
-  api :DELETE, "/f/:url_token.json", "Expire a push: delete the files, payload and expire the secret URL."
-  param :url_token, String, desc: "Secret URL token of a previously created push.", required: true
-  formats ["json"]
-  example 'curl -X DELETE -H "X-User-Email: <email>" -H "X-User-Token: MyAPIToken" https://pwpush.com/f/fkwjfvhall92.json'
-  description "Expires a push immediately.  Must be authenticated & owner of the push _or_ the push must " \
-              "have been created with _deleteable_by_viewer_."
   def destroy
-    is_owner = false
-
-    if user_signed_in?
-      # Check if logged in user owns the file_push to be expired
-      if @push.user_id == current_user.id
-        is_owner = true
-      else
-        redirect_to :root, notice: _("That push does not belong to you.")
-        return
-      end
-    elsif @push.deletable_by_viewer == false
-      # Anonymous user - assure deletable_by_viewer enabled
-      redirect_to :root, notice: _("That push is not deletable by viewers.")
+    # Check if the push is deletable by the viewer or if the user is the owner
+    if @push.deletable_by_viewer == false && @push.user_id != current_user&.id
+      redirect_to :root, notice: _("That push is not deletable by viewers and does not belong to you.")
       return
     end
 
     if @push.expired
-      respond_to do |format|
-        format.html { redirect_to :root, notice: _("That push is already expired.") }
-        format.json { render json: {error: _("That push is already expired.")}, status: :unprocessable_entity }
-      end
+      redirect_to @push, notice: _("That push is already expired.")
       return
     end
 
@@ -280,29 +192,13 @@ class FilePushesController < ApplicationController
     @push.files.purge
     @push.expired_on = Time.zone.now
 
-    respond_to do |format|
-      if @push.save
-        format.html do
-          if is_owner
-            redirect_to audit_file_push_path(@push),
-              notice: _("The push content has been deleted and the secret URL expired.")
-          else
-            redirect_to @push,
-              notice: _("The push content has been deleted and the secret URL expired.")
-          end
-        end
-        format.json { render json: @push, status: :ok }
-      else
-        format.html { render action: "new", status: :unprocessable_entity }
-        format.json { render json: @push.errors, status: :unprocessable_entity }
-      end
+    if @push.save
+      redirect_to @push, notice: _("The push content has been deleted and the secret URL expired.")
+    else
+      render action: "new", status: :unprocessable_entity
     end
   end
 
-  api :GET, "/f/active.json", "Retrieve your active file pushes."
-  formats ["json"]
-  example 'curl -X GET -H "X-User-Email: <email>" -H "X-User-Token: MyAPIToken" https://pwpush.com/f/active.json'
-  description "Returns the list of file pushes that you previously pushed which are still active."
   def active
     unless Settings.enable_logins
       redirect_to :root
@@ -313,23 +209,8 @@ class FilePushesController < ApplicationController
       .where(user_id: current_user.id, expired: false)
       .page(params[:page])
       .order(created_at: :desc)
-
-    respond_to do |format|
-      format.html {}
-      format.json do
-        json_parts = []
-        @pushes.each do |push|
-          json_parts << push.to_json(owner: true, payload: false)
-        end
-        render json: "[#{json_parts.join(",")}]"
-      end
-    end
   end
 
-  api :GET, "/f/expired.json", "Retrieve your expired file pushes."
-  formats ["json"]
-  example 'curl -X GET -H "X-User-Email: <email>" -H "X-User-Token: MyAPIToken" https://pwpush.com/f/expired.json'
-  description "Returns the list of file pushes that you previously pushed which have expired."
   def expired
     unless Settings.enable_logins
       redirect_to :root
@@ -340,17 +221,6 @@ class FilePushesController < ApplicationController
       .where(user_id: current_user.id, expired: true)
       .page(params[:page])
       .order(created_at: :desc)
-
-    respond_to do |format|
-      format.html {}
-      format.json do
-        json_parts = []
-        @pushes.each do |push|
-          json_parts << push.to_json(owner: true, payload: false)
-        end
-        render json: "[#{json_parts.join(",")}]"
-      end
-    end
   end
 
   private
@@ -447,7 +317,6 @@ class FilePushesController < ApplicationController
     # No easy fix for JSON unfortunately as we don't have a record to show.
     respond_to do |format|
       format.html { render template: "file_pushes/show_expired", layout: "naked" }
-      format.json { render json: {error: "not-found"}.to_json, status: :not_found }
       format.any { head :not_acceptable }
     end
   end
@@ -455,5 +324,9 @@ class FilePushesController < ApplicationController
   def file_push_params
     params.require(:file_push).permit(:payload, :expire_after_days, :expire_after_views,
       :retrieval_step, :deletable_by_viewer, :note, :passphrase, files: [])
+  end
+
+  def print_preview_params
+    params.permit(:id, :locale, :message, :show_expiration, :show_id)
   end
 end

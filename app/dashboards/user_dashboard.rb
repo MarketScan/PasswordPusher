@@ -11,28 +11,30 @@ class UserDashboard < Administrate::BaseDashboard
     id: Field::Number,
     admin: Field::Boolean,
     authentication_token: Field::String,
-    confirmation_sent_at: Field::DateTime,
+    confirmation_sent_at: Field::DateTime.with_options(timezone: Settings.timezone),
     confirmation_token: Field::String,
-    confirmed_at: Field::DateTime,
-    current_sign_in_at: Field::DateTime,
+    confirmed_at: Field::DateTime.with_options(timezone: Settings.timezone),
+    current_sign_in_at: Field::DateTime.with_options(timezone: Settings.timezone),
     current_sign_in_ip: Field::String,
     email: Field::String,
     encrypted_password: Field::String,
+    password: Field::String.with_options(searchable: false),
+    password_confirmation: Field::String.with_options(searchable: false),
     failed_attempts: Field::Number,
     file_pushes: Field::HasMany,
-    last_sign_in_at: Field::DateTime,
+    last_sign_in_at: Field::DateTime.with_options(timezone: Settings.timezone),
     last_sign_in_ip: Field::String,
-    locked_at: Field::DateTime,
+    locked_at: Field::DateTime.with_options(timezone: Settings.timezone),
     passwords: Field::HasMany,
-    remember_created_at: Field::DateTime,
-    reset_password_sent_at: Field::DateTime,
+    remember_created_at: Field::DateTime.with_options(timezone: Settings.timezone),
+    reset_password_sent_at: Field::DateTime.with_options(timezone: Settings.timezone),
     reset_password_token: Field::String,
     sign_in_count: Field::Number,
     unconfirmed_email: Field::String,
     unlock_token: Field::String,
     urls: Field::HasMany,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime
+    created_at: Field::DateTime.with_options(timezone: Settings.timezone),
+    updated_at: Field::DateTime.with_options(timezone: Settings.timezone)
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -43,7 +45,9 @@ class UserDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     id
     email
+    created_at
     confirmed_at
+    sign_in_count
     admin
   ].freeze
 
@@ -89,7 +93,7 @@ class UserDashboard < Administrate::BaseDashboard
     current_sign_in_at
     current_sign_in_ip
     email
-    encrypted_password
+    password
     failed_attempts
     file_pushes
     last_sign_in_at

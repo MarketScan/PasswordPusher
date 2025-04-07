@@ -1,14 +1,14 @@
-# Hungarian translations for PasswordPusher package.
-# Copyright (C) 2024 PasswordPusher
-# This file is distributed under the same license as the PasswordPusher package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# Hungarian translations for pwpush package.
+# Copyright (C) 2025 pwpush
+# This file is distributed under the same license as the pwpush package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PasswordPusher 1.0\n"
+"Project-Id-Version: pwpush 1.0\n"
 "Report-Msgid-Bugs-To: contact@translation.io\n"
-"POT-Creation-Date: 2024-03-13 23:52+0100\n"
-"PO-Revision-Date: 2024-03-13 23:52+0100\n"
+"POT-Creation-Date: 2025-03-11 13:39+0100\n"
+"PO-Revision-Date: 2025-03-11 13:39+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Hungarian\n"
 "Language: hu\n"
@@ -18,33 +18,43 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n!=1;\n"
 "\n"
 
-#: ../../../app/controllers/application_controller.rb:24
-msgid "Not Found"
-msgstr "Nem található"
+#: ../../../app/controllers/api/v1/file_pushes_controller.rb:256
+#: ../../../app/controllers/api/v1/passwords_controller.rb:293
+#: ../../../app/controllers/file_pushes_controller.rb:178
+#: ../../../app/controllers/passwords_controller.rb:192
+msgid "That push is not deletable by viewers and does not belong to you."
+msgstr "Ezt a nyomást a nézők nem törölhetik, és nem tartozik rád."
 
-#: ../../../app/controllers/feedbacks_controller.rb:15
-msgid ""
-"Our apologies but you failed the spam check.  You could try contacting us on G"
-"ithub instead."
-msgstr ""
-"Elnézést kérünk, de nem sikerült a spamellenőrzés. Ehelyett megpróbálhatja fel"
-"venni velünk a kapcsolatot a Githubon."
+#: ../../../app/controllers/api/v1/file_pushes_controller.rb:261
+#: ../../../app/controllers/api/v1/passwords_controller.rb:298
+#: ../../../app/controllers/api/v1/urls_controller.rb:253
+#: ../../../app/controllers/file_pushes_controller.rb:183
+#: ../../../app/controllers/passwords_controller.rb:197
+msgid "That push is already expired."
+msgstr "Ez a push már lejárt."
 
-#: ../../../app/controllers/feedbacks_controller.rb:21
-msgid "Feedback sent!  We will get back to you as soon as possible."
-msgstr "Visszajelzés elküldve! A lehető leghamarabb visszakeresünk."
+#: ../../../app/controllers/api/v1/file_pushes_controller.rb:307
+#: ../../../app/controllers/api/v1/urls_controller.rb:298
+msgid "You must be logged in to view your active pushes."
+msgstr "Az aktív lökések megtekintéséhez be kell jelentkeznie."
 
-#: ../../../app/controllers/feedbacks_controller.rb:24
-msgid ""
-"Could not send feedback.  Did you pass the Humanity Test?  Valid email?  Try a"
-"gain?"
-msgstr ""
-"Nem sikerült visszajelzést küldeni. Sikerült az emberiesség teszt? Érvényes az"
-" email? Megpróbálod újra?"
+#: ../../../app/controllers/api/v1/file_pushes_controller.rb:349
+msgid "You must be logged in to view your expired pushes."
+msgstr "A lejárt push-ok megtekintéséhez be kell jelentkeznie."
 
-#: ../../../app/controllers/file_pushes_controller.rb:105
-#: ../../../app/controllers/passwords_controller.rb:163
-#: ../../../app/controllers/urls_controller.rb:155
+#: ../../../app/controllers/api/v1/urls_controller.rb:132
+#: ../../../app/controllers/urls_controller.rb:116
+msgid "Invalid URL: Must have a valid URI scheme."
+msgstr "Érvénytelen URL: Érvényes URI-sémával kell rendelkeznie."
+
+#: ../../../app/controllers/api/v1/urls_controller.rb:248
+#: ../../../app/controllers/urls_controller.rb:187
+msgid "That push does not belong to you."
+msgstr "Ez a küldés nem önhöz tartozik."
+
+#: ../../../app/controllers/file_pushes_controller.rb:91
+#: ../../../app/controllers/passwords_controller.rb:86
+#: ../../../app/controllers/urls_controller.rb:89
 msgid ""
 "That passphrase is incorrect.  Please try again or contact the person or organ"
 "ization that sent you this link."
@@ -52,59 +62,34 @@ msgstr ""
 "Ez a jelszó hibás. Kérjük, próbálja újra, vagy lépjen kapcsolatba azzal a szem"
 "éllyel vagy szervezettel, aki ezt a linket küldte Önnek."
 
-#: ../../../app/controllers/file_pushes_controller.rb:149
-msgid ""
-"Only 20 active file pushes allowed while in Beta. If it's an option, you can m"
-"anually expire existing pushes before creating new ones."
-msgstr ""
-"Csak 20 aktív fájlküldés engedélyezett a bétaverzióban. Ha van lehetőség, manu"
-"álisan lejárhatja a meglévő leküldéseket, mielőtt újakat hozna létre."
-
-#: ../../../app/controllers/file_pushes_controller.rb:228
-#: ../../../app/controllers/passwords_controller.rb:305
-#: ../../../app/controllers/urls_controller.rb:297
+#: ../../../app/controllers/file_pushes_controller.rb:168
+#: ../../../app/controllers/passwords_controller.rb:182
+#: ../../../app/controllers/urls_controller.rb:177
 msgid "That push doesn't belong to you."
 msgstr "Ez a küldés nem önhöz tartozik."
 
-#: ../../../app/controllers/file_pushes_controller.rb:258
-#: ../../../app/controllers/passwords_controller.rb:336
-#: ../../../app/controllers/urls_controller.rb:328
-#: ../../../app/controllers/urls_controller.rb:332
-msgid "That push does not belong to you."
-msgstr "Ez a küldés nem önhöz tartozik."
-
-#: ../../../app/controllers/file_pushes_controller.rb:263
-#: ../../../app/controllers/passwords_controller.rb:341
-msgid "That push is not deletable by viewers."
-msgstr "Ez a küldés nem törölhető a nézők által."
-
-#: ../../../app/controllers/file_pushes_controller.rb:269
-#: ../../../app/controllers/file_pushes_controller.rb:270
-#: ../../../app/controllers/passwords_controller.rb:347
-#: ../../../app/controllers/passwords_controller.rb:348
-#: ../../../app/controllers/urls_controller.rb:338
-#: ../../../app/controllers/urls_controller.rb:339
-msgid "That push is already expired."
-msgstr "Ez a push már lejárt."
-
-#: ../../../app/controllers/file_pushes_controller.rb:288
-#: ../../../app/controllers/file_pushes_controller.rb:291
-#: ../../../app/controllers/passwords_controller.rb:365
-#: ../../../app/controllers/passwords_controller.rb:368
-#: ../../../app/controllers/urls_controller.rb:356
-#: ../../../app/controllers/urls_controller.rb:359
+#: ../../../app/controllers/file_pushes_controller.rb:196
+#: ../../../app/controllers/passwords_controller.rb:209
+#: ../../../app/controllers/urls_controller.rb:204
 #: ../../../app/views/file_pushes/audit.html.erb:97
-#: ../../../app/views/file_pushes/audit.html.erb:254
+#: ../../../app/views/file_pushes/audit.html.erb:257
 #: ../../../app/views/passwords/audit.html.erb:97
 #: ../../../app/views/passwords/audit.html.erb:188
 #: ../../../app/views/urls/audit.html.erb:84
-#: ../../../app/views/urls/audit.html.erb:170
+#: ../../../app/views/urls/audit.html.erb:171
 msgid "The push content has been deleted and the secret URL expired."
 msgstr "A küldés tartalmát törölték, és a titkos URL lejárt."
 
-#: ../../../app/controllers/urls_controller.rb:206
-msgid "Invalid URL: Must have a valid URI scheme."
-msgstr "Érvénytelen URL: Érvényes URI-sémával kell rendelkeznie."
+#: ../../../app/views/application/_secret_url_bar.html.erb:17
+msgid "Secret Link Language"
+msgstr "Titkos hivatkozási nyelv"
+
+#: ../../../app/views/application/_secret_url_bar.html.erb:35
+#: ../../../app/views/pages/generate_key.html.erb:26
+#: ../../../app/views/pages/generate_key.html.erb:39
+#: ../../../app/views/shared/_copy_button.html.erb:2
+msgid "Copy to Clipboard"
+msgstr "Másolja a vágólapra"
 
 #: ../../../app/views/devise/mailer/confirmation_instructions.html.erb:8
 #: ../../../app/views/devise/mailer/email_changed.html.erb:8
@@ -245,12 +230,12 @@ msgstr "Minimum %d karakter szükséges, de minél több, annál jobb."
 msgid "Change Email"
 msgstr "E-mailt változtatás"
 
-#: ../../../app/views/devise/registrations/edit.html.erb:38
+#: ../../../app/views/devise/registrations/edit.html.erb:46
 msgid "Current Password"
 msgstr "Jelenlegi jelszó"
 
 #: ../../../app/views/devise/registrations/token.html.erb:2
-#: ../../../app/views/shared/_header.html.erb:44
+#: ../../../app/views/shared/_header.html.erb:49
 msgid "API Token"
 msgstr "API-token"
 
@@ -322,7 +307,7 @@ msgstr "Egy új token jön létre helyette."
 
 #: ../../../app/views/devise/registrations/token.html.erb:49
 #: ../../../app/views/file_pushes/audit.html.erb:214
-#: ../../../app/views/file_pushes/show.html.erb:74
+#: ../../../app/views/file_pushes/show.html.erb:75
 #: ../../../app/views/passwords/audit.html.erb:145
 #: ../../../app/views/passwords/show.html.erb:58
 #: ../../../app/views/urls/audit.html.erb:132
@@ -331,7 +316,7 @@ msgstr "Biztos vagy ebben?"
 
 #: ../../../app/views/devise/registrations/token.html.erb:52
 #: ../../../app/views/file_pushes/audit.html.erb:217
-#: ../../../app/views/file_pushes/show.html.erb:77
+#: ../../../app/views/file_pushes/show.html.erb:78
 #: ../../../app/views/passwords/audit.html.erb:148
 #: ../../../app/views/passwords/show.html.erb:61
 #: ../../../app/views/urls/audit.html.erb:135
@@ -344,7 +329,7 @@ msgstr "Törlés és újragenerálás"
 
 #: ../../../app/views/devise/registrations/token.html.erb:53
 #: ../../../app/views/file_pushes/audit.html.erb:218
-#: ../../../app/views/file_pushes/show.html.erb:78
+#: ../../../app/views/file_pushes/show.html.erb:79
 #: ../../../app/views/passwords/audit.html.erb:149
 #: ../../../app/views/passwords/show.html.erb:62
 #: ../../../app/views/urls/audit.html.erb:136
@@ -352,53 +337,12 @@ msgid "Processing..."
 msgstr "Feldolgozás..."
 
 #: ../../../app/views/devise/sessions/new.html.erb:7
-#: ../../../app/views/feedbacks/new.html.erb:20
 msgid "Email"
 msgstr "Email"
 
 #: ../../../app/views/devise/sessions/new.html.erb:12
 msgid "Password"
 msgstr "Jelszó"
-
-#: ../../../app/views/devise/shared/_links.html.erb:39
-#: ../../../app/views/shared/_header.html.erb:65
-msgid "Language"
-msgstr "Nyelv"
-
-#: ../../../app/views/feedbacks/new.html.erb:1
-#: ../../../app/views/feedbacks/new.html.erb:2
-#: ../../../app/views/feedbacks/new.html.erb:42
-#: ../../../app/views/shared/_footer.html.erb:53
-msgid "Send Feedback"
-msgstr "Visszajelzés küldése"
-
-#: ../../../app/views/feedbacks/new.html.erb:8
-msgid ""
-"Have an idea or wish?  Something you don't like?  Want to help out?  We want t"
-"o hear it!"
-msgstr ""
-"Van ötlete vagy kívánsága? Valami nem tetszik? Szeretnél segíteni? Szeretnénk "
-"hallani!"
-
-#: ../../../app/views/feedbacks/new.html.erb:15
-msgid "Your Name"
-msgstr "A neved"
-
-#: ../../../app/views/feedbacks/new.html.erb:29
-msgid "What is one hundred minus 3?"
-msgstr "Mennyi a száz mínusz 3?"
-
-#: ../../../app/views/feedbacks/new.html.erb:34
-msgid ""
-"Tip: Copy your message to the clipboard in the unlikely chance submission fail"
-"s."
-msgstr ""
-"Tipp: Másolja az üzenetet a vágólapra, mert pici esélye azért van, hogy a küld"
-"és sikertelen lesz."
-
-#: ../../../app/views/feedbacks/new.html.erb:39
-msgid "Leave this field blank!"
-msgstr "Hagyja üresen ezt a mezőt!"
 
 #: ../../../app/views/file_pushes/active.html.erb:1
 #: ../../../app/views/file_pushes/active.html.erb:18
@@ -473,8 +417,8 @@ msgstr "nap"
 
 #: ../../../app/views/file_pushes/active.html.erb:39
 #: ../../../app/views/file_pushes/audit.html.erb:19
-#: ../../../app/views/file_pushes/audit.html.erb:270
-#: ../../../app/views/file_pushes/audit.html.erb:282
+#: ../../../app/views/file_pushes/audit.html.erb:273
+#: ../../../app/views/file_pushes/audit.html.erb:285
 #: ../../../app/views/file_pushes/expired.html.erb:31
 #: ../../../app/views/passwords/active.html.erb:38
 #: ../../../app/views/passwords/audit.html.erb:19
@@ -483,8 +427,8 @@ msgstr "nap"
 #: ../../../app/views/passwords/expired.html.erb:32
 #: ../../../app/views/urls/active.html.erb:38
 #: ../../../app/views/urls/audit.html.erb:19
-#: ../../../app/views/urls/audit.html.erb:186
-#: ../../../app/views/urls/audit.html.erb:198
+#: ../../../app/views/urls/audit.html.erb:187
+#: ../../../app/views/urls/audit.html.erb:199
 #: ../../../app/views/urls/expired.html.erb:31
 msgid "None"
 msgstr "Egyik sem"
@@ -824,7 +768,7 @@ msgstr ""
 "továbbiakban is megőrződik."
 
 #: ../../../app/views/file_pushes/audit.html.erb:218
-#: ../../../app/views/file_pushes/show.html.erb:78
+#: ../../../app/views/file_pushes/show.html.erb:79
 #: ../../../app/views/passwords/audit.html.erb:149
 #: ../../../app/views/passwords/show.html.erb:62
 #: ../../../app/views/urls/audit.html.erb:136
@@ -858,63 +802,67 @@ msgstr ""
 msgid "Password manually expired by user"
 msgstr "A jelszó manuálisan lejárt a felhasználó által"
 
-#: ../../../app/views/file_pushes/audit.html.erb:249
-#: ../../../app/views/passwords/audit.html.erb:180
-#: ../../../app/views/passwords/audit.html.erb:186
+#: ../../../app/views/file_pushes/audit.html.erb:250
+#: ../../../app/views/passwords/audit.html.erb:181
+msgid "Password manually expired by an anonymous user"
+msgstr "A jelszó manuálisan lejárt egy névtelen felhasználó által"
+
+#: ../../../app/views/file_pushes/audit.html.erb:252
+#: ../../../app/views/passwords/audit.html.erb:183
 #: ../../../app/views/urls/audit.html.erb:167
 msgid "at IP address"
 msgstr "IP címen"
 
-#: ../../../app/views/file_pushes/audit.html.erb:250
-#: ../../../app/views/file_pushes/audit.html.erb:265
-#: ../../../app/views/file_pushes/audit.html.erb:277
-#: ../../../app/views/passwords/audit.html.erb:181
+#: ../../../app/views/file_pushes/audit.html.erb:254
+#: ../../../app/views/file_pushes/audit.html.erb:268
+#: ../../../app/views/file_pushes/audit.html.erb:280
+#: ../../../app/views/passwords/audit.html.erb:185
 #: ../../../app/views/passwords/audit.html.erb:199
 #: ../../../app/views/passwords/audit.html.erb:211
-#: ../../../app/views/urls/audit.html.erb:181
-#: ../../../app/views/urls/audit.html.erb:193
+#: ../../../app/views/urls/audit.html.erb:182
+#: ../../../app/views/urls/audit.html.erb:194
 msgid "on"
 msgstr "tovább"
 
-#: ../../../app/views/file_pushes/audit.html.erb:256
-#: ../../../app/views/file_pushes/audit.html.erb:268
-#: ../../../app/views/file_pushes/audit.html.erb:280
+#: ../../../app/views/file_pushes/audit.html.erb:259
+#: ../../../app/views/file_pushes/audit.html.erb:271
+#: ../../../app/views/file_pushes/audit.html.erb:283
 #: ../../../app/views/passwords/audit.html.erb:190
 #: ../../../app/views/passwords/audit.html.erb:202
 #: ../../../app/views/passwords/audit.html.erb:214
-#: ../../../app/views/urls/audit.html.erb:172
-#: ../../../app/views/urls/audit.html.erb:184
-#: ../../../app/views/urls/audit.html.erb:196
+#: ../../../app/views/urls/audit.html.erb:173
+#: ../../../app/views/urls/audit.html.erb:185
+#: ../../../app/views/urls/audit.html.erb:197
 msgid "User Agent"
 msgstr "Felhasználói ügynök"
 
-#: ../../../app/views/file_pushes/audit.html.erb:258
-#: ../../../app/views/file_pushes/audit.html.erb:270
-#: ../../../app/views/file_pushes/audit.html.erb:282
+#: ../../../app/views/file_pushes/audit.html.erb:261
+#: ../../../app/views/file_pushes/audit.html.erb:273
+#: ../../../app/views/file_pushes/audit.html.erb:285
 #: ../../../app/views/passwords/audit.html.erb:192
 #: ../../../app/views/passwords/audit.html.erb:204
 #: ../../../app/views/passwords/audit.html.erb:216
-#: ../../../app/views/urls/audit.html.erb:174
-#: ../../../app/views/urls/audit.html.erb:186
-#: ../../../app/views/urls/audit.html.erb:198
+#: ../../../app/views/urls/audit.html.erb:175
+#: ../../../app/views/urls/audit.html.erb:187
+#: ../../../app/views/urls/audit.html.erb:199
 msgid "Referrer"
 msgstr "Hivatkozó"
 
-#: ../../../app/views/file_pushes/audit.html.erb:263
+#: ../../../app/views/file_pushes/audit.html.erb:266
 #: ../../../app/views/passwords/audit.html.erb:197
-#: ../../../app/views/urls/audit.html.erb:179
+#: ../../../app/views/urls/audit.html.erb:180
 msgid "Successful view from IP address"
 msgstr "Sikeres megtekintés IP-címről"
 
-#: ../../../app/views/file_pushes/audit.html.erb:275
+#: ../../../app/views/file_pushes/audit.html.erb:278
 #: ../../../app/views/passwords/audit.html.erb:209
-#: ../../../app/views/urls/audit.html.erb:191
+#: ../../../app/views/urls/audit.html.erb:192
 msgid "Failed view attempt (already expired) by"
 msgstr "Sikertelen megtekintési kísérlet (már lejárt)"
 
-#: ../../../app/views/file_pushes/audit.html.erb:286
+#: ../../../app/views/file_pushes/audit.html.erb:289
 #: ../../../app/views/passwords/audit.html.erb:220
-#: ../../../app/views/urls/audit.html.erb:202
+#: ../../../app/views/urls/audit.html.erb:203
 msgid "End of Audit Log"
 msgstr "Ellenőrzési napló vége"
 
@@ -951,7 +899,6 @@ msgid "Audit Log"
 msgstr "Ellenőrzési napló"
 
 #: ../../../app/views/file_pushes/new.html.erb:1
-#: ../../../app/views/file_pushes/new_anonymous.html.erb:1
 msgid "Securely Send Files"
 msgstr "Fájlok biztonságos küldése"
 
@@ -968,11 +915,14 @@ msgstr ""
 "tán:"
 
 #: ../../../app/views/file_pushes/new.html.erb:78
-#: ../../../app/views/file_pushes/preview.html.erb:16
+#: ../../../app/views/file_pushes/preview.html.erb:60
+#: ../../../app/views/file_pushes/print_preview.html.erb:16
 #: ../../../app/views/passwords/new.html.erb:86
-#: ../../../app/views/passwords/preview.html.erb:16
+#: ../../../app/views/passwords/preview.html.erb:60
+#: ../../../app/views/passwords/print_preview.html.erb:16
 #: ../../../app/views/urls/new.html.erb:73
-#: ../../../app/views/urls/preview.html.erb:16
+#: ../../../app/views/urls/preview.html.erb:60
+#: ../../../app/views/urls/print_preview.html.erb:16
 msgid "(whichever comes first)"
 msgstr "(amelyik előbb jön)"
 
@@ -1045,20 +995,6 @@ msgstr "A tevékenység ellenőrzési naplója elérhető lesz."
 msgid "Push It!"
 msgstr "Küldjük!"
 
-#: ../../../app/views/file_pushes/new_anonymous.html.erb:9
-msgid "Securely Send Files That Delete Automatically"
-msgstr "Biztonságosan küldje el az automatikusan törlődő fájlokat"
-
-#: ../../../app/views/file_pushes/new_anonymous.html.erb:13
-#: ../../../app/views/urls/new_anonymous.html.erb:13
-msgid "Please login to use this feature."
-msgstr "Kérjük, jelentkezzen be a funkció használatához."
-
-#: ../../../app/views/file_pushes/new_anonymous.html.erb:17
-#: ../../../app/views/urls/new_anonymous.html.erb:17
-msgid "Please login or sign up to use this feature."
-msgstr "Kérjük, jelentkezzen be vagy regisztráljon a funkció használatához."
-
 #: ../../../app/views/file_pushes/passphrase.html.erb:1
 #: ../../../app/views/passwords/passphrase.html.erb:1
 #: ../../../app/views/urls/passphrase.html.erb:1
@@ -1067,25 +1003,25 @@ msgstr "Írja be a titkos jelszót"
 
 #: ../../../app/views/file_pushes/passphrase.html.erb:10
 #: ../../../app/views/passwords/passphrase.html.erb:10
-#: ../../../app/views/urls/passphrase.html.erb:10
+#: ../../../app/views/urls/passphrase.html.erb:12
 msgid "Enter the secret passphrase provided with this URL"
 msgstr "Írja be az URL-hez mellékelt titkos jelszót"
 
 #: ../../../app/views/file_pushes/passphrase.html.erb:10
 #: ../../../app/views/passwords/passphrase.html.erb:10
-#: ../../../app/views/urls/passphrase.html.erb:10
+#: ../../../app/views/urls/passphrase.html.erb:13
 msgid "Enter the secret passphrase"
 msgstr "Írja be a titkos jelszót"
 
 #: ../../../app/views/file_pushes/passphrase.html.erb:11
 #: ../../../app/views/passwords/passphrase.html.erb:11
-#: ../../../app/views/urls/passphrase.html.erb:11
+#: ../../../app/views/urls/passphrase.html.erb:17
 msgid "Go"
 msgstr "Megy"
 
-#: ../../../app/views/file_pushes/preliminary.html.erb:3
-#: ../../../app/views/passwords/preliminary.html.erb:3
-#: ../../../app/views/urls/preliminary.html.erb:3
+#: ../../../app/views/file_pushes/preliminary.html.erb:4
+#: ../../../app/views/passwords/preliminary.html.erb:4
+#: ../../../app/views/urls/preliminary.html.erb:4
 msgid "Click Here to Proceed"
 msgstr "Kattintson ide a folytatáshoz"
 
@@ -1106,112 +1042,160 @@ msgstr "A push létrejött."
 msgid "Use this secret link to share it:"
 msgstr "Használja ezt a titkos linket a megosztáshoz:"
 
-#: ../../../app/views/file_pushes/preview.html.erb:12
-#: ../../../app/views/urls/preview.html.erb:12
+#: ../../../app/views/file_pushes/preview.html.erb:14
+#: ../../../app/views/passwords/preview.html.erb:14
+#: ../../../app/views/urls/preview.html.erb:14
+msgid "Print & Share"
+msgstr "Nyomtatás és megosztás"
+
+#: ../../../app/views/file_pushes/preview.html.erb:19
+#: ../../../app/views/passwords/preview.html.erb:19
+#: ../../../app/views/urls/preview.html.erb:19
+msgid "Generate a Printable Page for End Users"
+msgstr "Nyomtatható oldal létrehozása a végfelhasználók számára"
+
+#: ../../../app/views/file_pushes/preview.html.erb:24
+#: ../../../app/views/file_pushes/preview.html.erb:26
+#: ../../../app/views/passwords/preview.html.erb:24
+#: ../../../app/views/passwords/preview.html.erb:26
+#: ../../../app/views/urls/preview.html.erb:24
+#: ../../../app/views/urls/preview.html.erb:26
+msgid "Optional Custom Message"
+msgstr "Opcionális egyéni üzenet"
+
+#: ../../../app/views/file_pushes/preview.html.erb:35
+#: ../../../app/views/passwords/preview.html.erb:35
+#: ../../../app/views/urls/preview.html.erb:35
+msgid "Show Expiration Details"
+msgstr "Lejárati adatok megjelenítése"
+
+#: ../../../app/views/file_pushes/preview.html.erb:42
+#: ../../../app/views/passwords/preview.html.erb:42
+#: ../../../app/views/urls/preview.html.erb:42
+msgid "Include ID"
+msgstr "Tartalmazza az azonosítót"
+
+#: ../../../app/views/file_pushes/preview.html.erb:47
+#: ../../../app/views/passwords/preview.html.erb:47
+#: ../../../app/views/urls/preview.html.erb:47
+msgid "Generate"
+msgstr "generál"
+
+#: ../../../app/views/file_pushes/preview.html.erb:56
+#: ../../../app/views/urls/preview.html.erb:56
 msgid "This push will expire after"
 msgstr "Ez a push után lejár"
 
-#: ../../../app/views/file_pushes/preview.html.erb:13
+#: ../../../app/views/file_pushes/preview.html.erb:57
+#: ../../../app/views/file_pushes/print_preview.html.erb:13
 #: ../../../app/views/file_pushes/show.html.erb:43
-#: ../../../app/views/passwords/preview.html.erb:13
+#: ../../../app/views/passwords/preview.html.erb:57
+#: ../../../app/views/passwords/print_preview.html.erb:13
 #: ../../../app/views/passwords/show.html.erb:24
-#: ../../../app/views/urls/preview.html.erb:13
+#: ../../../app/views/urls/preview.html.erb:57
+#: ../../../app/views/urls/print_preview.html.erb:13
 msgid "day"
 msgid_plural "days"
 msgstr[0] "nap"
 msgstr[1] "nap"
 
-#: ../../../app/views/file_pushes/preview.html.erb:14
+#: ../../../app/views/file_pushes/preview.html.erb:58
+#: ../../../app/views/file_pushes/print_preview.html.erb:14
 #: ../../../app/views/file_pushes/show.html.erb:46
 #: ../../../app/views/file_pushes/show.html.erb:49
 #: ../../../app/views/pages/about.html.erb:34
 #: ../../../app/views/pages/about.html.erb:40
-#: ../../../app/views/passwords/preview.html.erb:14
+#: ../../../app/views/passwords/preview.html.erb:58
+#: ../../../app/views/passwords/print_preview.html.erb:14
 #: ../../../app/views/passwords/show.html.erb:27
 #: ../../../app/views/passwords/show.html.erb:30
-#: ../../../app/views/urls/preview.html.erb:14
+#: ../../../app/views/urls/preview.html.erb:58
+#: ../../../app/views/urls/print_preview.html.erb:14
 msgid "or"
 msgstr "vagy"
 
-#: ../../../app/views/file_pushes/preview.html.erb:15
-#: ../../../app/views/passwords/preview.html.erb:15
-#: ../../../app/views/urls/preview.html.erb:15
+#: ../../../app/views/file_pushes/preview.html.erb:59
+#: ../../../app/views/file_pushes/print_preview.html.erb:15
+#: ../../../app/views/passwords/preview.html.erb:59
+#: ../../../app/views/passwords/print_preview.html.erb:15
+#: ../../../app/views/urls/preview.html.erb:59
+#: ../../../app/views/urls/print_preview.html.erb:15
 msgid "view"
 msgid_plural "views"
 msgstr[0] "megtekitnés"
 msgstr[1] "megtekitnések"
 
-#: ../../../app/views/file_pushes/preview.html.erb:19
-#: ../../../app/views/file_pushes/preview.html.erb:21
-#: ../../../app/views/pages/about.html.erb:72
-#: ../../../app/views/pages/about.html.erb:95
-#: ../../../app/views/pages/faq.html.erb:75
-#: ../../../app/views/pages/faq.html.erb:143
-#: ../../../app/views/passwords/preview.html.erb:19
-#: ../../../app/views/passwords/preview.html.erb:21
+#: ../../../app/views/file_pushes/preview.html.erb:63
+#: ../../../app/views/file_pushes/preview.html.erb:65
+#: ../../../app/views/pages/about.html.erb:68
+#: ../../../app/views/pages/about.html.erb:91
+#: ../../../app/views/passwords/preview.html.erb:63
+#: ../../../app/views/passwords/preview.html.erb:65
 msgid "and"
 msgstr "és"
 
-#: ../../../app/views/file_pushes/preview.html.erb:19
-#: ../../../app/views/passwords/preview.html.erb:19
+#: ../../../app/views/file_pushes/preview.html.erb:63
+#: ../../../app/views/passwords/preview.html.erb:63
 msgid "can be"
 msgstr "lehet"
 
-#: ../../../app/views/file_pushes/preview.html.erb:19
-#: ../../../app/views/file_pushes/preview.html.erb:21
-#: ../../../app/views/passwords/preview.html.erb:19
-#: ../../../app/views/passwords/preview.html.erb:21
+#: ../../../app/views/file_pushes/preview.html.erb:63
+#: ../../../app/views/file_pushes/preview.html.erb:65
+#: ../../../app/views/passwords/preview.html.erb:63
+#: ../../../app/views/passwords/preview.html.erb:65
 msgid "deleted by viewers."
 msgstr "törölte a megtekintő"
 
-#: ../../../app/views/file_pushes/preview.html.erb:21
-#: ../../../app/views/passwords/preview.html.erb:21
+#: ../../../app/views/file_pushes/preview.html.erb:65
+#: ../../../app/views/passwords/preview.html.erb:65
 msgid "can NOT be"
 msgstr "NEM lehet"
 
-#: ../../../app/views/file_pushes/preview.html.erb:26
-#: ../../../app/views/passwords/preview.html.erb:26
-#: ../../../app/views/urls/preview.html.erb:20
+#: ../../../app/views/file_pushes/preview.html.erb:70
+#: ../../../app/views/passwords/preview.html.erb:70
+#: ../../../app/views/urls/preview.html.erb:64
 msgid "It also includes a"
 msgstr "Ide tartozik még a"
 
-#: ../../../app/views/file_pushes/preview.html.erb:26
-#: ../../../app/views/passwords/preview.html.erb:26
-#: ../../../app/views/urls/preview.html.erb:20
+#: ../../../app/views/file_pushes/preview.html.erb:70
+#: ../../../app/views/passwords/preview.html.erb:70
+#: ../../../app/views/urls/preview.html.erb:64
 msgid "1-click preliminary retrieval step"
 msgstr "1-kattintásos előzetes visszaállítási lépés"
 
-#: ../../../app/views/file_pushes/preview.html.erb:30
-#: ../../../app/views/urls/preview.html.erb:24
+#: ../../../app/views/file_pushes/preview.html.erb:74
+#: ../../../app/views/urls/preview.html.erb:68
 msgid "View This Push Now"
 msgstr "Tekintse meg ezt a Push-ot most"
 
-#: ../../../app/views/file_pushes/preview.html.erb:30
-#: ../../../app/views/passwords/preview.html.erb:30
-#: ../../../app/views/urls/preview.html.erb:24
+#: ../../../app/views/file_pushes/preview.html.erb:74
+#: ../../../app/views/passwords/preview.html.erb:74
+#: ../../../app/views/urls/preview.html.erb:68
 msgid "(will burn a view) or"
 msgstr "(nézetet fog égetni) ill"
 
-#: ../../../app/views/file_pushes/preview.html.erb:31
-#: ../../../app/views/urls/preview.html.erb:25
+#: ../../../app/views/file_pushes/preview.html.erb:75
+#: ../../../app/views/urls/preview.html.erb:69
 msgid "Push Another"
 msgstr "Nyomj egy másikat"
 
-#: ../../../app/views/file_pushes/preview.html.erb:36
-#: ../../../app/views/passwords/preview.html.erb:36
-#: ../../../app/views/urls/preview.html.erb:30
+#: ../../../app/views/file_pushes/preview.html.erb:80
+#: ../../../app/views/passwords/preview.html.erb:80
+#: ../../../app/views/urls/preview.html.erb:74
 msgid "View Audit Log"
 msgstr "Ellenőrzési napló megtekintése"
 
-#: ../../../app/views/file_pushes/preview.html.erb:41
-#: ../../../app/views/passwords/preview.html.erb:41
-#: ../../../app/views/urls/preview.html.erb:35
-msgid ""
-"Tip: Pushing to an international user?  Change the secret link language using "
-"the dropdown menu to the right of the URL."
-msgstr ""
-"Tipp: Egy nemzetközi felhasználónak küldi? Módosítsa a titkos link nyelvét az "
-"URL-től jobbra található legördülő menü segítségével."
+#: ../../../app/views/file_pushes/print_preview.html.erb:1
+#: ../../../app/views/passwords/print_preview.html.erb:1
+#: ../../../app/views/urls/print_preview.html.erb:1
+msgid "Your Secret URL"
+msgstr "Titkos URL-je"
+
+#: ../../../app/views/file_pushes/print_preview.html.erb:12
+#: ../../../app/views/passwords/print_preview.html.erb:12
+#: ../../../app/views/urls/print_preview.html.erb:12
+msgid "This data contained here will expire after"
+msgstr "Ezek az itt található adatok ezt követően lejárnak"
 
 #: ../../../app/views/file_pushes/show.html.erb:1
 #: ../../../app/views/passwords/show.html.erb:1
@@ -1261,22 +1245,22 @@ msgstr[1] "több megtekintés"
 msgid "(whichever occurs first)."
 msgstr "(amelyik előbb bekövetkezik)."
 
-#: ../../../app/views/file_pushes/show.html.erb:56
+#: ../../../app/views/file_pushes/show.html.erb:57
 #: ../../../app/views/passwords/show.html.erb:37
 msgid "Delete This Secret Link Now"
 msgstr "Törölje ezt a titkos linket most"
 
-#: ../../../app/views/file_pushes/show.html.erb:68
+#: ../../../app/views/file_pushes/show.html.erb:69
 #: ../../../app/views/passwords/show.html.erb:52
 msgid "Delete?"
 msgstr "Töröl?"
 
-#: ../../../app/views/file_pushes/show.html.erb:72
+#: ../../../app/views/file_pushes/show.html.erb:73
 #: ../../../app/views/passwords/show.html.erb:56
 msgid "This will expire this secret link and "
 msgstr "Ezzel lejár ez a titkos link és"
 
-#: ../../../app/views/file_pushes/show.html.erb:73
+#: ../../../app/views/file_pushes/show.html.erb:74
 #: ../../../app/views/passwords/show.html.erb:57
 msgid "delete all related content from the database forever"
 msgstr "örökre törölje az összes kapcsolódó tartalmat az adatbázisból"
@@ -1303,29 +1287,14 @@ msgstr ""
 "Ha szükséges, lépjen kapcsolatba azzal a személlyel vagy szervezettel, aki meg"
 "adta ezt a titkos URL-t."
 
-#: ../../../app/views/layouts/login.html.erb:31
+#: ../../../app/views/layouts/admin/application.html.erb:41
+#: ../../../app/views/layouts/login.html.erb:32
 #: ../../../app/views/shared/_footer.html.erb:11
 #: ../../../app/views/shared/_footer.html.erb:15
 #: ../../../app/views/shared/_header.html.erb:9
 #: ../../../app/views/shared/_header.html.erb:13
 msgid "Password Pusher Logo"
 msgstr "Password Pusher logo"
-
-#: ../../../app/views/layouts/login.html.erb:50
-msgid ""
-"Some domains may inadvertently block emails.  If you are having trouble receiv"
-"ing emails, "
-msgstr ""
-"Egyes domainek véletlenül blokkolhatják az e-maileket. Ha problémái vannak az "
-"e-mailek fogadásával,"
-
-#: ../../../app/views/layouts/login.html.erb:51
-msgid "send a message"
-msgstr "üzenetet küldeni"
-
-#: ../../../app/views/layouts/login.html.erb:52
-msgid "and we can help out."
-msgstr "és tudunk segíteni."
 
 #: ../../../app/views/pages/about.html.erb:1
 msgid "About Password Pusher"
@@ -1437,62 +1406,53 @@ msgid "It's gasoline for the algos that trend Password Pusher."
 msgstr "Benzin az algók számára, amelyek a jelszótoló trendet használják fel."
 
 #: ../../../app/views/pages/about.html.erb:60
-#: ../../../app/views/pages/translate.html.erb:3
-msgid "Help Translate"
-msgstr "Segítség a fordításban"
-
-#: ../../../app/views/pages/about.html.erb:61
-msgid "Improve an existing language or add a new one"
-msgstr "Javítson egy meglévő nyelvet, vagy adjon hozzá egy újat"
-
-#: ../../../app/views/pages/about.html.erb:64
 msgid "Sign up for the"
 msgstr "Iratkozzon fel a"
 
-#: ../../../app/views/pages/about.html.erb:65
+#: ../../../app/views/pages/about.html.erb:61
 msgid "newsletter"
 msgstr "hírlevél"
 
-#: ../../../app/views/pages/about.html.erb:66
+#: ../../../app/views/pages/about.html.erb:62
 msgid "to get updates on important releases, security issues, tips and more."
 msgstr ""
 "frissítéseket kaphat a fontos kiadásokról, biztonsági problémákról, tippekről "
 "és egyebekről."
 
-#: ../../../app/views/pages/about.html.erb:69
+#: ../../../app/views/pages/about.html.erb:65
 msgid "Follow Password Pusher on"
 msgstr "Kövesse a Password Pusher-t"
 
-#: ../../../app/views/pages/about.html.erb:76
+#: ../../../app/views/pages/about.html.erb:72
 msgid "Fix an issue, add a feature or write some documentation."
 msgstr "Javítson ki egy hibát, adjon hozzá egy funkciót vagy írjon dokumentációt."
 
-#: ../../../app/views/pages/about.html.erb:76
+#: ../../../app/views/pages/about.html.erb:72
 msgid "See the Github project."
 msgstr "Lásd a Github projektet."
 
-#: ../../../app/views/pages/about.html.erb:79
+#: ../../../app/views/pages/about.html.erb:75
 msgid "Sign up to Digital Ocean"
 msgstr "Regisztráljon a Digital Ocean szolgáltatásra"
 
-#: ../../../app/views/pages/about.html.erb:80
+#: ../../../app/views/pages/about.html.erb:76
 msgid "with this link"
 msgstr "ezzel a linkkel"
 
-#: ../../../app/views/pages/about.html.erb:81
+#: ../../../app/views/pages/about.html.erb:77
 msgid "to get Password Pusher a hosting credit."
 msgstr "hogy a Password Pusher tárhely-jóváírást kapjon."
 
-#: ../../../app/views/pages/about.html.erb:85
+#: ../../../app/views/pages/about.html.erb:81
 msgid "Thank you for supporting Password Pusher!"
 msgstr "Köszönjük, hogy támogatja a Password Pushert!"
 
-#: ../../../app/views/pages/about.html.erb:87
+#: ../../../app/views/pages/about.html.erb:83
 #: ../../../app/views/shared/_footer.html.erb:25
 msgid "Resources"
 msgstr "Erőforrások"
 
-#: ../../../app/views/pages/about.html.erb:90
+#: ../../../app/views/pages/about.html.erb:86
 msgid ""
 "If you are giving a presentation, authoring a blog post or video about Passwor"
 "d Pusher, feel free to contact me for any questions."
@@ -1500,565 +1460,51 @@ msgstr ""
 "Ha prezentációt tart, blogbejegyzést vagy videót ír a Password Pusherről, bárm"
 "ilyen kérdése van, forduljon hozzám bizalommal."
 
-#: ../../../app/views/pages/about.html.erb:93
+#: ../../../app/views/pages/about.html.erb:89
 msgid "We have media resources and a full explanation of features available in"
 msgstr "Médiaforrásaink és a funkciók teljes körű leírása állnak rendelkezésre itt"
 
-#: ../../../app/views/pages/about.html.erb:94
+#: ../../../app/views/pages/about.html.erb:90
 msgid "Windows Powerpoint"
 msgstr "Windows Powerpoint"
 
-#: ../../../app/views/pages/about.html.erb:96
+#: ../../../app/views/pages/about.html.erb:92
 msgid "Mac Keynote"
 msgstr "Mac Keynote"
 
-#: ../../../app/views/pages/about.html.erb:97
+#: ../../../app/views/pages/about.html.erb:93
 msgid "formats."
 msgstr "formátumok."
 
-#: ../../../app/views/pages/about.html.erb:106
+#: ../../../app/views/pages/about.html.erb:99
 msgid "Birthday"
 msgstr "Születésnap"
 
-#: ../../../app/views/pages/about.html.erb:108
+#: ../../../app/views/pages/about.html.erb:101
 msgid "More Than 11 Years Old"
 msgstr "Több mint 11 éves"
 
-#: ../../../app/views/pages/about.html.erb:110
+#: ../../../app/views/pages/about.html.erb:103
 msgid "The first git commit to Password Pusher was on"
 msgstr "Az első git-commit a Password Pusherhez:"
 
-#: ../../../app/views/pages/about.html.erb:114
+#: ../../../app/views/pages/about.html.erb:107
 msgid "pwpush.com went live shortly thereafter."
 msgstr "A pwpush.com nem sokkal ezután élni kezdett."
 
-#: ../../../app/views/pages/about.html.erb:120
+#: ../../../app/views/pages/about.html.erb:113
 msgid "The Original Theme"
 msgstr "Az eredeti téma"
 
-#: ../../../app/views/pages/about.html.erb:121
+#: ../../../app/views/pages/about.html.erb:114
 msgid ""
 "The original site design consisted of a dark background with a bold yellow fon"
 "t."
 msgstr "Az eredeti webhely dizájn sötét háttérből, vastag sárga betűtípusból állt."
 
-#: ../../../app/views/pages/about.html.erb:124
+#: ../../../app/views/pages/about.html.erb:117
 msgid "Follow for news, changes & updates."
 msgstr "Kövessen hírekért, változásokért és frissítésekért"
-
-#: ../../../app/views/pages/faq.html.erb:1
-#: ../../../app/views/shared/_footer.html.erb:34
-msgid "FAQ"
-msgstr "GYIK"
-
-#: ../../../app/views/pages/faq.html.erb:3
-msgid "Frequently Asked Questions"
-msgstr "Gyakran Ismételt Kérdések"
-
-#: ../../../app/views/pages/faq.html.erb:5
-msgid "Trust and Security"
-msgstr "Bizalom és biztonság"
-
-#: ../../../app/views/pages/faq.html.erb:11
-msgid "What purpose does Password Pusher serve?"
-msgstr "Milyen célt szolgál a Password Pusher?"
-
-#: ../../../app/views/pages/faq.html.erb:16
-msgid "Password Pusher exists as a better alternative to emailing passwords."
-msgstr "A Password Pusher a jelszavak e-mailben történő küldésének jobb alternatívája."
-
-#: ../../../app/views/pages/faq.html.erb:18
-msgid "Emailing passwords is inherently insecure."
-msgstr "A jelszavak e-mailben történő küldése eredendően nem biztonságos."
-
-#: ../../../app/views/pages/faq.html.erb:18
-msgid "The greatest risks include"
-msgstr "A legnagyobb kockázatok közé tartozik"
-
-#: ../../../app/views/pages/faq.html.erb:21
-msgid ""
-"Emailed passwords are usually sent with context to what they go to or can pote"
-"ntially be derived from email username, domain etc…"
-msgstr ""
-"Az e-mailben küldött jelszavakat általában kontextussal együtt küldik el, hogy"
-" hova valók, vagy származhatnak e-mail felhasználónévből, domainből stb."
-
-#: ../../../app/views/pages/faq.html.erb:22
-msgid ""
-"Email is inherently insecure and can be intercepted at multiple points by mali"
-"cious entities."
-msgstr ""
-"Az e-mail természeténél fogva nem biztonságos, és rosszindulatú entitások több"
-" ponton is elfoghatják."
-
-#: ../../../app/views/pages/faq.html.erb:23
-msgid "Emailed passwords live in perpetuity (read: forever) in email archives."
-msgstr ""
-"Az e-mailben elküldött jelszavak sokáig (értsd: örökké) élnek az e-mail archív"
-"umokban."
-
-#: ../../../app/views/pages/faq.html.erb:24
-msgid ""
-"Passwords in email can be retrieved and used later on if an email account is s"
-"tolen, cracked etc.."
-msgstr ""
-"Az e-mailekben lévő jelszavak visszakereshetők és később felhasználhatók, ha e"
-"gy e-mail fiókot ellopnak, feltörnek stb."
-
-#: ../../../app/views/pages/faq.html.erb:27
-msgid ""
-"The same risks persist when sending passwords via SMS, WhatsApp, Telegram, Cha"
-"t etc…  The data can and is often perpetual and out of your control."
-msgstr ""
-"Ugyanezek a kockázatok továbbra is fennállnak, ha SMS-ben, WhatsApp-on, Telegr"
-"am-on, Chat-en stb. küld jelszavakat… Az adatok gyakran örökre maradhatnak, és"
-" az Ön ellenőrzésén kívül maradnak."
-
-#: ../../../app/views/pages/faq.html.erb:29
-msgid "By using Password Pusher, you bypass all of this."
-msgstr "A Password Pusher használatával mindezt megkerüli."
-
-#: ../../../app/views/pages/faq.html.erb:31
-msgid "For each password posted to Password Pusher, "
-msgstr "A Password Pusher szolgáltatásban elküldött minden egyes jelszó esetében,"
-
-#: ../../../app/views/pages/faq.html.erb:32
-msgid "a unique URL is generated that only you will know"
-msgstr "egyedi URL jön létre, amelyet csak Ön ismerhet"
-
-#: ../../../app/views/pages/faq.html.erb:33
-msgid "Additionally, "
-msgstr "Ezenkívül"
-
-#: ../../../app/views/pages/faq.html.erb:35
-msgid "passwords expire after a predefined set of views are hit or time passed."
-msgstr ""
-"a jelszavak egy előre meghatározott megtekintés szám elérése vagy idő elteltév"
-"el járnak le."
-
-#: ../../../app/views/pages/faq.html.erb:37
-msgid "Once expired, passwords are unequivocally deleted."
-msgstr "A lejárt jelszavak egyértelműen törlődnek."
-
-#: ../../../app/views/pages/faq.html.erb:40
-msgid ""
-"If that sounds interesting to you, try it out or see the other frequently aske"
-"d questions below."
-msgstr ""
-"Ha ez érdekesnek tűnik, próbálja ki, vagy tekintse meg az alábbi gyakran ismét"
-"elt kérdéseket."
-
-#: ../../../app/views/pages/faq.html.erb:47
-msgid "Trust is a concern. Why should I use Password Pusher?"
-msgstr "A bizalom aggodalomra ad okot. Miért használjam a Password Pusher-t?"
-
-#: ../../../app/views/pages/faq.html.erb:52
-msgid ""
-"And rightfully so. All good security begins with healthy skepticism of all inv"
-"olved components."
-msgstr ""
-"És jogosan. Minden jó biztonság az összes érintett összetevővel szembeni egész"
-"séges szkepticizmussal kezdődik."
-
-#: ../../../app/views/pages/faq.html.erb:55
-msgid ""
-"Password Pusher exists as a better alternative to emailing passwords. It avoid"
-"s having passwords exist in email archives in perpetuity. It does not exist as"
-" a end-all security solution."
-msgstr ""
-"A Password Pusher a jelszavak e-mailben történő küldésének jobb alternatívája."
-" Ezzel elkerülhető, hogy a jelszavak örökre jelen legyenek az e-mail archívumo"
-"kban. Nem nyújt teljes körű biztonsági megoldást."
-
-#: ../../../app/views/pages/faq.html.erb:59
-msgid "Password Pusher is open-source"
-msgstr "A Password Pusher nyílt forráskódú"
-
-#: ../../../app/views/pages/faq.html.erb:60
-msgid ""
-"so the source can be publicly reviewed and can alternatively be run internally"
-" in your organization."
-msgstr ""
-"így a forrás nyilvánosan áttekinthető, vagy akár a szervezeten belül is futtat"
-"ható."
-
-#: ../../../app/views/pages/faq.html.erb:64
-msgid "Passwords are unequivocally deleted from the database once they expire."
-msgstr "A jelszavak lejártát követően egyértelműen törlődnek az adatbázisból."
-
-#: ../../../app/views/pages/faq.html.erb:65
-msgid ""
-"Additionally, random URL tokens are generated on the fly and passwords are pos"
-"ted without context for their use."
-msgstr ""
-"Ezenkívül a véletlenszerű URL-tokeneket menet közben generálják, és a jelszava"
-"kat kontextus nélkül teszik közzé a használatukhoz."
-
-#: ../../../app/views/pages/faq.html.erb:69
-msgid "A note for those with an interest in extreme security:"
-msgstr "Megjegyzés azoknak, akiket érdekel a rendkívüli biztonság:"
-
-#: ../../../app/views/pages/faq.html.erb:70
-msgid ""
-"there is no way I can reliably prove that the opensource code is the same that"
-" runs on pwpush.com (this is true for all sites in reality)."
-msgstr ""
-"semmilyen módon nem tudom megbízhatóan bizonyítani, hogy a nyílt forráskód ugy"
-"anaz, mint a pwpush.com-on (ez a valóságban minden webhelyre igaz)."
-
-#: ../../../app/views/pages/faq.html.erb:71
-msgid "The only thing I can provide in this respect is my public reputation on"
-msgstr "Az egyetlen dolog, amit e tekintetben nyújthatok, az a nyilvános hírnevem"
-
-#: ../../../app/views/pages/faq.html.erb:76
-msgid "my blog"
-msgstr "a blogom"
-
-#: ../../../app/views/pages/faq.html.erb:77
-msgid ""
-"If this is a concern for you, feel free to review the code, post any questions"
-" that you may have and consider running it internally at your organization ins"
-"tead."
-msgstr ""
-"Ha ez aggodalomra ad okot, nyugodtan tekintse át a kódot, tegye fel kérdéseit,"
-" és fontolja meg a szervezeten belüli futtatást."
-
-#: ../../../app/views/pages/faq.html.erb:84
-msgid "Tools, Utilities and Applications"
-msgstr "Eszközök, segédprogramok és alkalmazások"
-
-#: ../../../app/views/pages/faq.html.erb:90
-msgid "Are there other ways I can access Password Pusher outside of a browser?"
-msgstr "Vannak más módok is a Password Pusher elérésére a böngészőn kívül?"
-
-#: ../../../app/views/pages/faq.html.erb:96
-msgid ""
-"Absolutely.  Password Pusher has a number of applications and command line uti"
-"lities (CLI) that interface with pwpush.com or privately run instances.  Push "
-"passwords from the CLI, Slack, Alfred App and more."
-msgstr ""
-"Minenképpen! A Password Pusher számos alkalmazást és parancssori segédprogramo"
-"t (CLI) tartalmaz, amelyek a pwpush.com webhelyhez vagy privát módon futtatott"
-" példányokhoz kapcsolódnak. Jelszavak küldése a CLI, a Slack, az Alfred alkalm"
-"azásból és egyebekből."
-
-#: ../../../app/views/pages/faq.html.erb:98
-msgid "See our"
-msgstr "Lásd a mi"
-
-#: ../../../app/views/pages/faq.html.erb:98
-msgid "Tools and Applications"
-msgstr "Eszközök és alkalmazások"
-
-#: ../../../app/views/pages/faq.html.erb:98
-msgid "page for more details."
-msgstr "oldalon további részletekért."
-
-#: ../../../app/views/pages/faq.html.erb:105
-msgid "Can I automate my password distribution?"
-msgstr "Automatizálhatom a jelszavak kiosztását?"
-
-#: ../../../app/views/pages/faq.html.erb:110
-msgid ""
-"Yes. Using the previously mentioned tools, many users and organizations integr"
-"ate Password Pusher into their security policies and processes."
-msgstr ""
-"Igen. A korábban említett eszközök segítségével sok felhasználó és szervezet i"
-"ntegrálja a Password Pushert biztonsági szabályzataiba és folyamataiba."
-
-#: ../../../app/views/pages/faq.html.erb:111
-msgid "The"
-msgstr "Az"
-
-#: ../../../app/views/pages/faq.html.erb:111
-#: ../../../app/views/shared/_footer.html.erb:43
-msgid "Tools"
-msgstr "Eszközök"
-
-#: ../../../app/views/pages/faq.html.erb:111
-msgid ""
-"page outlines the resources available to automate the secure distribution of p"
-"asswords."
-msgstr ""
-"oldal ismerteti a jelszavak biztonságos elosztásának automatizálásához rendelk"
-"ezésre álló erőforrásokat."
-
-#: ../../../app/views/pages/faq.html.erb:118
-msgid "How many requests can I send to Password Pusher?"
-msgstr "Hány kérelmet küldhetek a Password Pushernek?"
-
-#: ../../../app/views/pages/faq.html.erb:123
-msgid ""
-"There are no limits currently and I have no intention of adding any.  To minim"
-"ally assure site stability, Password Pusher is configured with a rate limiter "
-"by default."
-msgstr ""
-"Jelenleg nincsenek korlátozások, és nem is áll szándékomban hozzáadni. A webhe"
-"ly stabilitásának minimális biztosítása érdekében a Password Pusher alapértelm"
-"ezés szerint sebességkorlátozóval van konfigurálva."
-
-#: ../../../app/views/pages/faq.html.erb:129
-msgid "Running Your Own Private Instance"
-msgstr "Saját magánpéldány futtatása"
-
-#: ../../../app/views/pages/faq.html.erb:135
-msgid "Can I run my own version for my organization internally?"
-msgstr "Futtathatom a saját verziómat a szervezetemen belül?"
-
-#: ../../../app/views/pages/faq.html.erb:141
-msgid "Yes.  We provide"
-msgstr "Igen. Biztosítjuk"
-
-#: ../../../app/views/pages/faq.html.erb:142
-msgid "Docker containers"
-msgstr "Docker konténerek"
-
-#: ../../../app/views/pages/faq.html.erb:144
-msgid "installation instructions"
-msgstr "Telepítési útmutató"
-
-#: ../../../app/views/pages/faq.html.erb:145
-msgid "for a wide variety of platforms and services."
-msgstr "platformok és szolgáltatások széles skálájához."
-
-#: ../../../app/views/pages/faq.html.erb:147
-msgid "tldr;"
-msgstr "tldr;"
-
-#: ../../../app/views/pages/faq.html.erb:154
-msgid "Can I apply a custom logo or change the design?"
-msgstr "Alkalmazhatok egyéni logót vagy módosíthatom a dizájnt?"
-
-#: ../../../app/views/pages/faq.html.erb:159
-msgid ""
-"Password Pusher supports re-branding \"out of the box\" allowing you to add a cu"
-"stom logo, text and even change images in the application."
-msgstr ""
-"A Password Pusher támogatja a „dobozból” márkaváltást, lehetővé téve egyéni lo"
-"gó, szöveg hozzáadását, és akár képek módosítását is az alkalmazásban."
-
-#: ../../../app/views/pages/faq.html.erb:166
-msgid "Are there any licensing restrictions for me, my company or my organization?"
-msgstr "Vannak-e licencelési korlátozások rám, a cégemre vagy a szervezetemre?"
-
-#: ../../../app/views/pages/faq.html.erb:172
-msgid ""
-"The source code is released under the Apache 2.0 License and that pretty much "
-"defines any and all limitations. There are quite a few rebranded and redesigne"
-"d clone sites of Password Pusher and I welcome them all."
-msgstr ""
-"A forráskód az Apache 2.0 licenc alatt jelenik meg, és ez nagyjából meghatároz"
-" minden korlátozást. A Password Pusher számos újramárkázott és újratervezett k"
-"lónoldala van, és üdvözlöm őket."
-
-#: ../../../app/views/pages/faq.html.erb:180
-msgid "Why would I want to run my own private instance of Password Pusher?"
-msgstr "Miért szeretném a Password Pusher saját privát példányát futtatni?"
-
-#: ../../../app/views/pages/faq.html.erb:186
-msgid ""
-"Some organizations are bound by security policies that prohibit the use of pub"
-"lic services for sensitive information such as passwords.  There are even orga"
-"nizations that require all tools to be on private intranets without access to "
-"the outside world."
-msgstr ""
-"Egyes szervezeteket olyan biztonsági szabályzatok kötnek, amelyek tiltják a pu"
-"blikus szolgáltatások használatát érzékeny információk, például jelszavak célj"
-"ára. Vannak még olyan szervezetek is, amelyeknek minden eszköznek magán intran"
-"eten kell lennie anélkül, hogy hozzáférne a külvilághoz."
-
-#: ../../../app/views/pages/faq.html.erb:189
-msgid ""
-"It's for these reasons that we provide the ability (and encourage) users and o"
-"rganizations to run private instances when needed."
-msgstr ""
-"Ezen okok miatt biztosítjuk (és bátorítjuk) a felhasználókat és szervezeteket,"
-" hogy szükség esetén privát példányokat futtassanak."
-
-#: ../../../app/views/pages/faq.html.erb:197
-msgid "What are the potential security risks of running my own version internally?"
-msgstr "Milyen biztonsági kockázatokkal járhat a saját verzióm belső futtatása?"
-
-#: ../../../app/views/pages/faq.html.erb:202
-msgid ""
-"Running an private instance of Password Pusher for your company or organizatio"
-"n gives you the peace of mind that you know exactly what code is running.  You"
-" can configure and run it as you like."
-msgstr ""
-"A Password Pusher privát példányának futtatása vállalata vagy szervezete számá"
-"ra nyugalmat biztosít, hogy pontosan tudja, milyen kód fut. Tetszés szerint ko"
-"nfigurálhatja és futtathatja."
-
-#: ../../../app/views/pages/faq.html.erb:203
-msgid ""
-"On the other hand, if your instance gets hacked and the encryption broken, mal"
-"icious entities now have a targeted dictionary of passwords to brute force acc"
-"ounts in your organization.  Note that this would be limited to pushes which h"
-"aven't yet hit their expiration limits."
-msgstr ""
-"Másrészről, ha a példányát feltörik, és a titkosítás megszakad, a rosszindulat"
-"ú entitások most célzott jelszavakat tartalmazó szótárral rendelkeznek, amelly"
-"el brutálisan erőszakoskodhatnak a szervezet fiókjaival. Vegye figyelembe, hog"
-"y ez azokra a leküldésekre korlátozódik, amelyek még nem érték el a lejárati k"
-"orlátot."
-
-#: ../../../app/views/pages/faq.html.erb:204
-msgid ""
-"In this respect, the public instance at pwpush.com may be superior in that it "
-"contains only passwords without identifying information mixed among users from"
-" around the globe."
-msgstr ""
-"Ebből a szempontból a pwpush.com nyilvános példánya jobb lehet abban, hogy csa"
-"k jelszavakat tartalmaz, anélkül, hogy azonosító információkat vegyen a világ "
-"minden tájáról származó felhasználók között."
-
-#: ../../../app/views/pages/faq.html.erb:205
-msgid ""
-"The user should carefully weigh the pros and cons and decide which route is be"
-"st for them.  We happily support both strategies."
-msgstr ""
-"A felhasználónak gondosan mérlegelnie kell az előnyöket és hátrányokat, és el "
-"kell döntenie, hogy melyik útvonal a legjobb a számára. Örömmel támogatjuk min"
-"dkét stratégiát."
-
-#: ../../../app/views/pages/faq.html.erb:211
-msgid "Other"
-msgstr "Egyéb"
-
-#: ../../../app/views/pages/faq.html.erb:217
-msgid ""
-"The URL I sent link seems to have not worked by the time it was received.  Doe"
-"s this happen occasionally and is there a way to prevent this?"
-msgstr ""
-"Úgy tűnik, hogy az általam elküldött URL-cím a beérkezés időpontjában nem műkö"
-"dött. Előfordul ez időnként, és van-e mód ennek megelőzésére?"
-
-#: ../../../app/views/pages/faq.html.erb:223
-msgid ""
-"Some systems such as email, firewalls and chat systems often have link scanner"
-"s that can eat up views."
-msgstr ""
-"Egyes rendszerek, például az e-mail, a tűzfalak és a csevegőrendszerek gyakran"
-" tartalmaznak linkszkennereket, amelyek felemésztik a nézeteket."
-
-#: ../../../app/views/pages/faq.html.erb:224
-msgid "This is done for security or to simply generate a \"preview\" for chat systems."
-msgstr ""
-"Ez a biztonság érdekében történik, vagy egyszerűen \"előnézet\" létrehozása a ch"
-"atrendszerekhez."
-
-#: ../../../app/views/pages/faq.html.erb:227
-msgid "To prevent this, use the 1-click retrieval step option when pushing passwords."
-msgstr ""
-"Ennek elkerülése érdekében használja az 1-kattintásos visszakeresési lépést a "
-"jelszavak leküldésekor."
-
-#: ../../../app/views/pages/faq.html.erb:228
-msgid ""
-"This requires the users to click through a preliminary page to protect views f"
-"rom such scanners."
-msgstr ""
-"Ehhez a felhasználóknak át kell kattintaniuk egy előzetes oldalra, hogy megvéd"
-"jék a nézeteiket az ilyen szkennerektől."
-
-#: ../../../app/views/pages/faq.html.erb:232
-msgid ""
-"As an additional preventative measure, if you create an account, an audit log "
-"is provided for every push created."
-msgstr ""
-"További megelőző intézkedésként, ha fiókot hoz létre, minden létrehozott lekül"
-"déshez egy auditnaplót biztosítunk."
-
-#: ../../../app/views/pages/faq.html.erb:233
-msgid "This audit log can reveal by who and when the push was viewed."
-msgstr ""
-"Ez az ellenőrzési napló felfedheti, hogy ki és mikor tekintette meg a leküldés"
-"t."
-
-#: ../../../app/views/pages/faq.html.erb:242
-msgid "Can I use Password Pusher in my talk/presentation/conference?"
-msgstr "Használhatom a Password Pushert a beszédemben/előadásomban/konferenciámban?"
-
-#: ../../../app/views/pages/faq.html.erb:247
-msgid ""
-"Absolutely.  If you need any resources such as statistics, graphics or anythin"
-"g else, don't hesitate to contact me: pglombardo at pwpush.com."
-msgstr ""
-"Mindenképp! Ha bármilyen erőforrásra van szüksége, például statisztikákra, gra"
-"fikákra vagy bármi másra, ne habozzon kapcsolatba lépni velem: pglombardo at p"
-"wpush.com."
-
-#: ../../../app/views/pages/faq.html.erb:254
-msgid "Could you add a specific feature for my organization?"
-msgstr "Tudna hozzáadni egy speciális funkciót a szervezetem részére?"
-
-#: ../../../app/views/pages/faq.html.erb:259
-msgid ""
-"Very likely.  I love to hear all ideas and feedback. If you have any, please s"
-"ubmit them to the "
-msgstr ""
-"Nagyon valószínű. Szeretek hallani minden ötletet és visszajelzést. Ha van ily"
-"en, kérjük, küldje el a"
-
-#: ../../../app/views/pages/faq.html.erb:260
-msgid "Github repository"
-msgstr "Github adattár"
-
-#: ../../../app/views/pages/faq.html.erb:260
-msgid "and I will respond as soon as possible."
-msgstr "és a lehető leghamarabb válaszolok."
-
-#: ../../../app/views/pages/faq.html.erb:267
-msgid "How do you make money?"
-msgstr "Hogyan keresel pénzt?"
-
-#: ../../../app/views/pages/faq.html.erb:272
-msgid ""
-"This is an opensource project made out of love for technology and a desire to "
-"improve the security (and daily lives) of the tech community."
-msgstr ""
-"Ez egy nyílt forráskódú projekt a technológia iránti szeretetből és a technoló"
-"giai közösség biztonságának (és mindennapi életének) javításának vágyából."
-
-#: ../../../app/views/pages/faq.html.erb:275
-msgid ""
-"It doesn't make any money but it does incur hosting that are about $50/month f"
-"or pwpush.com."
-msgstr ""
-"Nem hoz pénzt, de tárhelyet igényel, ami körülbelül 50 USD/hó a pwpush.com szá"
-"mára."
-
-#: ../../../app/views/pages/faq.html.erb:276
-msgid "These are happily paid out of pocket by myself for more than 10 years."
-msgstr "Ezeket boldogan fizetem a zsebemből több mint 10 éve."
-
-#: ../../../app/views/pages/faq.html.erb:280
-msgid ""
-"If you feel inclined to support Password Pusher, you can sign up to Digital Oc"
-"ean using the badge below."
-msgstr ""
-"Ha úgy érzed, hogy támogasd a Password Pusher szolgáltatást, az alábbi jelvény"
-" használatával regisztrálhatsz a Digital Ocean szolgáltatásra."
-
-#: ../../../app/views/pages/faq.html.erb:281
-msgid "Password Pusher will get a hosting credit for the first $25 you spend."
-msgstr "A Password Pusher tárhely-jóváírást kap az első elköltött 25 USD után."
-
-#: ../../../app/views/pages/faq.html.erb:290
-msgid ""
-"For other ways to support Password Pusher, see also the \"Want to help out?\" se"
-"ction"
-msgstr ""
-"A Password Pusher támogatásának egyéb módjaiért olvassa el a \"Segíteni szeretn"
-"e?\" szakasz"
-
-#: ../../../app/views/pages/faq.html.erb:291
-msgid "on the about page"
-msgstr "a névjegy oldalon"
-
-#: ../../../app/views/pages/faq.html.erb:292
-msgid "Thank you!"
-msgstr "Köszönöm!"
 
 #: ../../../app/views/pages/generate_key.html.erb:1
 msgid "Generate Key"
@@ -2096,13 +1542,6 @@ msgstr ""
 #: ../../../app/views/pages/generate_key.html.erb:22
 msgid "Generated Encryption Key"
 msgstr "Titkosítási kulcs generálása"
-
-#: ../../../app/views/pages/generate_key.html.erb:26
-#: ../../../app/views/pages/generate_key.html.erb:39
-#: ../../../app/views/shared/_copy_button.html.erb:2
-#: ../../../app/views/shared/_secret_url_bar.html.erb:26
-msgid "Copy to Clipboard"
-msgstr "Másolja a vágólapra"
 
 #: ../../../app/views/pages/generate_key.html.erb:32
 msgid "You can apply this key to your application by setting the environment variable"
@@ -2170,181 +1609,6 @@ msgstr "Lásd még a Jelszótolót"
 msgid "Configuration documentation"
 msgstr "Konfigurációs dokumentáció"
 
-#: ../../../app/views/pages/tools.html.erb:1
-#: ../../../app/views/pages/tools.html.erb:3
-msgid "Tools & Applications"
-msgstr "Eszközök és alkalmazások"
-
-#: ../../../app/views/pages/tools.html.erb:5
-msgid ""
-"Using the JSON API, various tools exist to interface with Password Pusher to a"
-"utomate password distribution."
-msgstr ""
-"A JSON API használatával különféle eszközök kapcsolódhatnak a Password Pusher-"
-"hez a jelszóelosztás automatizálása érdekében."
-
-#: ../../../app/views/pages/tools.html.erb:7
-msgid ""
-"We have no limits on how many passwords you can push (and have no intentions o"
-"f adding limits) but we do have a rate limiter so the site doesn’t get taken d"
-"own by bad scripts or bad actors.  Limit your tools to maximum 1 password ever"
-"y few seconds and you should be fine."
-msgstr ""
-"Nincs korlátozás arra vonatkozóan, hogy hány jelszót tolhat ki (és nem áll szá"
-"ndékunkban korlátokat hozzáadni), de van sebességkorlátozónk, hogy a webhelyet"
-" ne rontsák el a rossz programok vagy a rossz alakok. Korlátozza eszközeit leg"
-"feljebb 1 jelszóra néhány másodpercenként, és minden rendben lesz."
-
-#: ../../../app/views/pages/tools.html.erb:11
-msgid "Command Line Utilities"
-msgstr "Parancssori segédprogramok"
-
-#: ../../../app/views/pages/tools.html.erb:49
-msgid "Applications"
-msgstr "Alkalmazások"
-
-#: ../../../app/views/pages/tools.html.erb:74
-msgid ""
-"This API allows you to interface with Password Pusher via JSON.  This can be u"
-"tilized by existing utilities such as curl, wget or any programming language. "
-" See the examples below for some ideas."
-msgstr ""
-"Ez az API lehetővé teszi, hogy JSON-on keresztül csatlakozzon a Password Pushe"
-"rhez. Ezt a meglévő segédprogramok, például curl, wget vagy bármilyen programo"
-"zási nyelv használhatják. Nézze meg az alábbi példákat néhány ötletért."
-
-#: ../../../app/views/pages/tools.html.erb:77
-msgid "API Endpoint Documentation"
-msgstr "API végpont dokumentációja"
-
-#: ../../../app/views/pages/tools.html.erb:78
-msgid "Walkthrough & Examples"
-msgstr "Útmutató és példák"
-
-#: ../../../app/views/pages/tools.html.erb:81
-msgid "Examples"
-msgstr "Példák"
-
-#: ../../../app/views/pages/tools.html.erb:90
-msgid ""
-"You can test this in your browser Javascript console by going to the front pag"
-"e of Password Pusher and enter:"
-msgstr ""
-"Ezt a böngésző Javascript konzoljában tesztelheti, ha a Password Pusher kezdől"
-"apjára lép, és írja be:"
-
-#: ../../../app/views/pages/tools.html.erb:112
-msgid "See more explanation and examples in our"
-msgstr "További magyarázatot és példákat lásd a cikkünkben"
-
-#: ../../../app/views/pages/translate.html.erb:1
-msgid "Help Translate Password Pusher!"
-msgstr "Segíts a Password Pusher fordításában!"
-
-#: ../../../app/views/pages/translate.html.erb:6
-msgid ""
-"We would love to add as many languages as possible but we need help from fluen"
-"t speakers in creating and verifying translations."
-msgstr ""
-"Szeretnénk minél több nyelvet hozzáadni, de folyékonyan beszélők segítségére v"
-"an szükségünk a fordítások elkészítésében és ellenőrzésében."
-
-#: ../../../app/views/pages/translate.html.erb:9
-msgid "How it Works"
-msgstr "Hogyan működik"
-
-#: ../../../app/views/pages/translate.html.erb:12
-msgid "We use"
-msgstr "Használunk"
-
-#: ../../../app/views/pages/translate.html.erb:14
-msgid "to manage our translation effort.  It has a simple to use interface."
-msgstr ""
-"fordítási erőfeszítéseink irányításához. Egyszerűen használható felülettel ren"
-"delkezik."
-
-#: ../../../app/views/pages/translate.html.erb:18
-msgid ""
-"Translations are done initially by machine using Google Translate.  It's the t"
-"ranslators job to select the correct translation\n"
-"and add any fixes as needed."
-msgstr ""
-"A fordításokat kezdetben géppel, a Google Fordító segítségével végzik. A fordí"
-"tók feladata, hogy kiválasszák a megfelelő fordítást, és szükség szerint javít"
-"sanak rajta."
-
-#: ../../../app/views/pages/translate.html.erb:23
-msgid ""
-"Translations for an entirely new language can be done in less than an hour for"
-" native speakers."
-msgstr ""
-"Az anyanyelvi beszélők számára egy teljesen új nyelv fordítása kevesebb mint e"
-"gy óra alatt elvégezhető."
-
-#: ../../../app/views/pages/translate.html.erb:27
-msgid "Read more: "
-msgstr "Olvass tovább:"
-
-#: ../../../app/views/pages/translate.html.erb:28
-msgid "How to use our translation interface?"
-msgstr "Hogyan használja fordítási felületünket?"
-
-#: ../../../app/views/pages/translate.html.erb:31
-msgid "How to Join"
-msgstr "Hogyan csatlakozz"
-
-#: ../../../app/views/pages/translate.html.erb:34
-msgid "To join the translation effort:"
-msgstr "Csatlakozás a fordítási munkához:"
-
-#: ../../../app/views/pages/translate.html.erb:39
-msgid "Register for a free account on"
-msgstr "Regisztráljon egy ingyenes fiókot a"
-
-#: ../../../app/views/pages/translate.html.erb:43
-msgid "Send me a message"
-msgstr "Küldjön nekem egy üzenetet"
-
-#: ../../../app/views/pages/translate.html.erb:44
-msgid ""
-"with your translation.io username and which language you would like to work on"
-"."
-msgstr ""
-"a translation.io felhasználónevével és azzal, hogy melyik nyelven szeretne dol"
-"gozni."
-
-#: ../../../app/views/pages/translate.html.erb:49
-msgid "...and I'll add you to our translation project."
-msgstr "...és hozzáadlak a fordítási projektünkhöz."
-
-#: ../../../app/views/pages/translate.html.erb:52
-msgid "Translation Tips"
-msgstr "Fordítási tippek"
-
-#: ../../../app/views/pages/translate.html.erb:54
-msgid ""
-"If the source text is capitalized, try to maintain similar capitalization in t"
-"he translated text as well (assuming it's permitted syntactically in the targe"
-"t language)."
-msgstr ""
-"Ha a forrásszöveg nagybetűs, próbáljon meg hasonló nagybetűket használni a lef"
-"ordított szövegben is (feltéve, hogy ez szintaktikailag megengedett a célnyelv"
-"en)."
-
-#: ../../../app/views/pages/translate.html.erb:55
-msgid ""
-"If you see embedded codes such as \"%s\", {%file} or similar, leave those fully "
-"intact in the target translation.  These are substitution codes used in the ap"
-"plication."
-msgstr ""
-"Ha olyan beágyazott kódokat lát, mint például \"%s\", {%file} vagy hasonló, hagy"
-"ja azokat teljesen érintetlenül a célfordításban. Ezek az alkalmazásban haszná"
-"lt helyettesítő kódok."
-
-#: ../../../app/views/pages/translate.html.erb:59
-msgid "Thanks for helping to translate Password Pusher!"
-msgstr "Köszönjük, hogy segített a Password Pusher fordításában!"
-
 #: ../../../app/views/passwords/active.html.erb:1
 #: ../../../app/views/passwords/active.html.erb:18
 msgid "Active Password Pushes"
@@ -2383,10 +1647,6 @@ msgstr "A jelszó megtekintéseinek száma a lejárat előtt."
 #: ../../../app/views/passwords/audit.html.erb:113
 msgid "The number of times this password has been viewed after expiration."
 msgstr "A jelszó megtekintéseinek száma a lejárat után."
-
-#: ../../../app/views/passwords/audit.html.erb:184
-msgid "Password manually expired by an anonymous user"
-msgstr "A jelszó manuálisan lejárt egy névtelen felhasználó által"
 
 #: ../../../app/views/passwords/expired.html.erb:1
 #: ../../../app/views/passwords/expired.html.erb:15
@@ -2453,15 +1713,15 @@ msgstr ""
 msgid "Your Password has been Pushed"
 msgstr "A jelszavát elküldtük"
 
-#: ../../../app/views/passwords/preview.html.erb:12
+#: ../../../app/views/passwords/preview.html.erb:56
 msgid "This newly pushed password will expire after"
 msgstr "Ez az újonnan küldött jelszó le fog járni"
 
-#: ../../../app/views/passwords/preview.html.erb:30
+#: ../../../app/views/passwords/preview.html.erb:74
 msgid "View This Password Now"
 msgstr "A jelszó megtekintése most"
 
-#: ../../../app/views/passwords/preview.html.erb:31
+#: ../../../app/views/passwords/preview.html.erb:75
 msgid "Push Another Password"
 msgstr "Küldjön másik jelszót"
 
@@ -2523,6 +1783,10 @@ msgstr "Címlap"
 msgid "Docker Containers"
 msgstr "Docker konténerek"
 
+#: ../../../app/views/shared/_footer.html.erb:34
+msgid "FAQ"
+msgstr "GYIK"
+
 #: ../../../app/views/shared/_footer.html.erb:35
 msgid "JSON API"
 msgstr "JSON API"
@@ -2535,57 +1799,41 @@ msgstr "Kulcsgenerátor"
 msgid "Source Code"
 msgstr "Forráskód"
 
+#: ../../../app/views/shared/_footer.html.erb:43
+msgid "Tools"
+msgstr "Eszközök"
+
 #: ../../../app/views/shared/_footer.html.erb:51
 msgid "Overview"
 msgstr "Áttekintés"
 
 #: ../../../app/views/shared/_footer.html.erb:52
-msgid "Help Translate!"
-msgstr "Segíts a fordításban!"
+msgid "Documentation"
+msgstr "Dokumentáció"
 
 #: ../../../app/views/shared/_header.html.erb:37
 msgid "Account"
 msgstr "Fiók"
 
-#: ../../../app/views/shared/_header.html.erb:41
+#: ../../../app/views/shared/_header.html.erb:42
+msgid "Admin Dashboard"
+msgstr "Rendszergazdai irányítópult"
+
+#: ../../../app/views/shared/_header.html.erb:46
 msgid "Edit Login Details"
 msgstr "Bejelentkezési adatok szerkesztése"
 
-#: ../../../app/views/shared/_header.html.erb:47
+#: ../../../app/views/shared/_header.html.erb:52
 msgid "Log Out"
 msgstr "Kijelentkezés"
 
-#: ../../../app/views/shared/_header.html.erb:53
+#: ../../../app/views/shared/_header.html.erb:58
 msgid "Log In"
 msgstr "Belépés"
 
-#: ../../../app/views/shared/_header.html.erb:57
+#: ../../../app/views/shared/_header.html.erb:62
 msgid "Sign Up"
 msgstr "Regisztráció"
-
-#: ../../../app/views/shared/_lang_selector_modal.erb:6
-msgid "Select your language"
-msgstr "Válaszd ki a nyelved"
-
-#: ../../../app/views/shared/_newsletter_sign_up.html.erb:3
-msgid "Get The Newsletter"
-msgstr "Szerezze meg a Hírlevelet"
-
-#: ../../../app/views/shared/_newsletter_sign_up.html.erb:5
-msgid ""
-"Updates on big releases, security issues, features, integrations, tips and mor"
-"e."
-msgstr ""
-"Frissítések a nagy kiadásokról, biztonsági problémákról, funkciókról, integrác"
-"iókról, tippekről és egyebekről."
-
-#: ../../../app/views/shared/_newsletter_sign_up.html.erb:13
-msgid "Enter your email..."
-msgstr "Írd be az email címed..."
-
-#: ../../../app/views/shared/_newsletter_sign_up.html.erb:14
-msgid "Subscribe"
-msgstr "Iratkozz fel"
 
 #: ../../../app/views/shared/_pw_generator_modal.html.erb:5
 msgid "Configure Password Generation"
@@ -2638,10 +1886,6 @@ msgstr "Mássalhangzók"
 #: ../../../app/views/shared/_pw_generator_modal.html.erb:71
 msgid "Reset to Defaults"
 msgstr "Állítsa vissza az alapértelmezett értékeket"
-
-#: ../../../app/views/shared/_secret_url_bar.html.erb:13
-msgid "Secret Link Language"
-msgstr "Titkos hivatkozási nyelv"
 
 #: ../../../app/views/urls/active.html.erb:1
 #: ../../../app/views/urls/active.html.erb:18
@@ -2703,11 +1947,3 @@ msgstr "A rendszer létrehoz egy titkos URL-t, amely átirányít a megadott URL
 #: ../../../app/views/urls/new.html.erb:124
 msgid "Upon expiration, the push URL will be deleted entirely."
 msgstr "A lejárat után a push URL teljesen törlődik."
-
-#: ../../../app/views/urls/new_anonymous.html.erb:1
-msgid "Securely Share URLs"
-msgstr "URL-ek biztonságos megosztása"
-
-#: ../../../app/views/urls/new_anonymous.html.erb:9
-msgid "Securely Send URLs That Expire Automatically"
-msgstr "Automatikusan lejáró URL-ek biztonságos küldése"

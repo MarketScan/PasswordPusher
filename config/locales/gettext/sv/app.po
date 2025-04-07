@@ -1,14 +1,14 @@
-# Swedish translations for PasswordPusher package.
-# Copyright (C) 2024 PasswordPusher
-# This file is distributed under the same license as the PasswordPusher package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# Swedish translations for pwpush package.
+# Copyright (C) 2025 pwpush
+# This file is distributed under the same license as the pwpush package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PasswordPusher 1.0\n"
+"Project-Id-Version: pwpush 1.0\n"
 "Report-Msgid-Bugs-To: contact@translation.io\n"
-"POT-Creation-Date: 2024-03-13 23:52+0100\n"
-"PO-Revision-Date: 2024-03-13 23:52+0100\n"
+"POT-Creation-Date: 2025-03-11 13:39+0100\n"
+"PO-Revision-Date: 2025-03-11 13:39+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Swedish\n"
 "Language: sv\n"
@@ -18,33 +18,43 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n!=1;\n"
 "\n"
 
-#: ../../../app/controllers/application_controller.rb:24
-msgid "Not Found"
-msgstr "Hittades inte"
+#: ../../../app/controllers/api/v1/file_pushes_controller.rb:256
+#: ../../../app/controllers/api/v1/passwords_controller.rb:293
+#: ../../../app/controllers/file_pushes_controller.rb:178
+#: ../../../app/controllers/passwords_controller.rb:192
+msgid "That push is not deletable by viewers and does not belong to you."
+msgstr "Den pushen kan inte tas bort av tittarna och tillhör inte dig."
 
-#: ../../../app/controllers/feedbacks_controller.rb:15
-msgid ""
-"Our apologies but you failed the spam check.  You could try contacting us on G"
-"ithub instead."
-msgstr ""
-"Vi ber om ursäkt, men du gick inte igenom spamkontrollen. Du kan försöka konta"
-"kta oss på Github istället."
+#: ../../../app/controllers/api/v1/file_pushes_controller.rb:261
+#: ../../../app/controllers/api/v1/passwords_controller.rb:298
+#: ../../../app/controllers/api/v1/urls_controller.rb:253
+#: ../../../app/controllers/file_pushes_controller.rb:183
+#: ../../../app/controllers/passwords_controller.rb:197
+msgid "That push is already expired."
+msgstr "Den pushen har redan gått ut."
 
-#: ../../../app/controllers/feedbacks_controller.rb:21
-msgid "Feedback sent!  We will get back to you as soon as possible."
-msgstr "Feedback har skickats! Vi återkommer till dig så snart som möjligt."
+#: ../../../app/controllers/api/v1/file_pushes_controller.rb:307
+#: ../../../app/controllers/api/v1/urls_controller.rb:298
+msgid "You must be logged in to view your active pushes."
+msgstr "Du måste vara inloggad för att se dina aktiva pushar."
 
-#: ../../../app/controllers/feedbacks_controller.rb:24
-msgid ""
-"Could not send feedback.  Did you pass the Humanity Test?  Valid email?  Try a"
-"gain?"
-msgstr ""
-"Det gick inte att skicka feedback. Klarade du Humanity Test? Giltig mejl? Förs"
-"ök igen?"
+#: ../../../app/controllers/api/v1/file_pushes_controller.rb:349
+msgid "You must be logged in to view your expired pushes."
+msgstr "Du måste vara inloggad för att se dina utgångna pushar."
 
-#: ../../../app/controllers/file_pushes_controller.rb:105
-#: ../../../app/controllers/passwords_controller.rb:163
-#: ../../../app/controllers/urls_controller.rb:155
+#: ../../../app/controllers/api/v1/urls_controller.rb:132
+#: ../../../app/controllers/urls_controller.rb:116
+msgid "Invalid URL: Must have a valid URI scheme."
+msgstr "Ogiltig URL: Måste ha ett giltigt URI-schema."
+
+#: ../../../app/controllers/api/v1/urls_controller.rb:248
+#: ../../../app/controllers/urls_controller.rb:187
+msgid "That push does not belong to you."
+msgstr "Den pushen tillhör inte dig."
+
+#: ../../../app/controllers/file_pushes_controller.rb:91
+#: ../../../app/controllers/passwords_controller.rb:86
+#: ../../../app/controllers/urls_controller.rb:89
 msgid ""
 "That passphrase is incorrect.  Please try again or contact the person or organ"
 "ization that sent you this link."
@@ -52,60 +62,34 @@ msgstr ""
 "Den lösenfrasen är felaktig. Försök igen eller kontakta personen eller organis"
 "ationen som skickade den här länken till dig."
 
-#: ../../../app/controllers/file_pushes_controller.rb:149
-msgid ""
-"Only 20 active file pushes allowed while in Beta. If it's an option, you can m"
-"anually expire existing pushes before creating new ones."
-msgstr ""
-"Endast 20 aktiva fil-pushar tillåtna i Beta. Om det är ett alternativ kan du m"
-"anuellt förfalla befintliga push innan du skapar nya."
-
-#: ../../../app/controllers/file_pushes_controller.rb:228
-#: ../../../app/controllers/passwords_controller.rb:305
-#: ../../../app/controllers/urls_controller.rb:297
+#: ../../../app/controllers/file_pushes_controller.rb:168
+#: ../../../app/controllers/passwords_controller.rb:182
+#: ../../../app/controllers/urls_controller.rb:177
 msgid "That push doesn't belong to you."
 msgstr "Den pushen tillhör inte dig."
 
-#: ../../../app/controllers/file_pushes_controller.rb:258
-#: ../../../app/controllers/passwords_controller.rb:336
-#: ../../../app/controllers/urls_controller.rb:328
-#: ../../../app/controllers/urls_controller.rb:332
-msgid "That push does not belong to you."
-msgstr "Den pushen tillhör inte dig."
-
-#: ../../../app/controllers/file_pushes_controller.rb:263
-#: ../../../app/controllers/passwords_controller.rb:341
-msgid "That push is not deletable by viewers."
-msgstr ""
-"Det här värdet kan inte raderas av personer med läsbehörighet.\n"
-
-#: ../../../app/controllers/file_pushes_controller.rb:269
-#: ../../../app/controllers/file_pushes_controller.rb:270
-#: ../../../app/controllers/passwords_controller.rb:347
-#: ../../../app/controllers/passwords_controller.rb:348
-#: ../../../app/controllers/urls_controller.rb:338
-#: ../../../app/controllers/urls_controller.rb:339
-msgid "That push is already expired."
-msgstr "Den pushen har redan gått ut."
-
-#: ../../../app/controllers/file_pushes_controller.rb:288
-#: ../../../app/controllers/file_pushes_controller.rb:291
-#: ../../../app/controllers/passwords_controller.rb:365
-#: ../../../app/controllers/passwords_controller.rb:368
-#: ../../../app/controllers/urls_controller.rb:356
-#: ../../../app/controllers/urls_controller.rb:359
+#: ../../../app/controllers/file_pushes_controller.rb:196
+#: ../../../app/controllers/passwords_controller.rb:209
+#: ../../../app/controllers/urls_controller.rb:204
 #: ../../../app/views/file_pushes/audit.html.erb:97
-#: ../../../app/views/file_pushes/audit.html.erb:254
+#: ../../../app/views/file_pushes/audit.html.erb:257
 #: ../../../app/views/passwords/audit.html.erb:97
 #: ../../../app/views/passwords/audit.html.erb:188
 #: ../../../app/views/urls/audit.html.erb:84
-#: ../../../app/views/urls/audit.html.erb:170
+#: ../../../app/views/urls/audit.html.erb:171
 msgid "The push content has been deleted and the secret URL expired."
 msgstr "Det pushade innehållet har tagits bort och den hemliga URLen har löpt ut."
 
-#: ../../../app/controllers/urls_controller.rb:206
-msgid "Invalid URL: Must have a valid URI scheme."
-msgstr "Ogiltig URL: Måste ha ett giltigt URI-schema."
+#: ../../../app/views/application/_secret_url_bar.html.erb:17
+msgid "Secret Link Language"
+msgstr "Hemligt länkspråk"
+
+#: ../../../app/views/application/_secret_url_bar.html.erb:35
+#: ../../../app/views/pages/generate_key.html.erb:26
+#: ../../../app/views/pages/generate_key.html.erb:39
+#: ../../../app/views/shared/_copy_button.html.erb:2
+msgid "Copy to Clipboard"
+msgstr "Kopiera till urklipp"
 
 #: ../../../app/views/devise/mailer/confirmation_instructions.html.erb:8
 #: ../../../app/views/devise/mailer/email_changed.html.erb:8
@@ -250,12 +234,12 @@ msgstr "Minst %d tecken krävs men ju fler desto bättre."
 msgid "Change Email"
 msgstr "Ändra e-post"
 
-#: ../../../app/views/devise/registrations/edit.html.erb:38
+#: ../../../app/views/devise/registrations/edit.html.erb:46
 msgid "Current Password"
 msgstr "Nuvarande lösenord"
 
 #: ../../../app/views/devise/registrations/token.html.erb:2
-#: ../../../app/views/shared/_header.html.erb:44
+#: ../../../app/views/shared/_header.html.erb:49
 msgid "API Token"
 msgstr "API-token"
 
@@ -323,7 +307,7 @@ msgstr "En ny token kommer att genereras i dess ställe."
 
 #: ../../../app/views/devise/registrations/token.html.erb:49
 #: ../../../app/views/file_pushes/audit.html.erb:214
-#: ../../../app/views/file_pushes/show.html.erb:74
+#: ../../../app/views/file_pushes/show.html.erb:75
 #: ../../../app/views/passwords/audit.html.erb:145
 #: ../../../app/views/passwords/show.html.erb:58
 #: ../../../app/views/urls/audit.html.erb:132
@@ -332,7 +316,7 @@ msgstr "Är du säker?"
 
 #: ../../../app/views/devise/registrations/token.html.erb:52
 #: ../../../app/views/file_pushes/audit.html.erb:217
-#: ../../../app/views/file_pushes/show.html.erb:77
+#: ../../../app/views/file_pushes/show.html.erb:78
 #: ../../../app/views/passwords/audit.html.erb:148
 #: ../../../app/views/passwords/show.html.erb:61
 #: ../../../app/views/urls/audit.html.erb:135
@@ -345,7 +329,7 @@ msgstr "Ta bort och återskapa"
 
 #: ../../../app/views/devise/registrations/token.html.erb:53
 #: ../../../app/views/file_pushes/audit.html.erb:218
-#: ../../../app/views/file_pushes/show.html.erb:78
+#: ../../../app/views/file_pushes/show.html.erb:79
 #: ../../../app/views/passwords/audit.html.erb:149
 #: ../../../app/views/passwords/show.html.erb:62
 #: ../../../app/views/urls/audit.html.erb:136
@@ -353,53 +337,12 @@ msgid "Processing..."
 msgstr "Bearbetar..."
 
 #: ../../../app/views/devise/sessions/new.html.erb:7
-#: ../../../app/views/feedbacks/new.html.erb:20
 msgid "Email"
 msgstr "E-post"
 
 #: ../../../app/views/devise/sessions/new.html.erb:12
 msgid "Password"
 msgstr "Lösenord"
-
-#: ../../../app/views/devise/shared/_links.html.erb:39
-#: ../../../app/views/shared/_header.html.erb:65
-msgid "Language"
-msgstr "Språk"
-
-#: ../../../app/views/feedbacks/new.html.erb:1
-#: ../../../app/views/feedbacks/new.html.erb:2
-#: ../../../app/views/feedbacks/new.html.erb:42
-#: ../../../app/views/shared/_footer.html.erb:53
-msgid "Send Feedback"
-msgstr "Skicka feedback"
-
-#: ../../../app/views/feedbacks/new.html.erb:8
-msgid ""
-"Have an idea or wish?  Something you don't like?  Want to help out?  We want t"
-"o hear it!"
-msgstr ""
-"Har du en idé eller önskan? Något du inte gillar? Vill du hjälpa till? Vi vill"
-" veta!"
-
-#: ../../../app/views/feedbacks/new.html.erb:15
-msgid "Your Name"
-msgstr "Ditt namn"
-
-#: ../../../app/views/feedbacks/new.html.erb:29
-msgid "What is one hundred minus 3?"
-msgstr "Vad är hundra minus 3?"
-
-#: ../../../app/views/feedbacks/new.html.erb:34
-msgid ""
-"Tip: Copy your message to the clipboard in the unlikely chance submission fail"
-"s."
-msgstr ""
-"Tips: Kopiera ditt meddelande till Urklipp, även om det är osannolikt att inlo"
-"ggningen misslyckas."
-
-#: ../../../app/views/feedbacks/new.html.erb:39
-msgid "Leave this field blank!"
-msgstr "Lämna det här fältet tomt!"
 
 #: ../../../app/views/file_pushes/active.html.erb:1
 #: ../../../app/views/file_pushes/active.html.erb:18
@@ -474,8 +417,8 @@ msgstr "Dagar"
 
 #: ../../../app/views/file_pushes/active.html.erb:39
 #: ../../../app/views/file_pushes/audit.html.erb:19
-#: ../../../app/views/file_pushes/audit.html.erb:270
-#: ../../../app/views/file_pushes/audit.html.erb:282
+#: ../../../app/views/file_pushes/audit.html.erb:273
+#: ../../../app/views/file_pushes/audit.html.erb:285
 #: ../../../app/views/file_pushes/expired.html.erb:31
 #: ../../../app/views/passwords/active.html.erb:38
 #: ../../../app/views/passwords/audit.html.erb:19
@@ -484,8 +427,8 @@ msgstr "Dagar"
 #: ../../../app/views/passwords/expired.html.erb:32
 #: ../../../app/views/urls/active.html.erb:38
 #: ../../../app/views/urls/audit.html.erb:19
-#: ../../../app/views/urls/audit.html.erb:186
-#: ../../../app/views/urls/audit.html.erb:198
+#: ../../../app/views/urls/audit.html.erb:187
+#: ../../../app/views/urls/audit.html.erb:199
 #: ../../../app/views/urls/expired.html.erb:31
 msgid "None"
 msgstr "Ingen"
@@ -823,7 +766,7 @@ msgstr ""
 "ibehållas framöver."
 
 #: ../../../app/views/file_pushes/audit.html.erb:218
-#: ../../../app/views/file_pushes/show.html.erb:78
+#: ../../../app/views/file_pushes/show.html.erb:79
 #: ../../../app/views/passwords/audit.html.erb:149
 #: ../../../app/views/passwords/show.html.erb:62
 #: ../../../app/views/urls/audit.html.erb:136
@@ -857,63 +800,67 @@ msgstr ""
 msgid "Password manually expired by user"
 msgstr "Lösenordet är marketat som utgånget av användaren"
 
-#: ../../../app/views/file_pushes/audit.html.erb:249
-#: ../../../app/views/passwords/audit.html.erb:180
-#: ../../../app/views/passwords/audit.html.erb:186
+#: ../../../app/views/file_pushes/audit.html.erb:250
+#: ../../../app/views/passwords/audit.html.erb:181
+msgid "Password manually expired by an anonymous user"
+msgstr "Lösenordet har löpt ut manuellt av en anonym användare"
+
+#: ../../../app/views/file_pushes/audit.html.erb:252
+#: ../../../app/views/passwords/audit.html.erb:183
 #: ../../../app/views/urls/audit.html.erb:167
 msgid "at IP address"
 msgstr "på IP-adressen"
 
-#: ../../../app/views/file_pushes/audit.html.erb:250
-#: ../../../app/views/file_pushes/audit.html.erb:265
-#: ../../../app/views/file_pushes/audit.html.erb:277
-#: ../../../app/views/passwords/audit.html.erb:181
+#: ../../../app/views/file_pushes/audit.html.erb:254
+#: ../../../app/views/file_pushes/audit.html.erb:268
+#: ../../../app/views/file_pushes/audit.html.erb:280
+#: ../../../app/views/passwords/audit.html.erb:185
 #: ../../../app/views/passwords/audit.html.erb:199
 #: ../../../app/views/passwords/audit.html.erb:211
-#: ../../../app/views/urls/audit.html.erb:181
-#: ../../../app/views/urls/audit.html.erb:193
+#: ../../../app/views/urls/audit.html.erb:182
+#: ../../../app/views/urls/audit.html.erb:194
 msgid "on"
 msgstr "på"
 
-#: ../../../app/views/file_pushes/audit.html.erb:256
-#: ../../../app/views/file_pushes/audit.html.erb:268
-#: ../../../app/views/file_pushes/audit.html.erb:280
+#: ../../../app/views/file_pushes/audit.html.erb:259
+#: ../../../app/views/file_pushes/audit.html.erb:271
+#: ../../../app/views/file_pushes/audit.html.erb:283
 #: ../../../app/views/passwords/audit.html.erb:190
 #: ../../../app/views/passwords/audit.html.erb:202
 #: ../../../app/views/passwords/audit.html.erb:214
-#: ../../../app/views/urls/audit.html.erb:172
-#: ../../../app/views/urls/audit.html.erb:184
-#: ../../../app/views/urls/audit.html.erb:196
+#: ../../../app/views/urls/audit.html.erb:173
+#: ../../../app/views/urls/audit.html.erb:185
+#: ../../../app/views/urls/audit.html.erb:197
 msgid "User Agent"
 msgstr "Användaragent"
 
-#: ../../../app/views/file_pushes/audit.html.erb:258
-#: ../../../app/views/file_pushes/audit.html.erb:270
-#: ../../../app/views/file_pushes/audit.html.erb:282
+#: ../../../app/views/file_pushes/audit.html.erb:261
+#: ../../../app/views/file_pushes/audit.html.erb:273
+#: ../../../app/views/file_pushes/audit.html.erb:285
 #: ../../../app/views/passwords/audit.html.erb:192
 #: ../../../app/views/passwords/audit.html.erb:204
 #: ../../../app/views/passwords/audit.html.erb:216
-#: ../../../app/views/urls/audit.html.erb:174
-#: ../../../app/views/urls/audit.html.erb:186
-#: ../../../app/views/urls/audit.html.erb:198
+#: ../../../app/views/urls/audit.html.erb:175
+#: ../../../app/views/urls/audit.html.erb:187
+#: ../../../app/views/urls/audit.html.erb:199
 msgid "Referrer"
 msgstr "Referent"
 
-#: ../../../app/views/file_pushes/audit.html.erb:263
+#: ../../../app/views/file_pushes/audit.html.erb:266
 #: ../../../app/views/passwords/audit.html.erb:197
-#: ../../../app/views/urls/audit.html.erb:179
+#: ../../../app/views/urls/audit.html.erb:180
 msgid "Successful view from IP address"
 msgstr "Lyckad visning från IP-adress"
 
-#: ../../../app/views/file_pushes/audit.html.erb:275
+#: ../../../app/views/file_pushes/audit.html.erb:278
 #: ../../../app/views/passwords/audit.html.erb:209
-#: ../../../app/views/urls/audit.html.erb:191
+#: ../../../app/views/urls/audit.html.erb:192
 msgid "Failed view attempt (already expired) by"
 msgstr "Misslyckat visningsförsök (redan utgånget) av"
 
-#: ../../../app/views/file_pushes/audit.html.erb:286
+#: ../../../app/views/file_pushes/audit.html.erb:289
 #: ../../../app/views/passwords/audit.html.erb:220
-#: ../../../app/views/urls/audit.html.erb:202
+#: ../../../app/views/urls/audit.html.erb:203
 msgid "End of Audit Log"
 msgstr "Slut på granskningslogg"
 
@@ -950,7 +897,6 @@ msgid "Audit Log"
 msgstr "Revisionslogg"
 
 #: ../../../app/views/file_pushes/new.html.erb:1
-#: ../../../app/views/file_pushes/new_anonymous.html.erb:1
 msgid "Securely Send Files"
 msgstr "Skicka filer säkert"
 
@@ -965,11 +911,14 @@ msgid "Expire secret link and delete after:"
 msgstr "Låt länken förfalla vid och ta bort efter:"
 
 #: ../../../app/views/file_pushes/new.html.erb:78
-#: ../../../app/views/file_pushes/preview.html.erb:16
+#: ../../../app/views/file_pushes/preview.html.erb:60
+#: ../../../app/views/file_pushes/print_preview.html.erb:16
 #: ../../../app/views/passwords/new.html.erb:86
-#: ../../../app/views/passwords/preview.html.erb:16
+#: ../../../app/views/passwords/preview.html.erb:60
+#: ../../../app/views/passwords/print_preview.html.erb:16
 #: ../../../app/views/urls/new.html.erb:73
-#: ../../../app/views/urls/preview.html.erb:16
+#: ../../../app/views/urls/preview.html.erb:60
+#: ../../../app/views/urls/print_preview.html.erb:16
 msgid "(whichever comes first)"
 msgstr "(det som kommer först)"
 
@@ -1038,20 +987,6 @@ msgstr "En revisionslogg över aktivitet kommer att finnas tillgänglig."
 msgid "Push It!"
 msgstr "Pusha!"
 
-#: ../../../app/views/file_pushes/new_anonymous.html.erb:9
-msgid "Securely Send Files That Delete Automatically"
-msgstr "Säkert skicka filer som raderas automatiskt"
-
-#: ../../../app/views/file_pushes/new_anonymous.html.erb:13
-#: ../../../app/views/urls/new_anonymous.html.erb:13
-msgid "Please login to use this feature."
-msgstr "Logga in för att använda den här funktionen."
-
-#: ../../../app/views/file_pushes/new_anonymous.html.erb:17
-#: ../../../app/views/urls/new_anonymous.html.erb:17
-msgid "Please login or sign up to use this feature."
-msgstr "Vänligen logga in eller registrera dig för att använda den här funktionen."
-
 #: ../../../app/views/file_pushes/passphrase.html.erb:1
 #: ../../../app/views/passwords/passphrase.html.erb:1
 #: ../../../app/views/urls/passphrase.html.erb:1
@@ -1060,25 +995,25 @@ msgstr "Ange den hemliga lösenordsfrasen"
 
 #: ../../../app/views/file_pushes/passphrase.html.erb:10
 #: ../../../app/views/passwords/passphrase.html.erb:10
-#: ../../../app/views/urls/passphrase.html.erb:10
+#: ../../../app/views/urls/passphrase.html.erb:12
 msgid "Enter the secret passphrase provided with this URL"
 msgstr "Ange den hemliga lösenfrasen som tillhandahålls med denna URL"
 
 #: ../../../app/views/file_pushes/passphrase.html.erb:10
 #: ../../../app/views/passwords/passphrase.html.erb:10
-#: ../../../app/views/urls/passphrase.html.erb:10
+#: ../../../app/views/urls/passphrase.html.erb:13
 msgid "Enter the secret passphrase"
 msgstr "Ange den hemliga lösenfrasen"
 
 #: ../../../app/views/file_pushes/passphrase.html.erb:11
 #: ../../../app/views/passwords/passphrase.html.erb:11
-#: ../../../app/views/urls/passphrase.html.erb:11
+#: ../../../app/views/urls/passphrase.html.erb:17
 msgid "Go"
 msgstr "Gå"
 
-#: ../../../app/views/file_pushes/preliminary.html.erb:3
-#: ../../../app/views/passwords/preliminary.html.erb:3
-#: ../../../app/views/urls/preliminary.html.erb:3
+#: ../../../app/views/file_pushes/preliminary.html.erb:4
+#: ../../../app/views/passwords/preliminary.html.erb:4
+#: ../../../app/views/urls/preliminary.html.erb:4
 msgid "Click Here to Proceed"
 msgstr "Klicka här för att gå vidare"
 
@@ -1099,112 +1034,160 @@ msgstr "Din push har skapats."
 msgid "Use this secret link to share it:"
 msgstr "Använd den här hemliga länken för att dela den:"
 
-#: ../../../app/views/file_pushes/preview.html.erb:12
-#: ../../../app/views/urls/preview.html.erb:12
+#: ../../../app/views/file_pushes/preview.html.erb:14
+#: ../../../app/views/passwords/preview.html.erb:14
+#: ../../../app/views/urls/preview.html.erb:14
+msgid "Print & Share"
+msgstr "Skriv ut och dela"
+
+#: ../../../app/views/file_pushes/preview.html.erb:19
+#: ../../../app/views/passwords/preview.html.erb:19
+#: ../../../app/views/urls/preview.html.erb:19
+msgid "Generate a Printable Page for End Users"
+msgstr "Skapa en utskrivbar sida för slutanvändare"
+
+#: ../../../app/views/file_pushes/preview.html.erb:24
+#: ../../../app/views/file_pushes/preview.html.erb:26
+#: ../../../app/views/passwords/preview.html.erb:24
+#: ../../../app/views/passwords/preview.html.erb:26
+#: ../../../app/views/urls/preview.html.erb:24
+#: ../../../app/views/urls/preview.html.erb:26
+msgid "Optional Custom Message"
+msgstr "Valfritt anpassat meddelande"
+
+#: ../../../app/views/file_pushes/preview.html.erb:35
+#: ../../../app/views/passwords/preview.html.erb:35
+#: ../../../app/views/urls/preview.html.erb:35
+msgid "Show Expiration Details"
+msgstr "Visa utgångsinformation"
+
+#: ../../../app/views/file_pushes/preview.html.erb:42
+#: ../../../app/views/passwords/preview.html.erb:42
+#: ../../../app/views/urls/preview.html.erb:42
+msgid "Include ID"
+msgstr "Inkludera ID"
+
+#: ../../../app/views/file_pushes/preview.html.erb:47
+#: ../../../app/views/passwords/preview.html.erb:47
+#: ../../../app/views/urls/preview.html.erb:47
+msgid "Generate"
+msgstr "Generera"
+
+#: ../../../app/views/file_pushes/preview.html.erb:56
+#: ../../../app/views/urls/preview.html.erb:56
 msgid "This push will expire after"
 msgstr "Denna push kommer att upphöra efter"
 
-#: ../../../app/views/file_pushes/preview.html.erb:13
+#: ../../../app/views/file_pushes/preview.html.erb:57
+#: ../../../app/views/file_pushes/print_preview.html.erb:13
 #: ../../../app/views/file_pushes/show.html.erb:43
-#: ../../../app/views/passwords/preview.html.erb:13
+#: ../../../app/views/passwords/preview.html.erb:57
+#: ../../../app/views/passwords/print_preview.html.erb:13
 #: ../../../app/views/passwords/show.html.erb:24
-#: ../../../app/views/urls/preview.html.erb:13
+#: ../../../app/views/urls/preview.html.erb:57
+#: ../../../app/views/urls/print_preview.html.erb:13
 msgid "day"
 msgid_plural "days"
 msgstr[0] "dag"
 msgstr[1] "dagar"
 
-#: ../../../app/views/file_pushes/preview.html.erb:14
+#: ../../../app/views/file_pushes/preview.html.erb:58
+#: ../../../app/views/file_pushes/print_preview.html.erb:14
 #: ../../../app/views/file_pushes/show.html.erb:46
 #: ../../../app/views/file_pushes/show.html.erb:49
 #: ../../../app/views/pages/about.html.erb:34
 #: ../../../app/views/pages/about.html.erb:40
-#: ../../../app/views/passwords/preview.html.erb:14
+#: ../../../app/views/passwords/preview.html.erb:58
+#: ../../../app/views/passwords/print_preview.html.erb:14
 #: ../../../app/views/passwords/show.html.erb:27
 #: ../../../app/views/passwords/show.html.erb:30
-#: ../../../app/views/urls/preview.html.erb:14
+#: ../../../app/views/urls/preview.html.erb:58
+#: ../../../app/views/urls/print_preview.html.erb:14
 msgid "or"
 msgstr "eller"
 
-#: ../../../app/views/file_pushes/preview.html.erb:15
-#: ../../../app/views/passwords/preview.html.erb:15
-#: ../../../app/views/urls/preview.html.erb:15
+#: ../../../app/views/file_pushes/preview.html.erb:59
+#: ../../../app/views/file_pushes/print_preview.html.erb:15
+#: ../../../app/views/passwords/preview.html.erb:59
+#: ../../../app/views/passwords/print_preview.html.erb:15
+#: ../../../app/views/urls/preview.html.erb:59
+#: ../../../app/views/urls/print_preview.html.erb:15
 msgid "view"
 msgid_plural "views"
 msgstr[0] "visning"
 msgstr[1] "visningar"
 
-#: ../../../app/views/file_pushes/preview.html.erb:19
-#: ../../../app/views/file_pushes/preview.html.erb:21
-#: ../../../app/views/pages/about.html.erb:72
-#: ../../../app/views/pages/about.html.erb:95
-#: ../../../app/views/pages/faq.html.erb:75
-#: ../../../app/views/pages/faq.html.erb:143
-#: ../../../app/views/passwords/preview.html.erb:19
-#: ../../../app/views/passwords/preview.html.erb:21
+#: ../../../app/views/file_pushes/preview.html.erb:63
+#: ../../../app/views/file_pushes/preview.html.erb:65
+#: ../../../app/views/pages/about.html.erb:68
+#: ../../../app/views/pages/about.html.erb:91
+#: ../../../app/views/passwords/preview.html.erb:63
+#: ../../../app/views/passwords/preview.html.erb:65
 msgid "and"
 msgstr "och"
 
-#: ../../../app/views/file_pushes/preview.html.erb:19
-#: ../../../app/views/passwords/preview.html.erb:19
+#: ../../../app/views/file_pushes/preview.html.erb:63
+#: ../../../app/views/passwords/preview.html.erb:63
 msgid "can be"
 msgstr "kan vara"
 
-#: ../../../app/views/file_pushes/preview.html.erb:19
-#: ../../../app/views/file_pushes/preview.html.erb:21
-#: ../../../app/views/passwords/preview.html.erb:19
-#: ../../../app/views/passwords/preview.html.erb:21
+#: ../../../app/views/file_pushes/preview.html.erb:63
+#: ../../../app/views/file_pushes/preview.html.erb:65
+#: ../../../app/views/passwords/preview.html.erb:63
+#: ../../../app/views/passwords/preview.html.erb:65
 msgid "deleted by viewers."
 msgstr "raderas av tittarna."
 
-#: ../../../app/views/file_pushes/preview.html.erb:21
-#: ../../../app/views/passwords/preview.html.erb:21
+#: ../../../app/views/file_pushes/preview.html.erb:65
+#: ../../../app/views/passwords/preview.html.erb:65
 msgid "can NOT be"
 msgstr "kan INTE vara"
 
-#: ../../../app/views/file_pushes/preview.html.erb:26
-#: ../../../app/views/passwords/preview.html.erb:26
-#: ../../../app/views/urls/preview.html.erb:20
+#: ../../../app/views/file_pushes/preview.html.erb:70
+#: ../../../app/views/passwords/preview.html.erb:70
+#: ../../../app/views/urls/preview.html.erb:64
 msgid "It also includes a"
 msgstr "Den innehåller också en"
 
-#: ../../../app/views/file_pushes/preview.html.erb:26
-#: ../../../app/views/passwords/preview.html.erb:26
-#: ../../../app/views/urls/preview.html.erb:20
+#: ../../../app/views/file_pushes/preview.html.erb:70
+#: ../../../app/views/passwords/preview.html.erb:70
+#: ../../../app/views/urls/preview.html.erb:64
 msgid "1-click preliminary retrieval step"
 msgstr "Preliminär 1-klickhämtning"
 
-#: ../../../app/views/file_pushes/preview.html.erb:30
-#: ../../../app/views/urls/preview.html.erb:24
+#: ../../../app/views/file_pushes/preview.html.erb:74
+#: ../../../app/views/urls/preview.html.erb:68
 msgid "View This Push Now"
 msgstr "Se denna push nu"
 
-#: ../../../app/views/file_pushes/preview.html.erb:30
-#: ../../../app/views/passwords/preview.html.erb:30
-#: ../../../app/views/urls/preview.html.erb:24
+#: ../../../app/views/file_pushes/preview.html.erb:74
+#: ../../../app/views/passwords/preview.html.erb:74
+#: ../../../app/views/urls/preview.html.erb:68
 msgid "(will burn a view) or"
 msgstr "(kommer att bränna en visning) eller"
 
-#: ../../../app/views/file_pushes/preview.html.erb:31
-#: ../../../app/views/urls/preview.html.erb:25
+#: ../../../app/views/file_pushes/preview.html.erb:75
+#: ../../../app/views/urls/preview.html.erb:69
 msgid "Push Another"
 msgstr "Tryck på en annan"
 
-#: ../../../app/views/file_pushes/preview.html.erb:36
-#: ../../../app/views/passwords/preview.html.erb:36
-#: ../../../app/views/urls/preview.html.erb:30
+#: ../../../app/views/file_pushes/preview.html.erb:80
+#: ../../../app/views/passwords/preview.html.erb:80
+#: ../../../app/views/urls/preview.html.erb:74
 msgid "View Audit Log"
 msgstr "Visa granskningslogg"
 
-#: ../../../app/views/file_pushes/preview.html.erb:41
-#: ../../../app/views/passwords/preview.html.erb:41
-#: ../../../app/views/urls/preview.html.erb:35
-msgid ""
-"Tip: Pushing to an international user?  Change the secret link language using "
-"the dropdown menu to the right of the URL."
-msgstr ""
-"Tips: Skickar du till en internationell användare? Ändra det hemliga länkspråk"
-"et med rullgardinsmenyn till höger om URLen."
+#: ../../../app/views/file_pushes/print_preview.html.erb:1
+#: ../../../app/views/passwords/print_preview.html.erb:1
+#: ../../../app/views/urls/print_preview.html.erb:1
+msgid "Your Secret URL"
+msgstr "Din hemliga URL"
+
+#: ../../../app/views/file_pushes/print_preview.html.erb:12
+#: ../../../app/views/passwords/print_preview.html.erb:12
+#: ../../../app/views/urls/print_preview.html.erb:12
+msgid "This data contained here will expire after"
+msgstr "Denna information som finns här kommer att upphöra att gälla efter"
 
 #: ../../../app/views/file_pushes/show.html.erb:1
 #: ../../../app/views/passwords/show.html.erb:1
@@ -1254,22 +1237,22 @@ msgstr[1] "fler visningar"
 msgid "(whichever occurs first)."
 msgstr "(vilket som än händer först)."
 
-#: ../../../app/views/file_pushes/show.html.erb:56
+#: ../../../app/views/file_pushes/show.html.erb:57
 #: ../../../app/views/passwords/show.html.erb:37
 msgid "Delete This Secret Link Now"
 msgstr "Ta bort den här hemliga länken nu"
 
-#: ../../../app/views/file_pushes/show.html.erb:68
+#: ../../../app/views/file_pushes/show.html.erb:69
 #: ../../../app/views/passwords/show.html.erb:52
 msgid "Delete?"
 msgstr "Radera?"
 
-#: ../../../app/views/file_pushes/show.html.erb:72
+#: ../../../app/views/file_pushes/show.html.erb:73
 #: ../../../app/views/passwords/show.html.erb:56
 msgid "This will expire this secret link and "
 msgstr "Detta kommer att upphöra den hemliga länken och"
 
-#: ../../../app/views/file_pushes/show.html.erb:73
+#: ../../../app/views/file_pushes/show.html.erb:74
 #: ../../../app/views/passwords/show.html.erb:57
 msgid "delete all related content from the database forever"
 msgstr "radera allt relaterat innehåll från databasen för alltid"
@@ -1296,29 +1279,14 @@ msgstr ""
 "Om det behövs kontaktar du personen eller organisationen som gav dig denna hem"
 "liga URL."
 
-#: ../../../app/views/layouts/login.html.erb:31
+#: ../../../app/views/layouts/admin/application.html.erb:41
+#: ../../../app/views/layouts/login.html.erb:32
 #: ../../../app/views/shared/_footer.html.erb:11
 #: ../../../app/views/shared/_footer.html.erb:15
 #: ../../../app/views/shared/_header.html.erb:9
 #: ../../../app/views/shared/_header.html.erb:13
 msgid "Password Pusher Logo"
 msgstr "Password Pusher-logga"
-
-#: ../../../app/views/layouts/login.html.erb:50
-msgid ""
-"Some domains may inadvertently block emails.  If you are having trouble receiv"
-"ing emails, "
-msgstr ""
-"Vissa domäner kan oavsiktligt blockera e-postmeddelanden. Om du har problem me"
-"d att ta emot e-postmeddelanden,"
-
-#: ../../../app/views/layouts/login.html.erb:51
-msgid "send a message"
-msgstr "skicka ett meddelande"
-
-#: ../../../app/views/layouts/login.html.erb:52
-msgid "and we can help out."
-msgstr "och vi kan hjälpa till."
 
 #: ../../../app/views/pages/about.html.erb:1
 msgid "About Password Pusher"
@@ -1425,60 +1393,51 @@ msgid "It's gasoline for the algos that trend Password Pusher."
 msgstr "Det är bensin för algon som trenden Password Pusher."
 
 #: ../../../app/views/pages/about.html.erb:60
-#: ../../../app/views/pages/translate.html.erb:3
-msgid "Help Translate"
-msgstr "Hjälp till att översätta"
-
-#: ../../../app/views/pages/about.html.erb:61
-msgid "Improve an existing language or add a new one"
-msgstr "Förbättra ett befintligt språk eller lägg till ett nytt"
-
-#: ../../../app/views/pages/about.html.erb:64
 msgid "Sign up for the"
 msgstr "Anmäl dig till"
 
-#: ../../../app/views/pages/about.html.erb:65
+#: ../../../app/views/pages/about.html.erb:61
 msgid "newsletter"
 msgstr "nyhetsbrev"
 
-#: ../../../app/views/pages/about.html.erb:66
+#: ../../../app/views/pages/about.html.erb:62
 msgid "to get updates on important releases, security issues, tips and more."
 msgstr "för att få uppdateringar om viktiga utgåvor, säkerhetsproblem, tips och mer."
 
-#: ../../../app/views/pages/about.html.erb:69
+#: ../../../app/views/pages/about.html.erb:65
 msgid "Follow Password Pusher on"
 msgstr "Följ Password Pusher på"
 
-#: ../../../app/views/pages/about.html.erb:76
+#: ../../../app/views/pages/about.html.erb:72
 msgid "Fix an issue, add a feature or write some documentation."
 msgstr "Åtgärda ett problem, lägg till en funktion eller skriv lite dokumentation."
 
-#: ../../../app/views/pages/about.html.erb:76
+#: ../../../app/views/pages/about.html.erb:72
 msgid "See the Github project."
 msgstr "Se Github-projektet."
 
-#: ../../../app/views/pages/about.html.erb:79
+#: ../../../app/views/pages/about.html.erb:75
 msgid "Sign up to Digital Ocean"
 msgstr "Registrera dig till Digital Ocean"
 
-#: ../../../app/views/pages/about.html.erb:80
+#: ../../../app/views/pages/about.html.erb:76
 msgid "with this link"
 msgstr "med denna länk"
 
-#: ../../../app/views/pages/about.html.erb:81
+#: ../../../app/views/pages/about.html.erb:77
 msgid "to get Password Pusher a hosting credit."
 msgstr "för att få Password Pusher en värdkredit."
 
-#: ../../../app/views/pages/about.html.erb:85
+#: ../../../app/views/pages/about.html.erb:81
 msgid "Thank you for supporting Password Pusher!"
 msgstr "Tack för att du stöttar Password Pusher!"
 
-#: ../../../app/views/pages/about.html.erb:87
+#: ../../../app/views/pages/about.html.erb:83
 #: ../../../app/views/shared/_footer.html.erb:25
 msgid "Resources"
 msgstr "Resurser"
 
-#: ../../../app/views/pages/about.html.erb:90
+#: ../../../app/views/pages/about.html.erb:86
 msgid ""
 "If you are giving a presentation, authoring a blog post or video about Passwor"
 "d Pusher, feel free to contact me for any questions."
@@ -1486,45 +1445,45 @@ msgstr ""
 "Om du håller en presentation, skriver ett blogginlägg eller video om Password "
 "Pusher, kontakta mig gärna för eventuella frågor."
 
-#: ../../../app/views/pages/about.html.erb:93
+#: ../../../app/views/pages/about.html.erb:89
 msgid "We have media resources and a full explanation of features available in"
 msgstr ""
 "Vi har medieresurser och en fullständig förklaring av funktioner som är tillgä"
 "ngliga i"
 
-#: ../../../app/views/pages/about.html.erb:94
+#: ../../../app/views/pages/about.html.erb:90
 msgid "Windows Powerpoint"
 msgstr "Windows Powerpoint"
 
-#: ../../../app/views/pages/about.html.erb:96
+#: ../../../app/views/pages/about.html.erb:92
 msgid "Mac Keynote"
 msgstr "Mac Keynote"
 
-#: ../../../app/views/pages/about.html.erb:97
+#: ../../../app/views/pages/about.html.erb:93
 msgid "formats."
 msgstr "format."
 
-#: ../../../app/views/pages/about.html.erb:106
+#: ../../../app/views/pages/about.html.erb:99
 msgid "Birthday"
 msgstr "Födelsedag"
 
-#: ../../../app/views/pages/about.html.erb:108
+#: ../../../app/views/pages/about.html.erb:101
 msgid "More Than 11 Years Old"
 msgstr "Mer än 11 år gammal"
 
-#: ../../../app/views/pages/about.html.erb:110
+#: ../../../app/views/pages/about.html.erb:103
 msgid "The first git commit to Password Pusher was on"
 msgstr "Den första git-committen till Password Pusher var"
 
-#: ../../../app/views/pages/about.html.erb:114
+#: ../../../app/views/pages/about.html.erb:107
 msgid "pwpush.com went live shortly thereafter."
 msgstr "pwpush.com gick live kort därefter."
 
-#: ../../../app/views/pages/about.html.erb:120
+#: ../../../app/views/pages/about.html.erb:113
 msgid "The Original Theme"
 msgstr "Det ursprungliga temat"
 
-#: ../../../app/views/pages/about.html.erb:121
+#: ../../../app/views/pages/about.html.erb:114
 msgid ""
 "The original site design consisted of a dark background with a bold yellow fon"
 "t."
@@ -1532,521 +1491,9 @@ msgstr ""
 "Den ursprungliga webbplatsens design bestod av en mörk bakgrund med ett fetsti"
 "lat, gult teckensnitt."
 
-#: ../../../app/views/pages/about.html.erb:124
+#: ../../../app/views/pages/about.html.erb:117
 msgid "Follow for news, changes & updates."
 msgstr "Följ för nyheter, ändringar och uppdateringar."
-
-#: ../../../app/views/pages/faq.html.erb:1
-#: ../../../app/views/shared/_footer.html.erb:34
-msgid "FAQ"
-msgstr "FAQ"
-
-#: ../../../app/views/pages/faq.html.erb:3
-msgid "Frequently Asked Questions"
-msgstr "Vanliga frågor"
-
-#: ../../../app/views/pages/faq.html.erb:5
-msgid "Trust and Security"
-msgstr "Tillit och säkerhet"
-
-#: ../../../app/views/pages/faq.html.erb:11
-msgid "What purpose does Password Pusher serve?"
-msgstr "Vilket syfte tjänar Password Pusher?"
-
-#: ../../../app/views/pages/faq.html.erb:16
-msgid "Password Pusher exists as a better alternative to emailing passwords."
-msgstr ""
-"Password Pusher finns som ett bättre alternativ till att skicka lösenord via e"
-"-post."
-
-#: ../../../app/views/pages/faq.html.erb:18
-msgid "Emailing passwords is inherently insecure."
-msgstr "Att skicka lösenord via e-post är i sig osäkert."
-
-#: ../../../app/views/pages/faq.html.erb:18
-msgid "The greatest risks include"
-msgstr "De största riskerna inkluderar"
-
-#: ../../../app/views/pages/faq.html.erb:21
-msgid ""
-"Emailed passwords are usually sent with context to what they go to or can pote"
-"ntially be derived from email username, domain etc…"
-msgstr ""
-"E-postade lösenord skickas vanligtvis med kontext till vad de går till eller k"
-"an eventuellt härledas från e-postnamn, domän osv..."
-
-#: ../../../app/views/pages/faq.html.erb:22
-msgid ""
-"Email is inherently insecure and can be intercepted at multiple points by mali"
-"cious entities."
-msgstr ""
-"E-post är till sin natur osäker och kan fångas upp på flera punkter av skadlig"
-"a enheter."
-
-#: ../../../app/views/pages/faq.html.erb:23
-msgid "Emailed passwords live in perpetuity (read: forever) in email archives."
-msgstr "E-postade lösenord lever för evigt (läs: för alltid) i e-postarkiv."
-
-#: ../../../app/views/pages/faq.html.erb:24
-msgid ""
-"Passwords in email can be retrieved and used later on if an email account is s"
-"tolen, cracked etc.."
-msgstr ""
-"Lösenord i e-post kan hämtas och användas senare om ett e-postkonto blir stule"
-"t, hackat osv."
-
-#: ../../../app/views/pages/faq.html.erb:27
-msgid ""
-"The same risks persist when sending passwords via SMS, WhatsApp, Telegram, Cha"
-"t etc…  The data can and is often perpetual and out of your control."
-msgstr ""
-"Samma risker kvarstår när du skickar lösenord via SMS, WhatsApp, Telegram, cha"
-"t osv... Data kan och är ofta evig och utanför din kontroll."
-
-#: ../../../app/views/pages/faq.html.erb:29
-msgid "By using Password Pusher, you bypass all of this."
-msgstr "Genom att använda Password Pusher kringgår du allt detta."
-
-#: ../../../app/views/pages/faq.html.erb:31
-msgid "For each password posted to Password Pusher, "
-msgstr "För varje lösenord som skickas till Password Pusher,"
-
-#: ../../../app/views/pages/faq.html.erb:32
-msgid "a unique URL is generated that only you will know"
-msgstr "en unik URL genereras som bara du känner till"
-
-#: ../../../app/views/pages/faq.html.erb:33
-msgid "Additionally, "
-msgstr "Dessutom,"
-
-#: ../../../app/views/pages/faq.html.erb:35
-msgid "passwords expire after a predefined set of views are hit or time passed."
-msgstr ""
-"lösenord löper ut efter ett förbestämt antal visningar eller att tiden har gåt"
-"t ut."
-
-#: ../../../app/views/pages/faq.html.erb:37
-msgid "Once expired, passwords are unequivocally deleted."
-msgstr "När lösenordet har löpt ut raderas det entydigt."
-
-#: ../../../app/views/pages/faq.html.erb:40
-msgid ""
-"If that sounds interesting to you, try it out or see the other frequently aske"
-"d questions below."
-msgstr ""
-"Om det låter intressant för dig, prova det eller se de andra vanliga frågorna "
-"nedan."
-
-#: ../../../app/views/pages/faq.html.erb:47
-msgid "Trust is a concern. Why should I use Password Pusher?"
-msgstr "Tillit är en oro. Varför ska jag använda Password Pusher?"
-
-#: ../../../app/views/pages/faq.html.erb:52
-msgid ""
-"And rightfully so. All good security begins with healthy skepticism of all inv"
-"olved components."
-msgstr ""
-"Och med rätta. All god säkerhet börjar med en sund skepsis mot alla inblandade"
-" komponenter."
-
-#: ../../../app/views/pages/faq.html.erb:55
-msgid ""
-"Password Pusher exists as a better alternative to emailing passwords. It avoid"
-"s having passwords exist in email archives in perpetuity. It does not exist as"
-" a end-all security solution."
-msgstr ""
-"Password Pusher finns som ett bättre alternativ till att skicka lösenord via e"
-"-post. Det undviker att lösenord finns i e-postarkiv för alltid. Det är inte e"
-"n slutgiltig säkerhetslösning."
-
-#: ../../../app/views/pages/faq.html.erb:59
-msgid "Password Pusher is open-source"
-msgstr "Password Pusher är öppen källkod"
-
-#: ../../../app/views/pages/faq.html.erb:60
-msgid ""
-"so the source can be publicly reviewed and can alternatively be run internally"
-" in your organization."
-msgstr ""
-"så källkoden kan granskas offentligt och alternativt kan köras internt i din o"
-"rganisation."
-
-#: ../../../app/views/pages/faq.html.erb:64
-msgid "Passwords are unequivocally deleted from the database once they expire."
-msgstr "Lösenord raderas entydigt från databasen när de löper ut."
-
-#: ../../../app/views/pages/faq.html.erb:65
-msgid ""
-"Additionally, random URL tokens are generated on the fly and passwords are pos"
-"ted without context for their use."
-msgstr ""
-"Dessutom genereras slumpmässiga URL-tokens direkt och lösenord läggs ut utan s"
-"ammanhang för deras användning."
-
-#: ../../../app/views/pages/faq.html.erb:69
-msgid "A note for those with an interest in extreme security:"
-msgstr "En anteckning för dem som är intresserade av extrem säkerhet:"
-
-#: ../../../app/views/pages/faq.html.erb:70
-msgid ""
-"there is no way I can reliably prove that the opensource code is the same that"
-" runs on pwpush.com (this is true for all sites in reality)."
-msgstr ""
-"det finns inget sätt jag på ett tillförlitligt sätt kan bevisa att open source"
-"-koden är densamma som körs på pwpush.com (detta är sant för alla webbplatser)"
-"."
-
-#: ../../../app/views/pages/faq.html.erb:71
-msgid "The only thing I can provide in this respect is my public reputation on"
-msgstr "Det enda jag kan ge i detta avseende är mitt offentliga rykte om"
-
-#: ../../../app/views/pages/faq.html.erb:76
-msgid "my blog"
-msgstr "min blogg"
-
-#: ../../../app/views/pages/faq.html.erb:77
-msgid ""
-"If this is a concern for you, feel free to review the code, post any questions"
-" that you may have and consider running it internally at your organization ins"
-"tead."
-msgstr ""
-"Om det här är ett problem för dig kan du granska koden, ställa eventuella fråg"
-"or du kan ha och överväga att köra den internt i din organisation istället."
-
-#: ../../../app/views/pages/faq.html.erb:84
-msgid "Tools, Utilities and Applications"
-msgstr "Verktyg & Applikationer"
-
-#: ../../../app/views/pages/faq.html.erb:90
-msgid "Are there other ways I can access Password Pusher outside of a browser?"
-msgstr "Finns det andra sätt jag kan komma åt Password Pusher utanför en webbläsare?"
-
-#: ../../../app/views/pages/faq.html.erb:96
-msgid ""
-"Absolutely.  Password Pusher has a number of applications and command line uti"
-"lities (CLI) that interface with pwpush.com or privately run instances.  Push "
-"passwords from the CLI, Slack, Alfred App and more."
-msgstr ""
-"Absolut. Password Pusher har ett antal applikationer och kommandoradsverktyg ("
-"CLI) som gränssnitt mot pwpush.com eller privatkörda instanser. Pusha lösenord"
-" från CLI, Slack, Alfred App och mer."
-
-#: ../../../app/views/pages/faq.html.erb:98
-msgid "See our"
-msgstr "Se vår"
-
-#: ../../../app/views/pages/faq.html.erb:98
-msgid "Tools and Applications"
-msgstr "Verktyg och applikationer"
-
-#: ../../../app/views/pages/faq.html.erb:98
-msgid "page for more details."
-msgstr "sida för mer information."
-
-#: ../../../app/views/pages/faq.html.erb:105
-msgid "Can I automate my password distribution?"
-msgstr "Kan jag automatisera min lösenordsspridning?"
-
-#: ../../../app/views/pages/faq.html.erb:110
-msgid ""
-"Yes. Using the previously mentioned tools, many users and organizations integr"
-"ate Password Pusher into their security policies and processes."
-msgstr ""
-"Ja. Med hjälp av de tidigare nämnda verktygen integrerar många användare och o"
-"rganisationer Password Pusher i sina säkerhetspolicies och -processer."
-
-#: ../../../app/views/pages/faq.html.erb:111
-msgid "The"
-msgstr "De"
-
-#: ../../../app/views/pages/faq.html.erb:111
-#: ../../../app/views/shared/_footer.html.erb:43
-msgid "Tools"
-msgstr "Verktyg"
-
-#: ../../../app/views/pages/faq.html.erb:111
-msgid ""
-"page outlines the resources available to automate the secure distribution of p"
-"asswords."
-msgstr ""
-"sidan beskriver tillgängliga metoder för att automatisera säker distribution a"
-"v lösenord."
-
-#: ../../../app/views/pages/faq.html.erb:118
-msgid "How many requests can I send to Password Pusher?"
-msgstr "Hur många förfrågningar kan jag skicka till Password Pusher?"
-
-#: ../../../app/views/pages/faq.html.erb:123
-msgid ""
-"There are no limits currently and I have no intention of adding any.  To minim"
-"ally assure site stability, Password Pusher is configured with a rate limiter "
-"by default."
-msgstr ""
-"Det finns för närvarande inga begränsningar och jag har inte för avsikt att lä"
-"gga till några. För att säkerställa webbplatsens stabilitet är Password Pusher"
-" som standard konfigurerad med en begränsare."
-
-#: ../../../app/views/pages/faq.html.erb:129
-msgid "Running Your Own Private Instance"
-msgstr "Kör din egen privata instans"
-
-#: ../../../app/views/pages/faq.html.erb:135
-msgid "Can I run my own version for my organization internally?"
-msgstr "Kan jag köra min egen version intern för min organisation?"
-
-#: ../../../app/views/pages/faq.html.erb:141
-msgid "Yes.  We provide"
-msgstr "Ja. Vi tillhandahåller"
-
-#: ../../../app/views/pages/faq.html.erb:142
-msgid "Docker containers"
-msgstr "Docker-containers"
-
-#: ../../../app/views/pages/faq.html.erb:144
-msgid "installation instructions"
-msgstr "installationsinstruktioner"
-
-#: ../../../app/views/pages/faq.html.erb:145
-msgid "for a wide variety of platforms and services."
-msgstr "för en mängd olika plattformar och tjänster."
-
-#: ../../../app/views/pages/faq.html.erb:147
-msgid "tldr;"
-msgstr "tldr;"
-
-#: ../../../app/views/pages/faq.html.erb:154
-msgid "Can I apply a custom logo or change the design?"
-msgstr "Kan jag använda en anpassad logotyp eller ändra designen?"
-
-#: ../../../app/views/pages/faq.html.erb:159
-msgid ""
-"Password Pusher supports re-branding \"out of the box\" allowing you to add a cu"
-"stom logo, text and even change images in the application."
-msgstr ""
-"Password Pusher stöder re-branding \"out of the box\" så att du kan lägga till e"
-"n anpassad logotyp, text och till och med ändra bilder i applikationen."
-
-#: ../../../app/views/pages/faq.html.erb:166
-msgid "Are there any licensing restrictions for me, my company or my organization?"
-msgstr ""
-"Finns det några licensrestriktioner för mig, mitt företag eller min organisati"
-"on?"
-
-#: ../../../app/views/pages/faq.html.erb:172
-msgid ""
-"The source code is released under the Apache 2.0 License and that pretty much "
-"defines any and all limitations. There are quite a few rebranded and redesigne"
-"d clone sites of Password Pusher and I welcome them all."
-msgstr ""
-"Källkoden släpps under Apache 2.0-licensen och det definierar i stort sett all"
-"a begränsningar. Det finns en hel del ommärkta och omdesignade klonsidor av Pa"
-"ssword Pusher och jag välkomnar dem alla."
-
-#: ../../../app/views/pages/faq.html.erb:180
-msgid "Why would I want to run my own private instance of Password Pusher?"
-msgstr "Varför skulle jag vilja köra min egen privata instans av Password Pusher?"
-
-#: ../../../app/views/pages/faq.html.erb:186
-msgid ""
-"Some organizations are bound by security policies that prohibit the use of pub"
-"lic services for sensitive information such as passwords.  There are even orga"
-"nizations that require all tools to be on private intranets without access to "
-"the outside world."
-msgstr ""
-"Vissa organisationer är bundna av säkerhetspolicies som förbjuder användning a"
-"v publika tjänster för känslig information som lösenord. Det finns till och me"
-"d organisationer som kräver att alla verktyg finns på privata intranät utan ti"
-"llgång till omvärlden."
-
-#: ../../../app/views/pages/faq.html.erb:189
-msgid ""
-"It's for these reasons that we provide the ability (and encourage) users and o"
-"rganizations to run private instances when needed."
-msgstr ""
-"Det är av dessa skäl som vi tillhandahåller möjligheten (och uppmuntrar) använ"
-"dare och organisationer att köra privata instanser när det behövs."
-
-#: ../../../app/views/pages/faq.html.erb:197
-msgid "What are the potential security risks of running my own version internally?"
-msgstr ""
-"Vilka är de potentiella säkerhetsriskerna med att köra min egna version intern"
-"t?"
-
-#: ../../../app/views/pages/faq.html.erb:202
-msgid ""
-"Running an private instance of Password Pusher for your company or organizatio"
-"n gives you the peace of mind that you know exactly what code is running.  You"
-" can configure and run it as you like."
-msgstr ""
-"Att köra en privat instans av Password Pusher för ditt företag eller din organ"
-"isation ger dig tryggheten att du vet exakt vilken kod som körs. Du kan konfig"
-"urera och köra den som du vill."
-
-#: ../../../app/views/pages/faq.html.erb:203
-msgid ""
-"On the other hand, if your instance gets hacked and the encryption broken, mal"
-"icious entities now have a targeted dictionary of passwords to brute force acc"
-"ounts in your organization.  Note that this would be limited to pushes which h"
-"aven't yet hit their expiration limits."
-msgstr ""
-"Å andra sidan, om din instans blir hackad och krypteringen bryts, har skadliga"
-" enheter nu en riktad ordbok med lösenord för att brute force-konton i din org"
-"anisation. Observera att detta skulle vara begränsat till pushar som ännu inte"
-" har nått sina utgångsgränser."
-
-#: ../../../app/views/pages/faq.html.erb:204
-msgid ""
-"In this respect, the public instance at pwpush.com may be superior in that it "
-"contains only passwords without identifying information mixed among users from"
-" around the globe."
-msgstr ""
-"I detta avseende kan den offentliga instansen på pwpush.com vara överlägsen ge"
-"nom att den endast innehåller lösenord utan identifierande information blandad"
-" bland användare från hela världen."
-
-#: ../../../app/views/pages/faq.html.erb:205
-msgid ""
-"The user should carefully weigh the pros and cons and decide which route is be"
-"st for them.  We happily support both strategies."
-msgstr ""
-"Användaren bör noggrant väga fördelar och nackdelar och bestämma vilken väg so"
-"m är bäst för dem. Vi stöder gärna båda strategierna."
-
-#: ../../../app/views/pages/faq.html.erb:211
-msgid "Other"
-msgstr "Andra"
-
-#: ../../../app/views/pages/faq.html.erb:217
-msgid ""
-"The URL I sent link seems to have not worked by the time it was received.  Doe"
-"s this happen occasionally and is there a way to prevent this?"
-msgstr ""
-"URL:en jag skickade länken verkar inte ha fungerat när den togs emot. Händer d"
-"etta ibland och finns det något sätt att förhindra detta?"
-
-#: ../../../app/views/pages/faq.html.erb:223
-msgid ""
-"Some systems such as email, firewalls and chat systems often have link scanner"
-"s that can eat up views."
-msgstr ""
-"Vissa system som e-post, brandväggar och chattsystem har ofta länkskannrar som"
-" kan äta upp vyer."
-
-#: ../../../app/views/pages/faq.html.erb:224
-msgid "This is done for security or to simply generate a \"preview\" for chat systems."
-msgstr ""
-"Detta görs för säkerheten eller för att helt enkelt generera en \"förhandsvisni"
-"ng\" för chattsystem."
-
-#: ../../../app/views/pages/faq.html.erb:227
-msgid "To prevent this, use the 1-click retrieval step option when pushing passwords."
-msgstr ""
-"För att förhindra detta, använd alternativet för 1-klickshämtning när du skick"
-"ar lösenord."
-
-#: ../../../app/views/pages/faq.html.erb:228
-msgid ""
-"This requires the users to click through a preliminary page to protect views f"
-"rom such scanners."
-msgstr ""
-"Detta kräver att användarna klickar sig igenom en preliminär sida för att skyd"
-"da vyer från sådana skannrar."
-
-#: ../../../app/views/pages/faq.html.erb:232
-msgid ""
-"As an additional preventative measure, if you create an account, an audit log "
-"is provided for every push created."
-msgstr ""
-"Som en ytterligare förebyggande åtgärd, om du skapar ett konto, tillhandahålls"
-" en revisionslogg för varje push som skapas."
-
-#: ../../../app/views/pages/faq.html.erb:233
-msgid "This audit log can reveal by who and when the push was viewed."
-msgstr "Denna granskningslogg kan avslöja av vem och när pushen sågs."
-
-#: ../../../app/views/pages/faq.html.erb:242
-msgid "Can I use Password Pusher in my talk/presentation/conference?"
-msgstr "Kan jag använda Password Pusher i mitt presentation/konferens?"
-
-#: ../../../app/views/pages/faq.html.erb:247
-msgid ""
-"Absolutely.  If you need any resources such as statistics, graphics or anythin"
-"g else, don't hesitate to contact me: pglombardo at pwpush.com."
-msgstr ""
-"Absolut. Om du behöver några resurser så som statistik, grafik eller något ann"
-"at, tveka inte att kontakta mig: pglombardo snabel-a pwpush.com."
-
-#: ../../../app/views/pages/faq.html.erb:254
-msgid "Could you add a specific feature for my organization?"
-msgstr "Kan du lägga till en specifik funktion för min organisation?"
-
-#: ../../../app/views/pages/faq.html.erb:259
-msgid ""
-"Very likely.  I love to hear all ideas and feedback. If you have any, please s"
-"ubmit them to the "
-msgstr ""
-"Väldigt troligt. Jag älskar att höra alla idéer och feedback. Om du har några,"
-" vänligen skicka dem till"
-
-#: ../../../app/views/pages/faq.html.erb:260
-msgid "Github repository"
-msgstr "Github-arkiv"
-
-#: ../../../app/views/pages/faq.html.erb:260
-msgid "and I will respond as soon as possible."
-msgstr "och jag svarar så snart som möjligt."
-
-#: ../../../app/views/pages/faq.html.erb:267
-msgid "How do you make money?"
-msgstr "Hur tjänar du pengar?"
-
-#: ../../../app/views/pages/faq.html.erb:272
-msgid ""
-"This is an opensource project made out of love for technology and a desire to "
-"improve the security (and daily lives) of the tech community."
-msgstr ""
-"Detta är ett öppen källkodsprojekt gjord av kärlek till teknik och en önskan a"
-"tt förbättra säkerheten (och vardagen) för teknikgemenskapen."
-
-#: ../../../app/views/pages/faq.html.erb:275
-msgid ""
-"It doesn't make any money but it does incur hosting that are about $50/month f"
-"or pwpush.com."
-msgstr ""
-"Det tjänar inga pengar men det medför hosting som kostar cirka $50/månad för p"
-"wpush.com."
-
-#: ../../../app/views/pages/faq.html.erb:276
-msgid "These are happily paid out of pocket by myself for more than 10 years."
-msgstr "Dessa betalas med glädje av mig själv i mer än 10 år."
-
-#: ../../../app/views/pages/faq.html.erb:280
-msgid ""
-"If you feel inclined to support Password Pusher, you can sign up to Digital Oc"
-"ean using the badge below."
-msgstr ""
-"Om du känner dig benägen att stödja Password Pusher kan du registrera dig för "
-"Digital Ocean med hjälp av märket nedan."
-
-#: ../../../app/views/pages/faq.html.erb:281
-msgid "Password Pusher will get a hosting credit for the first $25 you spend."
-msgstr "Password Pusher får en värdkredit för de första $25 du spenderar."
-
-#: ../../../app/views/pages/faq.html.erb:290
-msgid ""
-"For other ways to support Password Pusher, see also the \"Want to help out?\" se"
-"ction"
-msgstr ""
-"För andra sätt att stödja Password Pusher, se även \"Vill du hjälpa till?\" sekt"
-"ion"
-
-#: ../../../app/views/pages/faq.html.erb:291
-msgid "on the about page"
-msgstr "på sidan Om"
-
-#: ../../../app/views/pages/faq.html.erb:292
-msgid "Thank you!"
-msgstr "Tack!"
 
 #: ../../../app/views/pages/generate_key.html.erb:1
 msgid "Generate Key"
@@ -2083,13 +1530,6 @@ msgstr ""
 #: ../../../app/views/pages/generate_key.html.erb:22
 msgid "Generated Encryption Key"
 msgstr "Genererad krypteringsnyckel"
-
-#: ../../../app/views/pages/generate_key.html.erb:26
-#: ../../../app/views/pages/generate_key.html.erb:39
-#: ../../../app/views/shared/_copy_button.html.erb:2
-#: ../../../app/views/shared/_secret_url_bar.html.erb:26
-msgid "Copy to Clipboard"
-msgstr "Kopiera till urklipp"
 
 #: ../../../app/views/pages/generate_key.html.erb:32
 msgid "You can apply this key to your application by setting the environment variable"
@@ -2153,176 +1593,6 @@ msgstr "Se även Password Pusher"
 msgid "Configuration documentation"
 msgstr "Konfigurationsdokumentation"
 
-#: ../../../app/views/pages/tools.html.erb:1
-#: ../../../app/views/pages/tools.html.erb:3
-msgid "Tools & Applications"
-msgstr "Verktyg & Applikationer"
-
-#: ../../../app/views/pages/tools.html.erb:5
-msgid ""
-"Using the JSON API, various tools exist to interface with Password Pusher to a"
-"utomate password distribution."
-msgstr ""
-"Med hjälp av JSON-API finns det olika verktyg för att använda Password Pusher "
-"för att automatisera lösenordsdistribution."
-
-#: ../../../app/views/pages/tools.html.erb:7
-msgid ""
-"We have no limits on how many passwords you can push (and have no intentions o"
-"f adding limits) but we do have a rate limiter so the site doesn’t get taken d"
-"own by bad scripts or bad actors.  Limit your tools to maximum 1 password ever"
-"y few seconds and you should be fine."
-msgstr ""
-"Vi har inga gränser för hur många lösenord du kan pusha (och har inga avsikter"
-" att lägga till det) men vi har en begränsning så att webbplatsen inte tas ner"
-" av dåliga skript eller dåliga aktörer. Begränsa dina verktyg till maximalt et"
-"t lösenord med några sekunders mellanrum och det borde gå bra."
-
-#: ../../../app/views/pages/tools.html.erb:11
-msgid "Command Line Utilities"
-msgstr "Kommandoradsverktyg"
-
-#: ../../../app/views/pages/tools.html.erb:49
-msgid "Applications"
-msgstr "Applikationer"
-
-#: ../../../app/views/pages/tools.html.erb:74
-msgid ""
-"This API allows you to interface with Password Pusher via JSON.  This can be u"
-"tilized by existing utilities such as curl, wget or any programming language. "
-" See the examples below for some ideas."
-msgstr ""
-"Med detta API kan du ansluta med Password Pusher via JSON. Detta kan användas "
-"av befintliga verktyg som curl, wget eller något programmeringsspråk. Se exemp"
-"len nedan för några idéer."
-
-#: ../../../app/views/pages/tools.html.erb:77
-msgid "API Endpoint Documentation"
-msgstr "API Endpoint Documentation"
-
-#: ../../../app/views/pages/tools.html.erb:78
-msgid "Walkthrough & Examples"
-msgstr "Genomgång & exempel"
-
-#: ../../../app/views/pages/tools.html.erb:81
-msgid "Examples"
-msgstr "Exempel"
-
-#: ../../../app/views/pages/tools.html.erb:90
-msgid ""
-"You can test this in your browser Javascript console by going to the front pag"
-"e of Password Pusher and enter:"
-msgstr ""
-"Du kan testa detta i din webbläsares Javascript-konsol genom att gå till först"
-"asidan av Password Pusher och ange:"
-
-#: ../../../app/views/pages/tools.html.erb:112
-msgid "See more explanation and examples in our"
-msgstr "Se mer förklaringar och exempel i vår"
-
-#: ../../../app/views/pages/translate.html.erb:1
-msgid "Help Translate Password Pusher!"
-msgstr "Hjälp till med att översätta Password Pusher!"
-
-#: ../../../app/views/pages/translate.html.erb:6
-msgid ""
-"We would love to add as many languages as possible but we need help from fluen"
-"t speakers in creating and verifying translations."
-msgstr ""
-"Vi skulle gärna lägga till så många språk som möjligt men vi behöver hjälp frå"
-"n flytande talare med att skapa och verifiera översättningar."
-
-#: ../../../app/views/pages/translate.html.erb:9
-msgid "How it Works"
-msgstr "Hur det fungerar"
-
-#: ../../../app/views/pages/translate.html.erb:12
-msgid "We use"
-msgstr "Vi använder"
-
-#: ../../../app/views/pages/translate.html.erb:14
-msgid "to manage our translation effort.  It has a simple to use interface."
-msgstr "för att hantera översättningar. Det har ett lättanvänt gränssnitt."
-
-#: ../../../app/views/pages/translate.html.erb:18
-msgid ""
-"Translations are done initially by machine using Google Translate.  It's the t"
-"ranslators job to select the correct translation\n"
-"and add any fixes as needed."
-msgstr ""
-"Översättningar görs initialt maskinellt med Google Translate. Det är översätta"
-"rnas jobb att välja rätt översättning och lägg till eventuella korrigeringar e"
-"fter behov."
-
-#: ../../../app/views/pages/translate.html.erb:23
-msgid ""
-"Translations for an entirely new language can be done in less than an hour for"
-" native speakers."
-msgstr ""
-"Översättningar till ett helt nytt språk kan göras på mindre än en timme för mo"
-"dersmålstalare."
-
-#: ../../../app/views/pages/translate.html.erb:27
-msgid "Read more: "
-msgstr "Läs mer:"
-
-#: ../../../app/views/pages/translate.html.erb:28
-msgid "How to use our translation interface?"
-msgstr "Hur använder man översättningsgränssnittet?"
-
-#: ../../../app/views/pages/translate.html.erb:31
-msgid "How to Join"
-msgstr "Hur du går med"
-
-#: ../../../app/views/pages/translate.html.erb:34
-msgid "To join the translation effort:"
-msgstr "Så här går du med i översättningsarbetet:"
-
-#: ../../../app/views/pages/translate.html.erb:39
-msgid "Register for a free account on"
-msgstr "Registrera dig för ett gratis konto på"
-
-#: ../../../app/views/pages/translate.html.erb:43
-msgid "Send me a message"
-msgstr "Skicka ett meddelande till mig"
-
-#: ../../../app/views/pages/translate.html.erb:44
-msgid ""
-"with your translation.io username and which language you would like to work on"
-"."
-msgstr "med ditt användarnamn på translation.io och vilket språk du vill arbeta med."
-
-#: ../../../app/views/pages/translate.html.erb:49
-msgid "...and I'll add you to our translation project."
-msgstr "... så lägger jag till dig i vårt översättningsprojekt."
-
-#: ../../../app/views/pages/translate.html.erb:52
-msgid "Translation Tips"
-msgstr "Översättningstips"
-
-#: ../../../app/views/pages/translate.html.erb:54
-msgid ""
-"If the source text is capitalized, try to maintain similar capitalization in t"
-"he translated text as well (assuming it's permitted syntactically in the targe"
-"t language)."
-msgstr ""
-"Om källtexten är stor, försök att behålla liknande versaler också i den översa"
-"tta texten (förutsatt att det är tillåtet syntaktiskt på målspråket)."
-
-#: ../../../app/views/pages/translate.html.erb:55
-msgid ""
-"If you see embedded codes such as \"%s\", {%file} or similar, leave those fully "
-"intact in the target translation.  These are substitution codes used in the ap"
-"plication."
-msgstr ""
-"Om du ser inbäddade koder som \"%s\", {%file} eller liknande, lämna dem helt int"
-"akta i målöversättningen. Dessa är substitutionskoder som används i applikatio"
-"nen."
-
-#: ../../../app/views/pages/translate.html.erb:59
-msgid "Thanks for helping to translate Password Pusher!"
-msgstr "Tack för att du hjälper till med att översätta Password Pusher!"
-
 #: ../../../app/views/passwords/active.html.erb:1
 #: ../../../app/views/passwords/active.html.erb:18
 msgid "Active Password Pushes"
@@ -2361,10 +1631,6 @@ msgstr "Antalet gånger detta lösenord har visats före utgången."
 #: ../../../app/views/passwords/audit.html.erb:113
 msgid "The number of times this password has been viewed after expiration."
 msgstr "Antalet gånger detta lösenord har visats efter utgången."
-
-#: ../../../app/views/passwords/audit.html.erb:184
-msgid "Password manually expired by an anonymous user"
-msgstr "Lösenordet har löpt ut manuellt av en anonym användare"
 
 #: ../../../app/views/passwords/expired.html.erb:1
 #: ../../../app/views/passwords/expired.html.erb:15
@@ -2431,15 +1697,15 @@ msgstr ""
 msgid "Your Password has been Pushed"
 msgstr "Ditt lösenord har pushats"
 
-#: ../../../app/views/passwords/preview.html.erb:12
+#: ../../../app/views/passwords/preview.html.erb:56
 msgid "This newly pushed password will expire after"
 msgstr "Det här nya lösenordet löper ut efter"
 
-#: ../../../app/views/passwords/preview.html.erb:30
+#: ../../../app/views/passwords/preview.html.erb:74
 msgid "View This Password Now"
 msgstr "Se det här lösenordet nu"
 
-#: ../../../app/views/passwords/preview.html.erb:31
+#: ../../../app/views/passwords/preview.html.erb:75
 msgid "Push Another Password"
 msgstr "Pusha ett nytt lösenord"
 
@@ -2501,6 +1767,10 @@ msgstr "Framsida"
 msgid "Docker Containers"
 msgstr "Docker-containers"
 
+#: ../../../app/views/shared/_footer.html.erb:34
+msgid "FAQ"
+msgstr "FAQ"
+
 #: ../../../app/views/shared/_footer.html.erb:35
 msgid "JSON API"
 msgstr "JSON API"
@@ -2513,57 +1783,41 @@ msgstr "Nyckelgenerator"
 msgid "Source Code"
 msgstr "Källkod"
 
+#: ../../../app/views/shared/_footer.html.erb:43
+msgid "Tools"
+msgstr "Verktyg"
+
 #: ../../../app/views/shared/_footer.html.erb:51
 msgid "Overview"
 msgstr "Översikt"
 
 #: ../../../app/views/shared/_footer.html.erb:52
-msgid "Help Translate!"
-msgstr "Hjälp till att översätta"
+msgid "Documentation"
+msgstr "Dokumentation"
 
 #: ../../../app/views/shared/_header.html.erb:37
 msgid "Account"
 msgstr "Konto"
 
-#: ../../../app/views/shared/_header.html.erb:41
+#: ../../../app/views/shared/_header.html.erb:42
+msgid "Admin Dashboard"
+msgstr "Admin Dashboard"
+
+#: ../../../app/views/shared/_header.html.erb:46
 msgid "Edit Login Details"
 msgstr "Redigera inloggningsuppgifter"
 
-#: ../../../app/views/shared/_header.html.erb:47
+#: ../../../app/views/shared/_header.html.erb:52
 msgid "Log Out"
 msgstr "Logga ut"
 
-#: ../../../app/views/shared/_header.html.erb:53
+#: ../../../app/views/shared/_header.html.erb:58
 msgid "Log In"
 msgstr "Logga in"
 
-#: ../../../app/views/shared/_header.html.erb:57
+#: ../../../app/views/shared/_header.html.erb:62
 msgid "Sign Up"
 msgstr "Registrering"
-
-#: ../../../app/views/shared/_lang_selector_modal.erb:6
-msgid "Select your language"
-msgstr "Välj ditt språk"
-
-#: ../../../app/views/shared/_newsletter_sign_up.html.erb:3
-msgid "Get The Newsletter"
-msgstr "Få nyhetsbrevet"
-
-#: ../../../app/views/shared/_newsletter_sign_up.html.erb:5
-msgid ""
-"Updates on big releases, security issues, features, integrations, tips and mor"
-"e."
-msgstr ""
-"Uppdateringar om stora releaser, säkerhetsproblem, funktioner, integrationer, "
-"tips och mer."
-
-#: ../../../app/views/shared/_newsletter_sign_up.html.erb:13
-msgid "Enter your email..."
-msgstr "Ange din e-postadress..."
-
-#: ../../../app/views/shared/_newsletter_sign_up.html.erb:14
-msgid "Subscribe"
-msgstr "Prenumerera"
 
 #: ../../../app/views/shared/_pw_generator_modal.html.erb:5
 msgid "Configure Password Generation"
@@ -2616,10 +1870,6 @@ msgstr "Konsonanter"
 #: ../../../app/views/shared/_pw_generator_modal.html.erb:71
 msgid "Reset to Defaults"
 msgstr "Återställ till standard"
-
-#: ../../../app/views/shared/_secret_url_bar.html.erb:13
-msgid "Secret Link Language"
-msgstr "Hemligt länkspråk"
 
 #: ../../../app/views/urls/active.html.erb:1
 #: ../../../app/views/urls/active.html.erb:18
@@ -2681,11 +1931,3 @@ msgstr "En hemlig URL kommer att genereras som omdirigerar till den angivna URL:
 #: ../../../app/views/urls/new.html.erb:124
 msgid "Upon expiration, the push URL will be deleted entirely."
 msgstr "När push-webbadressen löper ut kommer den att raderas helt."
-
-#: ../../../app/views/urls/new_anonymous.html.erb:1
-msgid "Securely Share URLs"
-msgstr "Dela webbadresser på ett säkert sätt"
-
-#: ../../../app/views/urls/new_anonymous.html.erb:9
-msgid "Securely Send URLs That Expire Automatically"
-msgstr "Skicka webbadresser som löper ut automatiskt på ett säkert sätt"

@@ -1,14 +1,14 @@
-# Chinese translations for PasswordPusher package.
-# Copyright (C) 2024 PasswordPusher
-# This file is distributed under the same license as the PasswordPusher package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# Chinese translations for pwpush package.
+# Copyright (C) 2025 pwpush
+# This file is distributed under the same license as the pwpush package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PasswordPusher 1.0\n"
+"Project-Id-Version: pwpush 1.0\n"
 "Report-Msgid-Bugs-To: contact@translation.io\n"
-"POT-Creation-Date: 2024-03-13 23:52+0100\n"
-"PO-Revision-Date: 2024-03-13 23:52+0100\n"
+"POT-Creation-Date: 2025-03-11 13:39+0100\n"
+"PO-Revision-Date: 2025-03-11 13:39+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Chinese\n"
 "Language: zh_CN\n"
@@ -18,85 +18,76 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "\n"
 
-#: ../../../app/controllers/application_controller.rb:24
-msgid "Not Found"
-msgstr "未找到"
+#: ../../../app/controllers/api/v1/file_pushes_controller.rb:256
+#: ../../../app/controllers/api/v1/passwords_controller.rb:293
+#: ../../../app/controllers/file_pushes_controller.rb:178
+#: ../../../app/controllers/passwords_controller.rb:192
+msgid "That push is not deletable by viewers and does not belong to you."
+msgstr "该推送无法被观众删除，并且不属于您。"
 
-#: ../../../app/controllers/feedbacks_controller.rb:15
-msgid ""
-"Our apologies but you failed the spam check.  You could try contacting us on G"
-"ithub instead."
-msgstr "抱歉，您未通过垃圾邮件检查。您可以尝试在 Github 上联系我们。"
+#: ../../../app/controllers/api/v1/file_pushes_controller.rb:261
+#: ../../../app/controllers/api/v1/passwords_controller.rb:298
+#: ../../../app/controllers/api/v1/urls_controller.rb:253
+#: ../../../app/controllers/file_pushes_controller.rb:183
+#: ../../../app/controllers/passwords_controller.rb:197
+msgid "That push is already expired."
+msgstr "该推送已经过期。"
 
-#: ../../../app/controllers/feedbacks_controller.rb:21
-msgid "Feedback sent!  We will get back to you as soon as possible."
-msgstr "反馈已发送！我们会尽快回复您。"
+#: ../../../app/controllers/api/v1/file_pushes_controller.rb:307
+#: ../../../app/controllers/api/v1/urls_controller.rb:298
+msgid "You must be logged in to view your active pushes."
+msgstr "您必须登录才能查看您的活动推送。"
 
-#: ../../../app/controllers/feedbacks_controller.rb:24
-msgid ""
-"Could not send feedback.  Did you pass the Humanity Test?  Valid email?  Try a"
-"gain?"
-msgstr "无法发送反馈。你是否通过了防垃圾测试？电子邮件是否有效？再试一次？"
+#: ../../../app/controllers/api/v1/file_pushes_controller.rb:349
+msgid "You must be logged in to view your expired pushes."
+msgstr "您必须登录才能查看已过期的推送。"
 
-#: ../../../app/controllers/file_pushes_controller.rb:105
-#: ../../../app/controllers/passwords_controller.rb:163
-#: ../../../app/controllers/urls_controller.rb:155
+#: ../../../app/controllers/api/v1/urls_controller.rb:132
+#: ../../../app/controllers/urls_controller.rb:116
+msgid "Invalid URL: Must have a valid URI scheme."
+msgstr "无效的 URL：必须有一个有效的 URI 方案。"
+
+#: ../../../app/controllers/api/v1/urls_controller.rb:248
+#: ../../../app/controllers/urls_controller.rb:187
+msgid "That push does not belong to you."
+msgstr "那个推送不属于你。"
+
+#: ../../../app/controllers/file_pushes_controller.rb:91
+#: ../../../app/controllers/passwords_controller.rb:86
+#: ../../../app/controllers/urls_controller.rb:89
 msgid ""
 "That passphrase is incorrect.  Please try again or contact the person or organ"
 "ization that sent you this link."
 msgstr "该密码不正确。请重试或联系向您发送此链接的个人或组织。"
 
-#: ../../../app/controllers/file_pushes_controller.rb:149
-msgid ""
-"Only 20 active file pushes allowed while in Beta. If it's an option, you can m"
-"anually expire existing pushes before creating new ones."
-msgstr "Beta 版中仅允许 20 个活动文件推送。如果可以选择，您可以在创建新推送之前手动使现有推送过期。"
-
-#: ../../../app/controllers/file_pushes_controller.rb:228
-#: ../../../app/controllers/passwords_controller.rb:305
-#: ../../../app/controllers/urls_controller.rb:297
+#: ../../../app/controllers/file_pushes_controller.rb:168
+#: ../../../app/controllers/passwords_controller.rb:182
+#: ../../../app/controllers/urls_controller.rb:177
 msgid "That push doesn't belong to you."
 msgstr "那个推送不属于你。"
 
-#: ../../../app/controllers/file_pushes_controller.rb:258
-#: ../../../app/controllers/passwords_controller.rb:336
-#: ../../../app/controllers/urls_controller.rb:328
-#: ../../../app/controllers/urls_controller.rb:332
-msgid "That push does not belong to you."
-msgstr "那个推送不属于你。"
-
-#: ../../../app/controllers/file_pushes_controller.rb:263
-#: ../../../app/controllers/passwords_controller.rb:341
-msgid "That push is not deletable by viewers."
-msgstr "观看者无法删除那个推送。"
-
-#: ../../../app/controllers/file_pushes_controller.rb:269
-#: ../../../app/controllers/file_pushes_controller.rb:270
-#: ../../../app/controllers/passwords_controller.rb:347
-#: ../../../app/controllers/passwords_controller.rb:348
-#: ../../../app/controllers/urls_controller.rb:338
-#: ../../../app/controllers/urls_controller.rb:339
-msgid "That push is already expired."
-msgstr "该推送已经过期。"
-
-#: ../../../app/controllers/file_pushes_controller.rb:288
-#: ../../../app/controllers/file_pushes_controller.rb:291
-#: ../../../app/controllers/passwords_controller.rb:365
-#: ../../../app/controllers/passwords_controller.rb:368
-#: ../../../app/controllers/urls_controller.rb:356
-#: ../../../app/controllers/urls_controller.rb:359
+#: ../../../app/controllers/file_pushes_controller.rb:196
+#: ../../../app/controllers/passwords_controller.rb:209
+#: ../../../app/controllers/urls_controller.rb:204
 #: ../../../app/views/file_pushes/audit.html.erb:97
-#: ../../../app/views/file_pushes/audit.html.erb:254
+#: ../../../app/views/file_pushes/audit.html.erb:257
 #: ../../../app/views/passwords/audit.html.erb:97
 #: ../../../app/views/passwords/audit.html.erb:188
 #: ../../../app/views/urls/audit.html.erb:84
-#: ../../../app/views/urls/audit.html.erb:170
+#: ../../../app/views/urls/audit.html.erb:171
 msgid "The push content has been deleted and the secret URL expired."
 msgstr "推送内容已被删除，密文网址已过期。"
 
-#: ../../../app/controllers/urls_controller.rb:206
-msgid "Invalid URL: Must have a valid URI scheme."
-msgstr "无效的 URL：必须有一个有效的 URI 方案。"
+#: ../../../app/views/application/_secret_url_bar.html.erb:17
+msgid "Secret Link Language"
+msgstr "秘密链接语言"
+
+#: ../../../app/views/application/_secret_url_bar.html.erb:35
+#: ../../../app/views/pages/generate_key.html.erb:26
+#: ../../../app/views/pages/generate_key.html.erb:39
+#: ../../../app/views/shared/_copy_button.html.erb:2
+msgid "Copy to Clipboard"
+msgstr "复制到剪贴板"
 
 #: ../../../app/views/devise/mailer/confirmation_instructions.html.erb:8
 #: ../../../app/views/devise/mailer/email_changed.html.erb:8
@@ -227,12 +218,12 @@ msgstr "至少需要 %d 个字符，且越多越好。"
 msgid "Change Email"
 msgstr "更改电子邮件"
 
-#: ../../../app/views/devise/registrations/edit.html.erb:38
+#: ../../../app/views/devise/registrations/edit.html.erb:46
 msgid "Current Password"
 msgstr "当前密码"
 
 #: ../../../app/views/devise/registrations/token.html.erb:2
-#: ../../../app/views/shared/_header.html.erb:44
+#: ../../../app/views/shared/_header.html.erb:49
 msgid "API Token"
 msgstr "API令牌"
 
@@ -294,7 +285,7 @@ msgstr "将在其原处生成一个新令牌。"
 
 #: ../../../app/views/devise/registrations/token.html.erb:49
 #: ../../../app/views/file_pushes/audit.html.erb:214
-#: ../../../app/views/file_pushes/show.html.erb:74
+#: ../../../app/views/file_pushes/show.html.erb:75
 #: ../../../app/views/passwords/audit.html.erb:145
 #: ../../../app/views/passwords/show.html.erb:58
 #: ../../../app/views/urls/audit.html.erb:132
@@ -303,7 +294,7 @@ msgstr "你确定吗？"
 
 #: ../../../app/views/devise/registrations/token.html.erb:52
 #: ../../../app/views/file_pushes/audit.html.erb:217
-#: ../../../app/views/file_pushes/show.html.erb:77
+#: ../../../app/views/file_pushes/show.html.erb:78
 #: ../../../app/views/passwords/audit.html.erb:148
 #: ../../../app/views/passwords/show.html.erb:61
 #: ../../../app/views/urls/audit.html.erb:135
@@ -316,7 +307,7 @@ msgstr "删除并重新生成"
 
 #: ../../../app/views/devise/registrations/token.html.erb:53
 #: ../../../app/views/file_pushes/audit.html.erb:218
-#: ../../../app/views/file_pushes/show.html.erb:78
+#: ../../../app/views/file_pushes/show.html.erb:79
 #: ../../../app/views/passwords/audit.html.erb:149
 #: ../../../app/views/passwords/show.html.erb:62
 #: ../../../app/views/urls/audit.html.erb:136
@@ -324,49 +315,12 @@ msgid "Processing..."
 msgstr "处理中……"
 
 #: ../../../app/views/devise/sessions/new.html.erb:7
-#: ../../../app/views/feedbacks/new.html.erb:20
 msgid "Email"
 msgstr "电子邮件"
 
 #: ../../../app/views/devise/sessions/new.html.erb:12
 msgid "Password"
 msgstr "密码"
-
-#: ../../../app/views/devise/shared/_links.html.erb:39
-#: ../../../app/views/shared/_header.html.erb:65
-msgid "Language"
-msgstr "语言"
-
-#: ../../../app/views/feedbacks/new.html.erb:1
-#: ../../../app/views/feedbacks/new.html.erb:2
-#: ../../../app/views/feedbacks/new.html.erb:42
-#: ../../../app/views/shared/_footer.html.erb:53
-msgid "Send Feedback"
-msgstr "发送反馈"
-
-#: ../../../app/views/feedbacks/new.html.erb:8
-msgid ""
-"Have an idea or wish?  Something you don't like?  Want to help out?  We want t"
-"o hear it!"
-msgstr "有想法或愿望吗？你不喜欢什么？想帮忙吗？我们希望听到它！"
-
-#: ../../../app/views/feedbacks/new.html.erb:15
-msgid "Your Name"
-msgstr "您的姓名"
-
-#: ../../../app/views/feedbacks/new.html.erb:29
-msgid "What is one hundred minus 3?"
-msgstr "一百减3是多少？"
-
-#: ../../../app/views/feedbacks/new.html.erb:34
-msgid ""
-"Tip: Copy your message to the clipboard in the unlikely chance submission fail"
-"s."
-msgstr "提示：将您的消息复制到剪贴板，以防发生不太常见的提交失败的情况。"
-
-#: ../../../app/views/feedbacks/new.html.erb:39
-msgid "Leave this field blank!"
-msgstr "将此字段留空！"
 
 #: ../../../app/views/file_pushes/active.html.erb:1
 #: ../../../app/views/file_pushes/active.html.erb:18
@@ -441,8 +395,8 @@ msgstr "天"
 
 #: ../../../app/views/file_pushes/active.html.erb:39
 #: ../../../app/views/file_pushes/audit.html.erb:19
-#: ../../../app/views/file_pushes/audit.html.erb:270
-#: ../../../app/views/file_pushes/audit.html.erb:282
+#: ../../../app/views/file_pushes/audit.html.erb:273
+#: ../../../app/views/file_pushes/audit.html.erb:285
 #: ../../../app/views/file_pushes/expired.html.erb:31
 #: ../../../app/views/passwords/active.html.erb:38
 #: ../../../app/views/passwords/audit.html.erb:19
@@ -451,8 +405,8 @@ msgstr "天"
 #: ../../../app/views/passwords/expired.html.erb:32
 #: ../../../app/views/urls/active.html.erb:38
 #: ../../../app/views/urls/audit.html.erb:19
-#: ../../../app/views/urls/audit.html.erb:186
-#: ../../../app/views/urls/audit.html.erb:198
+#: ../../../app/views/urls/audit.html.erb:187
+#: ../../../app/views/urls/audit.html.erb:199
 #: ../../../app/views/urls/expired.html.erb:31
 msgid "None"
 msgstr "无"
@@ -784,7 +738,7 @@ msgid ""
 msgstr "审核日志（包括未来尝试的查看）仍将继续维护。"
 
 #: ../../../app/views/file_pushes/audit.html.erb:218
-#: ../../../app/views/file_pushes/show.html.erb:78
+#: ../../../app/views/file_pushes/show.html.erb:79
 #: ../../../app/views/passwords/audit.html.erb:149
 #: ../../../app/views/passwords/show.html.erb:62
 #: ../../../app/views/urls/audit.html.erb:136
@@ -816,63 +770,67 @@ msgstr "当推送接收到活动时，每个带有活动识别信息的日志都
 msgid "Password manually expired by user"
 msgstr "密码在用户手动操作后过期"
 
-#: ../../../app/views/file_pushes/audit.html.erb:249
-#: ../../../app/views/passwords/audit.html.erb:180
-#: ../../../app/views/passwords/audit.html.erb:186
+#: ../../../app/views/file_pushes/audit.html.erb:250
+#: ../../../app/views/passwords/audit.html.erb:181
+msgid "Password manually expired by an anonymous user"
+msgstr "匿名用户手动使密码过期"
+
+#: ../../../app/views/file_pushes/audit.html.erb:252
+#: ../../../app/views/passwords/audit.html.erb:183
 #: ../../../app/views/urls/audit.html.erb:167
 msgid "at IP address"
 msgstr "在IP地址"
 
-#: ../../../app/views/file_pushes/audit.html.erb:250
-#: ../../../app/views/file_pushes/audit.html.erb:265
-#: ../../../app/views/file_pushes/audit.html.erb:277
-#: ../../../app/views/passwords/audit.html.erb:181
+#: ../../../app/views/file_pushes/audit.html.erb:254
+#: ../../../app/views/file_pushes/audit.html.erb:268
+#: ../../../app/views/file_pushes/audit.html.erb:280
+#: ../../../app/views/passwords/audit.html.erb:185
 #: ../../../app/views/passwords/audit.html.erb:199
 #: ../../../app/views/passwords/audit.html.erb:211
-#: ../../../app/views/urls/audit.html.erb:181
-#: ../../../app/views/urls/audit.html.erb:193
+#: ../../../app/views/urls/audit.html.erb:182
+#: ../../../app/views/urls/audit.html.erb:194
 msgid "on"
 msgstr "在"
 
-#: ../../../app/views/file_pushes/audit.html.erb:256
-#: ../../../app/views/file_pushes/audit.html.erb:268
-#: ../../../app/views/file_pushes/audit.html.erb:280
+#: ../../../app/views/file_pushes/audit.html.erb:259
+#: ../../../app/views/file_pushes/audit.html.erb:271
+#: ../../../app/views/file_pushes/audit.html.erb:283
 #: ../../../app/views/passwords/audit.html.erb:190
 #: ../../../app/views/passwords/audit.html.erb:202
 #: ../../../app/views/passwords/audit.html.erb:214
-#: ../../../app/views/urls/audit.html.erb:172
-#: ../../../app/views/urls/audit.html.erb:184
-#: ../../../app/views/urls/audit.html.erb:196
+#: ../../../app/views/urls/audit.html.erb:173
+#: ../../../app/views/urls/audit.html.erb:185
+#: ../../../app/views/urls/audit.html.erb:197
 msgid "User Agent"
 msgstr "用户代理"
 
-#: ../../../app/views/file_pushes/audit.html.erb:258
-#: ../../../app/views/file_pushes/audit.html.erb:270
-#: ../../../app/views/file_pushes/audit.html.erb:282
+#: ../../../app/views/file_pushes/audit.html.erb:261
+#: ../../../app/views/file_pushes/audit.html.erb:273
+#: ../../../app/views/file_pushes/audit.html.erb:285
 #: ../../../app/views/passwords/audit.html.erb:192
 #: ../../../app/views/passwords/audit.html.erb:204
 #: ../../../app/views/passwords/audit.html.erb:216
-#: ../../../app/views/urls/audit.html.erb:174
-#: ../../../app/views/urls/audit.html.erb:186
-#: ../../../app/views/urls/audit.html.erb:198
+#: ../../../app/views/urls/audit.html.erb:175
+#: ../../../app/views/urls/audit.html.erb:187
+#: ../../../app/views/urls/audit.html.erb:199
 msgid "Referrer"
 msgstr "请求Referrer"
 
-#: ../../../app/views/file_pushes/audit.html.erb:263
+#: ../../../app/views/file_pushes/audit.html.erb:266
 #: ../../../app/views/passwords/audit.html.erb:197
-#: ../../../app/views/urls/audit.html.erb:179
+#: ../../../app/views/urls/audit.html.erb:180
 msgid "Successful view from IP address"
 msgstr "从IP地址查看成功"
 
-#: ../../../app/views/file_pushes/audit.html.erb:275
+#: ../../../app/views/file_pushes/audit.html.erb:278
 #: ../../../app/views/passwords/audit.html.erb:209
-#: ../../../app/views/urls/audit.html.erb:191
+#: ../../../app/views/urls/audit.html.erb:192
 msgid "Failed view attempt (already expired) by"
 msgstr "失败的查看（已过期）"
 
-#: ../../../app/views/file_pushes/audit.html.erb:286
+#: ../../../app/views/file_pushes/audit.html.erb:289
 #: ../../../app/views/passwords/audit.html.erb:220
-#: ../../../app/views/urls/audit.html.erb:202
+#: ../../../app/views/urls/audit.html.erb:203
 msgid "End of Audit Log"
 msgstr "审计日志结束"
 
@@ -909,7 +867,6 @@ msgid "Audit Log"
 msgstr "审计日志"
 
 #: ../../../app/views/file_pushes/new.html.erb:1
-#: ../../../app/views/file_pushes/new_anonymous.html.erb:1
 msgid "Securely Send Files"
 msgstr "安全地发送文件"
 
@@ -924,11 +881,14 @@ msgid "Expire secret link and delete after:"
 msgstr "秘密链接将在以下情况过期并被删除："
 
 #: ../../../app/views/file_pushes/new.html.erb:78
-#: ../../../app/views/file_pushes/preview.html.erb:16
+#: ../../../app/views/file_pushes/preview.html.erb:60
+#: ../../../app/views/file_pushes/print_preview.html.erb:16
 #: ../../../app/views/passwords/new.html.erb:86
-#: ../../../app/views/passwords/preview.html.erb:16
+#: ../../../app/views/passwords/preview.html.erb:60
+#: ../../../app/views/passwords/print_preview.html.erb:16
 #: ../../../app/views/urls/new.html.erb:73
-#: ../../../app/views/urls/preview.html.erb:16
+#: ../../../app/views/urls/preview.html.erb:60
+#: ../../../app/views/urls/print_preview.html.erb:16
 msgid "(whichever comes first)"
 msgstr "（以先到者为准）"
 
@@ -970,7 +930,7 @@ msgstr "加密且对接收方可见"
 #: ../../../app/views/passwords/new.html.erb:159
 #: ../../../app/views/urls/new.html.erb:111
 msgid "Optional"
-msgstr "选修的"
+msgstr "可选的"
 
 #: ../../../app/views/file_pushes/new.html.erb:141
 #: ../../../app/views/passwords/new.html.erb:162
@@ -995,20 +955,6 @@ msgstr "活动的审核日志将可用。"
 msgid "Push It!"
 msgstr "发布！"
 
-#: ../../../app/views/file_pushes/new_anonymous.html.erb:9
-msgid "Securely Send Files That Delete Automatically"
-msgstr "安全地发送文件且自动删除"
-
-#: ../../../app/views/file_pushes/new_anonymous.html.erb:13
-#: ../../../app/views/urls/new_anonymous.html.erb:13
-msgid "Please login to use this feature."
-msgstr "请在登录后使用这个功能。"
-
-#: ../../../app/views/file_pushes/new_anonymous.html.erb:17
-#: ../../../app/views/urls/new_anonymous.html.erb:17
-msgid "Please login or sign up to use this feature."
-msgstr "请登录或注册以使用此功能。"
-
 #: ../../../app/views/file_pushes/passphrase.html.erb:1
 #: ../../../app/views/passwords/passphrase.html.erb:1
 #: ../../../app/views/urls/passphrase.html.erb:1
@@ -1017,25 +963,25 @@ msgstr "输入秘密密码"
 
 #: ../../../app/views/file_pushes/passphrase.html.erb:10
 #: ../../../app/views/passwords/passphrase.html.erb:10
-#: ../../../app/views/urls/passphrase.html.erb:10
+#: ../../../app/views/urls/passphrase.html.erb:12
 msgid "Enter the secret passphrase provided with this URL"
 msgstr "输入此 URL 提供的密码"
 
 #: ../../../app/views/file_pushes/passphrase.html.erb:10
 #: ../../../app/views/passwords/passphrase.html.erb:10
-#: ../../../app/views/urls/passphrase.html.erb:10
+#: ../../../app/views/urls/passphrase.html.erb:13
 msgid "Enter the secret passphrase"
 msgstr "输入秘密密码"
 
 #: ../../../app/views/file_pushes/passphrase.html.erb:11
 #: ../../../app/views/passwords/passphrase.html.erb:11
-#: ../../../app/views/urls/passphrase.html.erb:11
+#: ../../../app/views/urls/passphrase.html.erb:17
 msgid "Go"
 msgstr "去"
 
-#: ../../../app/views/file_pushes/preliminary.html.erb:3
-#: ../../../app/views/passwords/preliminary.html.erb:3
-#: ../../../app/views/urls/preliminary.html.erb:3
+#: ../../../app/views/file_pushes/preliminary.html.erb:4
+#: ../../../app/views/passwords/preliminary.html.erb:4
+#: ../../../app/views/urls/preliminary.html.erb:4
 msgid "Click Here to Proceed"
 msgstr "单击此处继续"
 
@@ -1056,110 +1002,160 @@ msgstr "您的推送已创建"
 msgid "Use this secret link to share it:"
 msgstr "使用此秘密链接分享它："
 
-#: ../../../app/views/file_pushes/preview.html.erb:12
-#: ../../../app/views/urls/preview.html.erb:12
+#: ../../../app/views/file_pushes/preview.html.erb:14
+#: ../../../app/views/passwords/preview.html.erb:14
+#: ../../../app/views/urls/preview.html.erb:14
+msgid "Print & Share"
+msgstr "打印和分享"
+
+#: ../../../app/views/file_pushes/preview.html.erb:19
+#: ../../../app/views/passwords/preview.html.erb:19
+#: ../../../app/views/urls/preview.html.erb:19
+msgid "Generate a Printable Page for End Users"
+msgstr "为最终用户生成可打印页面"
+
+#: ../../../app/views/file_pushes/preview.html.erb:24
+#: ../../../app/views/file_pushes/preview.html.erb:26
+#: ../../../app/views/passwords/preview.html.erb:24
+#: ../../../app/views/passwords/preview.html.erb:26
+#: ../../../app/views/urls/preview.html.erb:24
+#: ../../../app/views/urls/preview.html.erb:26
+msgid "Optional Custom Message"
+msgstr "可选自定义消息"
+
+#: ../../../app/views/file_pushes/preview.html.erb:35
+#: ../../../app/views/passwords/preview.html.erb:35
+#: ../../../app/views/urls/preview.html.erb:35
+msgid "Show Expiration Details"
+msgstr "显示到期详情"
+
+#: ../../../app/views/file_pushes/preview.html.erb:42
+#: ../../../app/views/passwords/preview.html.erb:42
+#: ../../../app/views/urls/preview.html.erb:42
+msgid "Include ID"
+msgstr "包括 ID"
+
+#: ../../../app/views/file_pushes/preview.html.erb:47
+#: ../../../app/views/passwords/preview.html.erb:47
+#: ../../../app/views/urls/preview.html.erb:47
+msgid "Generate"
+msgstr "产生"
+
+#: ../../../app/views/file_pushes/preview.html.erb:56
+#: ../../../app/views/urls/preview.html.erb:56
 msgid "This push will expire after"
 msgstr "此推送将在此之后过期："
 
-#: ../../../app/views/file_pushes/preview.html.erb:13
+#: ../../../app/views/file_pushes/preview.html.erb:57
+#: ../../../app/views/file_pushes/print_preview.html.erb:13
 #: ../../../app/views/file_pushes/show.html.erb:43
-#: ../../../app/views/passwords/preview.html.erb:13
+#: ../../../app/views/passwords/preview.html.erb:57
+#: ../../../app/views/passwords/print_preview.html.erb:13
 #: ../../../app/views/passwords/show.html.erb:24
-#: ../../../app/views/urls/preview.html.erb:13
+#: ../../../app/views/urls/preview.html.erb:57
+#: ../../../app/views/urls/print_preview.html.erb:13
 msgid "day"
 msgid_plural "days"
 msgstr[0] "天"
 msgstr[1] ""
 
-#: ../../../app/views/file_pushes/preview.html.erb:14
+#: ../../../app/views/file_pushes/preview.html.erb:58
+#: ../../../app/views/file_pushes/print_preview.html.erb:14
 #: ../../../app/views/file_pushes/show.html.erb:46
 #: ../../../app/views/file_pushes/show.html.erb:49
 #: ../../../app/views/pages/about.html.erb:34
 #: ../../../app/views/pages/about.html.erb:40
-#: ../../../app/views/passwords/preview.html.erb:14
+#: ../../../app/views/passwords/preview.html.erb:58
+#: ../../../app/views/passwords/print_preview.html.erb:14
 #: ../../../app/views/passwords/show.html.erb:27
 #: ../../../app/views/passwords/show.html.erb:30
-#: ../../../app/views/urls/preview.html.erb:14
+#: ../../../app/views/urls/preview.html.erb:58
+#: ../../../app/views/urls/print_preview.html.erb:14
 msgid "or"
 msgstr "或者"
 
-#: ../../../app/views/file_pushes/preview.html.erb:15
-#: ../../../app/views/passwords/preview.html.erb:15
-#: ../../../app/views/urls/preview.html.erb:15
+#: ../../../app/views/file_pushes/preview.html.erb:59
+#: ../../../app/views/file_pushes/print_preview.html.erb:15
+#: ../../../app/views/passwords/preview.html.erb:59
+#: ../../../app/views/passwords/print_preview.html.erb:15
+#: ../../../app/views/urls/preview.html.erb:59
+#: ../../../app/views/urls/print_preview.html.erb:15
 msgid "view"
 msgid_plural "views"
 msgstr[0] "查看"
 msgstr[1] ""
 
-#: ../../../app/views/file_pushes/preview.html.erb:19
-#: ../../../app/views/file_pushes/preview.html.erb:21
-#: ../../../app/views/pages/about.html.erb:72
-#: ../../../app/views/pages/about.html.erb:95
-#: ../../../app/views/pages/faq.html.erb:75
-#: ../../../app/views/pages/faq.html.erb:143
-#: ../../../app/views/passwords/preview.html.erb:19
-#: ../../../app/views/passwords/preview.html.erb:21
+#: ../../../app/views/file_pushes/preview.html.erb:63
+#: ../../../app/views/file_pushes/preview.html.erb:65
+#: ../../../app/views/pages/about.html.erb:68
+#: ../../../app/views/pages/about.html.erb:91
+#: ../../../app/views/passwords/preview.html.erb:63
+#: ../../../app/views/passwords/preview.html.erb:65
 msgid "and"
 msgstr "和"
 
-#: ../../../app/views/file_pushes/preview.html.erb:19
-#: ../../../app/views/passwords/preview.html.erb:19
+#: ../../../app/views/file_pushes/preview.html.erb:63
+#: ../../../app/views/passwords/preview.html.erb:63
 msgid "can be"
 msgstr "可以"
 
-#: ../../../app/views/file_pushes/preview.html.erb:19
-#: ../../../app/views/file_pushes/preview.html.erb:21
-#: ../../../app/views/passwords/preview.html.erb:19
-#: ../../../app/views/passwords/preview.html.erb:21
+#: ../../../app/views/file_pushes/preview.html.erb:63
+#: ../../../app/views/file_pushes/preview.html.erb:65
+#: ../../../app/views/passwords/preview.html.erb:63
+#: ../../../app/views/passwords/preview.html.erb:65
 msgid "deleted by viewers."
 msgstr "被查看者删除。"
 
-#: ../../../app/views/file_pushes/preview.html.erb:21
-#: ../../../app/views/passwords/preview.html.erb:21
+#: ../../../app/views/file_pushes/preview.html.erb:65
+#: ../../../app/views/passwords/preview.html.erb:65
 msgid "can NOT be"
 msgstr "不可以"
 
-#: ../../../app/views/file_pushes/preview.html.erb:26
-#: ../../../app/views/passwords/preview.html.erb:26
-#: ../../../app/views/urls/preview.html.erb:20
+#: ../../../app/views/file_pushes/preview.html.erb:70
+#: ../../../app/views/passwords/preview.html.erb:70
+#: ../../../app/views/urls/preview.html.erb:64
 msgid "It also includes a"
 msgstr "它还包括一个"
 
-#: ../../../app/views/file_pushes/preview.html.erb:26
-#: ../../../app/views/passwords/preview.html.erb:26
-#: ../../../app/views/urls/preview.html.erb:20
+#: ../../../app/views/file_pushes/preview.html.erb:70
+#: ../../../app/views/passwords/preview.html.erb:70
+#: ../../../app/views/urls/preview.html.erb:64
 msgid "1-click preliminary retrieval step"
 msgstr "一键式预检索步骤"
 
-#: ../../../app/views/file_pushes/preview.html.erb:30
-#: ../../../app/views/urls/preview.html.erb:24
+#: ../../../app/views/file_pushes/preview.html.erb:74
+#: ../../../app/views/urls/preview.html.erb:68
 msgid "View This Push Now"
 msgstr "立即查看此推送"
 
-#: ../../../app/views/file_pushes/preview.html.erb:30
-#: ../../../app/views/passwords/preview.html.erb:30
-#: ../../../app/views/urls/preview.html.erb:24
+#: ../../../app/views/file_pushes/preview.html.erb:74
+#: ../../../app/views/passwords/preview.html.erb:74
+#: ../../../app/views/urls/preview.html.erb:68
 msgid "(will burn a view) or"
 msgstr "（将销毁一个视图）或"
 
-#: ../../../app/views/file_pushes/preview.html.erb:31
-#: ../../../app/views/urls/preview.html.erb:25
+#: ../../../app/views/file_pushes/preview.html.erb:75
+#: ../../../app/views/urls/preview.html.erb:69
 msgid "Push Another"
 msgstr "再推一个"
 
-#: ../../../app/views/file_pushes/preview.html.erb:36
-#: ../../../app/views/passwords/preview.html.erb:36
-#: ../../../app/views/urls/preview.html.erb:30
+#: ../../../app/views/file_pushes/preview.html.erb:80
+#: ../../../app/views/passwords/preview.html.erb:80
+#: ../../../app/views/urls/preview.html.erb:74
 msgid "View Audit Log"
 msgstr "查看审计日志"
 
-#: ../../../app/views/file_pushes/preview.html.erb:41
-#: ../../../app/views/passwords/preview.html.erb:41
-#: ../../../app/views/urls/preview.html.erb:35
-msgid ""
-"Tip: Pushing to an international user?  Change the secret link language using "
-"the dropdown menu to the right of the URL."
-msgstr "提示：推送给国际用户？使用 URL 右侧的下拉菜单更改秘密链接的页面展示语言。"
+#: ../../../app/views/file_pushes/print_preview.html.erb:1
+#: ../../../app/views/passwords/print_preview.html.erb:1
+#: ../../../app/views/urls/print_preview.html.erb:1
+msgid "Your Secret URL"
+msgstr "你的秘密网址"
+
+#: ../../../app/views/file_pushes/print_preview.html.erb:12
+#: ../../../app/views/passwords/print_preview.html.erb:12
+#: ../../../app/views/urls/print_preview.html.erb:12
+msgid "This data contained here will expire after"
+msgstr "此处包含的数据将在以下时间过期"
 
 #: ../../../app/views/file_pushes/show.html.erb:1
 #: ../../../app/views/passwords/show.html.erb:1
@@ -1209,22 +1205,22 @@ msgstr[1] ""
 msgid "(whichever occurs first)."
 msgstr "（以先发生为准）。"
 
-#: ../../../app/views/file_pushes/show.html.erb:56
+#: ../../../app/views/file_pushes/show.html.erb:57
 #: ../../../app/views/passwords/show.html.erb:37
 msgid "Delete This Secret Link Now"
 msgstr "立即删除此秘密链接"
 
-#: ../../../app/views/file_pushes/show.html.erb:68
+#: ../../../app/views/file_pushes/show.html.erb:69
 #: ../../../app/views/passwords/show.html.erb:52
 msgid "Delete?"
 msgstr "删除？"
 
-#: ../../../app/views/file_pushes/show.html.erb:72
+#: ../../../app/views/file_pushes/show.html.erb:73
 #: ../../../app/views/passwords/show.html.erb:56
 msgid "This will expire this secret link and "
 msgstr "这将使这个秘密链接过期并且"
 
-#: ../../../app/views/file_pushes/show.html.erb:73
+#: ../../../app/views/file_pushes/show.html.erb:74
 #: ../../../app/views/passwords/show.html.erb:57
 msgid "delete all related content from the database forever"
 msgstr "永远从数据库中删除所有相关内容"
@@ -1249,27 +1245,14 @@ msgid ""
 "URL."
 msgstr "如有需要，请联系向您提供此秘密 URL 的个人或组织。"
 
-#: ../../../app/views/layouts/login.html.erb:31
+#: ../../../app/views/layouts/admin/application.html.erb:41
+#: ../../../app/views/layouts/login.html.erb:32
 #: ../../../app/views/shared/_footer.html.erb:11
 #: ../../../app/views/shared/_footer.html.erb:15
 #: ../../../app/views/shared/_header.html.erb:9
 #: ../../../app/views/shared/_header.html.erb:13
 msgid "Password Pusher Logo"
 msgstr "Password Pusher 图标"
-
-#: ../../../app/views/layouts/login.html.erb:50
-msgid ""
-"Some domains may inadvertently block emails.  If you are having trouble receiv"
-"ing emails, "
-msgstr "某些服务商无意中阻止了我们的电子邮件。如果您在接收电子邮件时遇到问题，"
-
-#: ../../../app/views/layouts/login.html.erb:51
-msgid "send a message"
-msgstr "发送信息"
-
-#: ../../../app/views/layouts/login.html.erb:52
-msgid "and we can help out."
-msgstr "我们可以提供帮助。"
 
 #: ../../../app/views/pages/about.html.erb:1
 msgid "About Password Pusher"
@@ -1367,535 +1350,101 @@ msgid "It's gasoline for the algos that trend Password Pusher."
 msgstr "它是推动 Password Pusher 发展的算法的燃料。"
 
 #: ../../../app/views/pages/about.html.erb:60
-#: ../../../app/views/pages/translate.html.erb:3
-msgid "Help Translate"
-msgstr "帮助翻译"
-
-#: ../../../app/views/pages/about.html.erb:61
-msgid "Improve an existing language or add a new one"
-msgstr "改进现有语言或添加新语言"
-
-#: ../../../app/views/pages/about.html.erb:64
 msgid "Sign up for the"
 msgstr "报名参加"
 
-#: ../../../app/views/pages/about.html.erb:65
+#: ../../../app/views/pages/about.html.erb:61
 msgid "newsletter"
 msgstr "通讯"
 
-#: ../../../app/views/pages/about.html.erb:66
+#: ../../../app/views/pages/about.html.erb:62
 msgid "to get updates on important releases, security issues, tips and more."
 msgstr "获取有关重要版本、安全问题、提示等的更新。"
 
-#: ../../../app/views/pages/about.html.erb:69
+#: ../../../app/views/pages/about.html.erb:65
 msgid "Follow Password Pusher on"
 msgstr "关注Password Pusher在"
 
-#: ../../../app/views/pages/about.html.erb:76
+#: ../../../app/views/pages/about.html.erb:72
 msgid "Fix an issue, add a feature or write some documentation."
 msgstr "修复问题、添加功能或编写一些文档。"
 
-#: ../../../app/views/pages/about.html.erb:76
+#: ../../../app/views/pages/about.html.erb:72
 msgid "See the Github project."
 msgstr "查看 Github 项目。"
 
-#: ../../../app/views/pages/about.html.erb:79
+#: ../../../app/views/pages/about.html.erb:75
 msgid "Sign up to Digital Ocean"
 msgstr "注册 Digital Ocean"
 
-#: ../../../app/views/pages/about.html.erb:80
+#: ../../../app/views/pages/about.html.erb:76
 msgid "with this link"
 msgstr "通过此链接"
 
-#: ../../../app/views/pages/about.html.erb:81
+#: ../../../app/views/pages/about.html.erb:77
 msgid "to get Password Pusher a hosting credit."
 msgstr "让 Password Pusher 获得托管奖励。"
 
-#: ../../../app/views/pages/about.html.erb:85
+#: ../../../app/views/pages/about.html.erb:81
 msgid "Thank you for supporting Password Pusher!"
 msgstr "感谢您支持 Password Pusher ！"
 
-#: ../../../app/views/pages/about.html.erb:87
+#: ../../../app/views/pages/about.html.erb:83
 #: ../../../app/views/shared/_footer.html.erb:25
 msgid "Resources"
 msgstr "资源"
 
-#: ../../../app/views/pages/about.html.erb:90
+#: ../../../app/views/pages/about.html.erb:86
 msgid ""
 "If you are giving a presentation, authoring a blog post or video about Passwor"
 "d Pusher, feel free to contact me for any questions."
 msgstr "如果您要进行演示、撰写有关 Password Pusher 的博客文章或视频，如有任何问题，请随时与我联系。"
 
-#: ../../../app/views/pages/about.html.erb:93
+#: ../../../app/views/pages/about.html.erb:89
 msgid "We have media resources and a full explanation of features available in"
 msgstr "我们有媒体资源和可用功能的完整解释"
 
-#: ../../../app/views/pages/about.html.erb:94
+#: ../../../app/views/pages/about.html.erb:90
 msgid "Windows Powerpoint"
 msgstr "视窗简报"
 
-#: ../../../app/views/pages/about.html.erb:96
+#: ../../../app/views/pages/about.html.erb:92
 msgid "Mac Keynote"
 msgstr "Mac 主题演讲"
 
-#: ../../../app/views/pages/about.html.erb:97
+#: ../../../app/views/pages/about.html.erb:93
 msgid "formats."
 msgstr "格式。"
 
-#: ../../../app/views/pages/about.html.erb:106
+#: ../../../app/views/pages/about.html.erb:99
 msgid "Birthday"
 msgstr "生日"
 
-#: ../../../app/views/pages/about.html.erb:108
+#: ../../../app/views/pages/about.html.erb:101
 msgid "More Than 11 Years Old"
 msgstr "11岁以上"
 
-#: ../../../app/views/pages/about.html.erb:110
+#: ../../../app/views/pages/about.html.erb:103
 msgid "The first git commit to Password Pusher was on"
 msgstr "Password Pusher 的第一个 git commit 开启于"
 
-#: ../../../app/views/pages/about.html.erb:114
+#: ../../../app/views/pages/about.html.erb:107
 msgid "pwpush.com went live shortly thereafter."
 msgstr "pwpush.com 很快就上线了。"
 
-#: ../../../app/views/pages/about.html.erb:120
+#: ../../../app/views/pages/about.html.erb:113
 msgid "The Original Theme"
 msgstr "原始主题"
 
-#: ../../../app/views/pages/about.html.erb:121
+#: ../../../app/views/pages/about.html.erb:114
 msgid ""
 "The original site design consisted of a dark background with a bold yellow fon"
 "t."
 msgstr "最初的网站设计包括深色背景和粗体黄色字体。"
 
-#: ../../../app/views/pages/about.html.erb:124
+#: ../../../app/views/pages/about.html.erb:117
 msgid "Follow for news, changes & updates."
 msgstr "关注以获得新闻、更改和更新。"
-
-#: ../../../app/views/pages/faq.html.erb:1
-#: ../../../app/views/shared/_footer.html.erb:34
-msgid "FAQ"
-msgstr "常问问题"
-
-#: ../../../app/views/pages/faq.html.erb:3
-msgid "Frequently Asked Questions"
-msgstr "常见问题"
-
-#: ../../../app/views/pages/faq.html.erb:5
-msgid "Trust and Security"
-msgstr "信任与安全"
-
-#: ../../../app/views/pages/faq.html.erb:11
-msgid "What purpose does Password Pusher serve?"
-msgstr "Password Pusher 的目的是什么？"
-
-#: ../../../app/views/pages/faq.html.erb:16
-msgid "Password Pusher exists as a better alternative to emailing passwords."
-msgstr "Password Pusher 作为通过电子邮件发送密码的更好替代方案而存在。"
-
-#: ../../../app/views/pages/faq.html.erb:18
-msgid "Emailing passwords is inherently insecure."
-msgstr "通过电子邮件发送密码本质上是不安全的。"
-
-#: ../../../app/views/pages/faq.html.erb:18
-msgid "The greatest risks include"
-msgstr "最大的风险包括"
-
-#: ../../../app/views/pages/faq.html.erb:21
-msgid ""
-"Emailed passwords are usually sent with context to what they go to or can pote"
-"ntially be derived from email username, domain etc…"
-msgstr "通过电子邮件发送的密码通常附带与他们收件人的使用情景相关的信息，或者可能从电子邮件用户名、域等猜测。"
-
-#: ../../../app/views/pages/faq.html.erb:22
-msgid ""
-"Email is inherently insecure and can be intercepted at multiple points by mali"
-"cious entities."
-msgstr "电子邮件本质上是不安全的，可以被恶意实体在多个环节拦截。"
-
-#: ../../../app/views/pages/faq.html.erb:23
-msgid "Emailed passwords live in perpetuity (read: forever) in email archives."
-msgstr "通过电子邮件发送的密码在电子邮件存档中永续（也即：永远）存在。"
-
-#: ../../../app/views/pages/faq.html.erb:24
-msgid ""
-"Passwords in email can be retrieved and used later on if an email account is s"
-"tolen, cracked etc.."
-msgstr "电子邮件中的密码可能被检索到并被后续使用，一旦电子邮件账户被盗或者被破解等。"
-
-#: ../../../app/views/pages/faq.html.erb:27
-msgid ""
-"The same risks persist when sending passwords via SMS, WhatsApp, Telegram, Cha"
-"t etc…  The data can and is often perpetual and out of your control."
-msgstr "通过 SMS、WhatsApp、Telegram、Chat 等发送密码时，同样的风险仍然存在……数据可以而且通常是永久的，不受您的控制。"
-
-#: ../../../app/views/pages/faq.html.erb:29
-msgid "By using Password Pusher, you bypass all of this."
-msgstr "通过使用 Password Pusher，您可以避免所有这些。"
-
-#: ../../../app/views/pages/faq.html.erb:31
-msgid "For each password posted to Password Pusher, "
-msgstr "对于发布到 Password Pusher 的每个密码，"
-
-#: ../../../app/views/pages/faq.html.erb:32
-msgid "a unique URL is generated that only you will know"
-msgstr "生成一个只有您知道的唯一 URL"
-
-#: ../../../app/views/pages/faq.html.erb:33
-msgid "Additionally, "
-msgstr "此外，"
-
-#: ../../../app/views/pages/faq.html.erb:35
-msgid "passwords expire after a predefined set of views are hit or time passed."
-msgstr "密码在一组预先设定的查看配额被使用完毕后或经过一段时间后过期。"
-
-#: ../../../app/views/pages/faq.html.erb:37
-msgid "Once expired, passwords are unequivocally deleted."
-msgstr "一旦过期，密码将被明确删除。"
-
-#: ../../../app/views/pages/faq.html.erb:40
-msgid ""
-"If that sounds interesting to you, try it out or see the other frequently aske"
-"d questions below."
-msgstr "如果您觉得这听起来很有趣，请尝试一下或查看下面的其他常见问题。"
-
-#: ../../../app/views/pages/faq.html.erb:47
-msgid "Trust is a concern. Why should I use Password Pusher?"
-msgstr "信任是一个问题。我为什么要使用 Password Pusher？"
-
-#: ../../../app/views/pages/faq.html.erb:52
-msgid ""
-"And rightfully so. All good security begins with healthy skepticism of all inv"
-"olved components."
-msgstr "理所当然的。所有良好的安全性都始于对所有相关组件的健康性怀疑。"
-
-#: ../../../app/views/pages/faq.html.erb:55
-msgid ""
-"Password Pusher exists as a better alternative to emailing passwords. It avoid"
-"s having passwords exist in email archives in perpetuity. It does not exist as"
-" a end-all security solution."
-msgstr "Password Pusher 作为通过电子邮件发送密码的更好替代方案而存在。它避免了密码永久存在于电子邮件档案中。它不作为最终的安全解决方案存在。"
-
-#: ../../../app/views/pages/faq.html.erb:59
-msgid "Password Pusher is open-source"
-msgstr "密码推送器是开源的"
-
-#: ../../../app/views/pages/faq.html.erb:60
-msgid ""
-"so the source can be publicly reviewed and can alternatively be run internally"
-" in your organization."
-msgstr "因此可以公开审查来源，也可以在您的组织内部运行。"
-
-#: ../../../app/views/pages/faq.html.erb:64
-msgid "Passwords are unequivocally deleted from the database once they expire."
-msgstr "密码一旦过期就会从数据库中明确删除。"
-
-#: ../../../app/views/pages/faq.html.erb:65
-msgid ""
-"Additionally, random URL tokens are generated on the fly and passwords are pos"
-"ted without context for their use."
-msgstr "此外，随机的 URL 令牌是动态生成的，并且密码是在与其使用情景无关的情况下发布的。"
-
-#: ../../../app/views/pages/faq.html.erb:69
-msgid "A note for those with an interest in extreme security:"
-msgstr "给极度注重安全的人士的注意事项："
-
-#: ../../../app/views/pages/faq.html.erb:70
-msgid ""
-"there is no way I can reliably prove that the opensource code is the same that"
-" runs on pwpush.com (this is true for all sites in reality)."
-msgstr "我无法可靠地证明开源代码与在 pwpush.com 上运行的代码相同（实际上所有网站都是如此）。"
-
-#: ../../../app/views/pages/faq.html.erb:71
-msgid "The only thing I can provide in this respect is my public reputation on"
-msgstr "在这方面我唯一能提供的就是我的公共口碑在"
-
-#: ../../../app/views/pages/faq.html.erb:76
-msgid "my blog"
-msgstr "我的博客"
-
-#: ../../../app/views/pages/faq.html.erb:77
-msgid ""
-"If this is a concern for you, feel free to review the code, post any questions"
-" that you may have and consider running it internally at your organization ins"
-"tead."
-msgstr "如果您担心这一点，请随时查看代码，发布您可能遇到的任何问题，并考虑在您的组织内部运行它。"
-
-#: ../../../app/views/pages/faq.html.erb:84
-msgid "Tools, Utilities and Applications"
-msgstr "工具、实用程序和应用程序"
-
-#: ../../../app/views/pages/faq.html.erb:90
-msgid "Are there other ways I can access Password Pusher outside of a browser?"
-msgstr "我可以通过其他方式在浏览器之外访问 Password Pusher 吗？"
-
-#: ../../../app/views/pages/faq.html.erb:96
-msgid ""
-"Absolutely.  Password Pusher has a number of applications and command line uti"
-"lities (CLI) that interface with pwpush.com or privately run instances.  Push "
-"passwords from the CLI, Slack, Alfred App and more."
-msgstr ""
-"当然。 Password Pusher 有许多应用程序和命令行实用程序 (CLI)，它们与 pwpush.com 或私有部署的实例进行交互。从 CLI、Sl"
-"ack、Alfred App 等推送密码。"
-
-#: ../../../app/views/pages/faq.html.erb:98
-msgid "See our"
-msgstr "看看我们的"
-
-#: ../../../app/views/pages/faq.html.erb:98
-msgid "Tools and Applications"
-msgstr "工具与应用程序"
-
-#: ../../../app/views/pages/faq.html.erb:98
-msgid "page for more details."
-msgstr "提供更多信息的页面。"
-
-#: ../../../app/views/pages/faq.html.erb:105
-msgid "Can I automate my password distribution?"
-msgstr "我可以自动化分发密码吗？"
-
-#: ../../../app/views/pages/faq.html.erb:110
-msgid ""
-"Yes. Using the previously mentioned tools, many users and organizations integr"
-"ate Password Pusher into their security policies and processes."
-msgstr "是的。使用前面提到的工具，许多用户和组织将 Password Pusher 集成到他们的安全策略和流程中。"
-
-#: ../../../app/views/pages/faq.html.erb:111
-msgid "The"
-msgstr "这"
-
-#: ../../../app/views/pages/faq.html.erb:111
-#: ../../../app/views/shared/_footer.html.erb:43
-msgid "Tools"
-msgstr "工具"
-
-#: ../../../app/views/pages/faq.html.erb:111
-msgid ""
-"page outlines the resources available to automate the secure distribution of p"
-"asswords."
-msgstr "页面概述了可用于自动化密码安全分发的资源。"
-
-#: ../../../app/views/pages/faq.html.erb:118
-msgid "How many requests can I send to Password Pusher?"
-msgstr "我可以向 Password Pusher 发送多少个请求？"
-
-#: ../../../app/views/pages/faq.html.erb:123
-msgid ""
-"There are no limits currently and I have no intention of adding any.  To minim"
-"ally assure site stability, Password Pusher is configured with a rate limiter "
-"by default."
-msgstr "目前没有限制，我也无意添加任何限制。为了最低限度地确保站点稳定性，Password Pusher 默认配置了速率限制器。"
-
-#: ../../../app/views/pages/faq.html.erb:129
-msgid "Running Your Own Private Instance"
-msgstr "运行您自己的私有实例"
-
-#: ../../../app/views/pages/faq.html.erb:135
-msgid "Can I run my own version for my organization internally?"
-msgstr "我可以运行我自己的版本以服务我的内部组织吗？"
-
-#: ../../../app/views/pages/faq.html.erb:141
-msgid "Yes.  We provide"
-msgstr "是的。我们提供"
-
-#: ../../../app/views/pages/faq.html.erb:142
-msgid "Docker containers"
-msgstr "Docker 容器"
-
-#: ../../../app/views/pages/faq.html.erb:144
-msgid "installation instructions"
-msgstr "安装说明"
-
-#: ../../../app/views/pages/faq.html.erb:145
-msgid "for a wide variety of platforms and services."
-msgstr "适用于各种平台和服务。"
-
-#: ../../../app/views/pages/faq.html.erb:147
-msgid "tldr;"
-msgstr "tldr;"
-
-#: ../../../app/views/pages/faq.html.erb:154
-msgid "Can I apply a custom logo or change the design?"
-msgstr "我可以自定义徽标或更改设计吗？"
-
-#: ../../../app/views/pages/faq.html.erb:159
-msgid ""
-"Password Pusher supports re-branding \"out of the box\" allowing you to add a cu"
-"stom logo, text and even change images in the application."
-msgstr "Password Pusher 支持“开箱即用”的品牌重塑，允许您在应用程序中添加自定义徽标、文本甚至更改图像。"
-
-#: ../../../app/views/pages/faq.html.erb:166
-msgid "Are there any licensing restrictions for me, my company or my organization?"
-msgstr "对我、我的公司或我的组织有任何许可限制吗？"
-
-#: ../../../app/views/pages/faq.html.erb:172
-msgid ""
-"The source code is released under the Apache 2.0 License and that pretty much "
-"defines any and all limitations. There are quite a few rebranded and redesigne"
-"d clone sites of Password Pusher and I welcome them all."
-msgstr "源代码是根据 Apache 2.0 许可证发布的，并且几乎定义了所有限制。有相当多的重新命名和重新设计的密码推送器克隆站点，我欢迎它们。"
-
-#: ../../../app/views/pages/faq.html.erb:180
-msgid "Why would I want to run my own private instance of Password Pusher?"
-msgstr "为什么我要运行我自己的 Password Pusher 私有实例？"
-
-#: ../../../app/views/pages/faq.html.erb:186
-msgid ""
-"Some organizations are bound by security policies that prohibit the use of pub"
-"lic services for sensitive information such as passwords.  There are even orga"
-"nizations that require all tools to be on private intranets without access to "
-"the outside world."
-msgstr "一些组织受安全政策的约束，这些政策禁止使用公共服务获取敏感信息（例如密码）。甚至有些组织要求所有工具都位于私有内网上，无法访问外部网络。"
-
-#: ../../../app/views/pages/faq.html.erb:189
-msgid ""
-"It's for these reasons that we provide the ability (and encourage) users and o"
-"rganizations to run private instances when needed."
-msgstr "出于这些原因，我们提供（并鼓励）用户和组织在需要时运行私有实例的能力。"
-
-#: ../../../app/views/pages/faq.html.erb:197
-msgid "What are the potential security risks of running my own version internally?"
-msgstr "在内部运行我自己的版本有哪些潜在的安全风险？"
-
-#: ../../../app/views/pages/faq.html.erb:202
-msgid ""
-"Running an private instance of Password Pusher for your company or organizatio"
-"n gives you the peace of mind that you know exactly what code is running.  You"
-" can configure and run it as you like."
-msgstr "为您的公司或组织运行 Password Pusher 的私有实例让您高枕无忧，因为您确切知道正在运行的代码。您可以根据需要配置和运行它。"
-
-#: ../../../app/views/pages/faq.html.erb:203
-msgid ""
-"On the other hand, if your instance gets hacked and the encryption broken, mal"
-"icious entities now have a targeted dictionary of passwords to brute force acc"
-"ounts in your organization.  Note that this would be limited to pushes which h"
-"aven't yet hit their expiration limits."
-msgstr "另一方面，如果您的实例遭到黑客攻击并且加密被破坏，恶意实体现在有一个有针对性的密码字典来暴力破解您组织中的帐户。请注意，这仅限于尚未达到到期限制的推送。"
-
-#: ../../../app/views/pages/faq.html.erb:204
-msgid ""
-"In this respect, the public instance at pwpush.com may be superior in that it "
-"contains only passwords without identifying information mixed among users from"
-" around the globe."
-msgstr "在这方面，pwpush.com 的公共实例可能更胜一筹，因为它只包含密码，而不包含来自世界各地的用户混合的识别信息。"
-
-#: ../../../app/views/pages/faq.html.erb:205
-msgid ""
-"The user should carefully weigh the pros and cons and decide which route is be"
-"st for them.  We happily support both strategies."
-msgstr "用户应仔细权衡利弊，决定哪条路线最适合自己。我们很乐意支持这两种策略。"
-
-#: ../../../app/views/pages/faq.html.erb:211
-msgid "Other"
-msgstr "其他"
-
-#: ../../../app/views/pages/faq.html.erb:217
-msgid ""
-"The URL I sent link seems to have not worked by the time it was received.  Doe"
-"s this happen occasionally and is there a way to prevent this?"
-msgstr "我发送的 URL 链接在收到时似乎无效。这种情况是否偶尔发生，是否有办法防止这种情况发生？"
-
-#: ../../../app/views/pages/faq.html.erb:223
-msgid ""
-"Some systems such as email, firewalls and chat systems often have link scanner"
-"s that can eat up views."
-msgstr "一些系统，如电子邮件、防火墙和聊天系统，通常有链接扫描器，会耗尽查看限制配额。"
-
-#: ../../../app/views/pages/faq.html.erb:224
-msgid "This is done for security or to simply generate a \"preview\" for chat systems."
-msgstr "这样做是为了安全或只是为聊天系统生成“预览”。"
-
-#: ../../../app/views/pages/faq.html.erb:227
-msgid "To prevent this, use the 1-click retrieval step option when pushing passwords."
-msgstr "为防止这种情况，请在推送时使用一键检索步骤选项。"
-
-#: ../../../app/views/pages/faq.html.erb:228
-msgid ""
-"This requires the users to click through a preliminary page to protect views f"
-"rom such scanners."
-msgstr "这需要用户点击预载页面以免查看配额受此类扫描器的影响。"
-
-#: ../../../app/views/pages/faq.html.erb:232
-msgid ""
-"As an additional preventative measure, if you create an account, an audit log "
-"is provided for every push created."
-msgstr "作为一项额外的预防考量，如果您创建一个帐户，则会为您创建的每个推送提供审计日志。"
-
-#: ../../../app/views/pages/faq.html.erb:233
-msgid "This audit log can reveal by who and when the push was viewed."
-msgstr "此审核日志可以显示查看推送的人员和时间。"
-
-#: ../../../app/views/pages/faq.html.erb:242
-msgid "Can I use Password Pusher in my talk/presentation/conference?"
-msgstr "我可以在演讲/演示/会议中使用 Password Pusher 吗？"
-
-#: ../../../app/views/pages/faq.html.erb:247
-msgid ""
-"Absolutely.  If you need any resources such as statistics, graphics or anythin"
-"g else, don't hesitate to contact me: pglombardo at pwpush.com."
-msgstr "当然，如果你需要诸如统计数据、图形或其他任何资源，请随时与我联系：pglombardo at pwpush.com。"
-
-#: ../../../app/views/pages/faq.html.erb:254
-msgid "Could you add a specific feature for my organization?"
-msgstr "您可以为我的组织添加特定功能吗？"
-
-#: ../../../app/views/pages/faq.html.erb:259
-msgid ""
-"Very likely.  I love to hear all ideas and feedback. If you have any, please s"
-"ubmit them to the "
-msgstr "非常有可能。我喜欢听到所有的想法和反馈。如果你有，请提交给"
-
-#: ../../../app/views/pages/faq.html.erb:260
-msgid "Github repository"
-msgstr "Github 仓库"
-
-#: ../../../app/views/pages/faq.html.erb:260
-msgid "and I will respond as soon as possible."
-msgstr "我会尽快回复。"
-
-#: ../../../app/views/pages/faq.html.erb:267
-msgid "How do you make money?"
-msgstr "你是怎么赚钱的？"
-
-#: ../../../app/views/pages/faq.html.erb:272
-msgid ""
-"This is an opensource project made out of love for technology and a desire to "
-"improve the security (and daily lives) of the tech community."
-msgstr "这是一个开源项目，出于对技术的热爱和改善技术社区安全（和日常生活）的愿望。"
-
-#: ../../../app/views/pages/faq.html.erb:275
-msgid ""
-"It doesn't make any money but it does incur hosting that are about $50/month f"
-"or pwpush.com."
-msgstr "它不赚任何钱，但确实会为 pwpush.com 带来每月约 50 美元的托管费用。"
-
-#: ../../../app/views/pages/faq.html.erb:276
-msgid "These are happily paid out of pocket by myself for more than 10 years."
-msgstr "10多年来，这些都是我自己愉快地自掏腰包支付的。"
-
-#: ../../../app/views/pages/faq.html.erb:280
-msgid ""
-"If you feel inclined to support Password Pusher, you can sign up to Digital Oc"
-"ean using the badge below."
-msgstr "如果您愿意支持 Password Pusher，您可以使用下面的徽章注册 Digital Ocean。"
-
-#: ../../../app/views/pages/faq.html.erb:281
-msgid "Password Pusher will get a hosting credit for the first $25 you spend."
-msgstr "Password Pusher 将在您消费第一个 25 美元后获得用于托管服务的奖励。"
-
-#: ../../../app/views/pages/faq.html.erb:290
-msgid ""
-"For other ways to support Password Pusher, see also the \"Want to help out?\" se"
-"ction"
-msgstr "有关支持 Password Pusher 的其他方式，另请参阅“想要帮忙吗？”章节"
-
-#: ../../../app/views/pages/faq.html.erb:291
-msgid "on the about page"
-msgstr "在关于页面上"
-
-#: ../../../app/views/pages/faq.html.erb:292
-msgid "Thank you!"
-msgstr "谢谢！"
 
 #: ../../../app/views/pages/generate_key.html.erb:1
 msgid "Generate Key"
@@ -1926,13 +1475,6 @@ msgstr "您可以使用下面随机生成的代码来配置您的 Password Pushe
 #: ../../../app/views/pages/generate_key.html.erb:22
 msgid "Generated Encryption Key"
 msgstr "已生成加密密钥"
-
-#: ../../../app/views/pages/generate_key.html.erb:26
-#: ../../../app/views/pages/generate_key.html.erb:39
-#: ../../../app/views/shared/_copy_button.html.erb:2
-#: ../../../app/views/shared/_secret_url_bar.html.erb:26
-msgid "Copy to Clipboard"
-msgstr "复制到剪贴板"
 
 #: ../../../app/views/pages/generate_key.html.erb:32
 msgid "You can apply this key to your application by setting the environment variable"
@@ -1988,155 +1530,6 @@ msgstr "另见密码推送器"
 msgid "Configuration documentation"
 msgstr "配置文档"
 
-#: ../../../app/views/pages/tools.html.erb:1
-#: ../../../app/views/pages/tools.html.erb:3
-msgid "Tools & Applications"
-msgstr "工具与应用程序"
-
-#: ../../../app/views/pages/tools.html.erb:5
-msgid ""
-"Using the JSON API, various tools exist to interface with Password Pusher to a"
-"utomate password distribution."
-msgstr "使用 JSON API，可以使用各种工具与 Password Pusher 交互以自动分发密码。"
-
-#: ../../../app/views/pages/tools.html.erb:7
-msgid ""
-"We have no limits on how many passwords you can push (and have no intentions o"
-"f adding limits) but we do have a rate limiter so the site doesn’t get taken d"
-"own by bad scripts or bad actors.  Limit your tools to maximum 1 password ever"
-"y few seconds and you should be fine."
-msgstr ""
-"我们对您可以推送的密码数量没有限制（并且无意增加限制），但我们确实有一个速率限制器，以确保网站不会被糟糕的脚本或不良行为者破坏。您的工具限制为每隔几秒钟提交"
-" 1 个密码，应该就不会有问题。"
-
-#: ../../../app/views/pages/tools.html.erb:11
-msgid "Command Line Utilities"
-msgstr "命令行工具"
-
-#: ../../../app/views/pages/tools.html.erb:49
-msgid "Applications"
-msgstr "应用"
-
-#: ../../../app/views/pages/tools.html.erb:74
-msgid ""
-"This API allows you to interface with Password Pusher via JSON.  This can be u"
-"tilized by existing utilities such as curl, wget or any programming language. "
-" See the examples below for some ideas."
-msgstr "此 API 允许您通过 JSON 与密码推送器交互。这可以被现有的实用程序使用，例如 curl、wget 或任何编程语言。请参阅下面的示例以了解一些想法。"
-
-#: ../../../app/views/pages/tools.html.erb:77
-msgid "API Endpoint Documentation"
-msgstr "API端点文档"
-
-#: ../../../app/views/pages/tools.html.erb:78
-msgid "Walkthrough & Examples"
-msgstr "攻略和示例"
-
-#: ../../../app/views/pages/tools.html.erb:81
-msgid "Examples"
-msgstr "例子"
-
-#: ../../../app/views/pages/tools.html.erb:90
-msgid ""
-"You can test this in your browser Javascript console by going to the front pag"
-"e of Password Pusher and enter:"
-msgstr "您可以在浏览器 Javascript 控制台中对此进行测试，转到 Password Pusher 的首页并输入以下内容："
-
-#: ../../../app/views/pages/tools.html.erb:112
-msgid "See more explanation and examples in our"
-msgstr "在我们的网站上查看更多解释和示例"
-
-#: ../../../app/views/pages/translate.html.erb:1
-msgid "Help Translate Password Pusher!"
-msgstr "帮助翻译Password Pusher！"
-
-#: ../../../app/views/pages/translate.html.erb:6
-msgid ""
-"We would love to add as many languages as possible but we need help from fluen"
-"t speakers in creating and verifying translations."
-msgstr "我们很乐意添加尽可能多的语言，但我们需要能流利使用该语言的人帮助创建和验证翻译。"
-
-#: ../../../app/views/pages/translate.html.erb:9
-msgid "How it Works"
-msgstr "这个怎么运作"
-
-#: ../../../app/views/pages/translate.html.erb:12
-msgid "We use"
-msgstr "我们使用"
-
-#: ../../../app/views/pages/translate.html.erb:14
-msgid "to manage our translation effort.  It has a simple to use interface."
-msgstr "管理我们的翻译工作。它有一个简单易用的界面。"
-
-#: ../../../app/views/pages/translate.html.erb:18
-msgid ""
-"Translations are done initially by machine using Google Translate.  It's the t"
-"ranslators job to select the correct translation\n"
-"and add any fixes as needed."
-msgstr "翻译最初由机器使用谷歌翻译完成。翻译人员的工作是选择正确的翻译并根据需要进行修正。"
-
-#: ../../../app/views/pages/translate.html.erb:23
-msgid ""
-"Translations for an entirely new language can be done in less than an hour for"
-" native speakers."
-msgstr "母语人士可以在不到一个小时的时间内完成一种全新语言的翻译。"
-
-#: ../../../app/views/pages/translate.html.erb:27
-msgid "Read more: "
-msgstr "阅读更多："
-
-#: ../../../app/views/pages/translate.html.erb:28
-msgid "How to use our translation interface?"
-msgstr "如何使用我们的翻译界面？"
-
-#: ../../../app/views/pages/translate.html.erb:31
-msgid "How to Join"
-msgstr "如何加入"
-
-#: ../../../app/views/pages/translate.html.erb:34
-msgid "To join the translation effort:"
-msgstr "加入翻译工作："
-
-#: ../../../app/views/pages/translate.html.erb:39
-msgid "Register for a free account on"
-msgstr "注册一个免费帐户"
-
-#: ../../../app/views/pages/translate.html.erb:43
-msgid "Send me a message"
-msgstr "给我发一条信息"
-
-#: ../../../app/views/pages/translate.html.erb:44
-msgid ""
-"with your translation.io username and which language you would like to work on"
-"."
-msgstr "附上您的 translation.io 用户名和您想翻译的目标语言。"
-
-#: ../../../app/views/pages/translate.html.erb:49
-msgid "...and I'll add you to our translation project."
-msgstr "...我会将您添加到我们的翻译项目中。"
-
-#: ../../../app/views/pages/translate.html.erb:52
-msgid "Translation Tips"
-msgstr "翻译提示"
-
-#: ../../../app/views/pages/translate.html.erb:54
-msgid ""
-"If the source text is capitalized, try to maintain similar capitalization in t"
-"he translated text as well (assuming it's permitted syntactically in the targe"
-"t language)."
-msgstr "如果源文本是大写的，请尝试在翻译后的文本中也保持类似的大写（假设在目标语言中语法允许）。"
-
-#: ../../../app/views/pages/translate.html.erb:55
-msgid ""
-"If you see embedded codes such as \"%s\", {%file} or similar, leave those fully "
-"intact in the target translation.  These are substitution codes used in the ap"
-"plication."
-msgstr "如果您看到诸如“%s”、{%file} 或类似内容的嵌入代码，请在译文中完整保留这些代码。这些是应用程序中使用的替换代码。"
-
-#: ../../../app/views/pages/translate.html.erb:59
-msgid "Thanks for helping to translate Password Pusher!"
-msgstr "感谢您帮助翻译 Password Pusher！"
-
 #: ../../../app/views/passwords/active.html.erb:1
 #: ../../../app/views/passwords/active.html.erb:18
 msgid "Active Password Pushes"
@@ -2173,10 +1566,6 @@ msgstr "此密码在到期前被查看的次数。"
 #: ../../../app/views/passwords/audit.html.erb:113
 msgid "The number of times this password has been viewed after expiration."
 msgstr "此密码过期后仍被查看的次数。"
-
-#: ../../../app/views/passwords/audit.html.erb:184
-msgid "Password manually expired by an anonymous user"
-msgstr "匿名用户手动使密码过期"
 
 #: ../../../app/views/passwords/expired.html.erb:1
 #: ../../../app/views/passwords/expired.html.erb:15
@@ -2238,15 +1627,15 @@ msgstr "所有密码在存储之前都经过加密，并且只有拥有秘密链
 msgid "Your Password has been Pushed"
 msgstr "您的密码已被推送"
 
-#: ../../../app/views/passwords/preview.html.erb:12
+#: ../../../app/views/passwords/preview.html.erb:56
 msgid "This newly pushed password will expire after"
 msgstr "这个新推送的密码将于此后过期"
 
-#: ../../../app/views/passwords/preview.html.erb:30
+#: ../../../app/views/passwords/preview.html.erb:74
 msgid "View This Password Now"
 msgstr "立即查看此密码"
 
-#: ../../../app/views/passwords/preview.html.erb:31
+#: ../../../app/views/passwords/preview.html.erb:75
 msgid "Push Another Password"
 msgstr "推送另一个密码"
 
@@ -2304,6 +1693,10 @@ msgstr "首页"
 msgid "Docker Containers"
 msgstr "Docker 容器"
 
+#: ../../../app/views/shared/_footer.html.erb:34
+msgid "FAQ"
+msgstr "常问问题"
+
 #: ../../../app/views/shared/_footer.html.erb:35
 msgid "JSON API"
 msgstr "JSON API"
@@ -2316,55 +1709,41 @@ msgstr "密钥生成器"
 msgid "Source Code"
 msgstr "源代码"
 
+#: ../../../app/views/shared/_footer.html.erb:43
+msgid "Tools"
+msgstr "工具"
+
 #: ../../../app/views/shared/_footer.html.erb:51
 msgid "Overview"
 msgstr "概述"
 
 #: ../../../app/views/shared/_footer.html.erb:52
-msgid "Help Translate!"
-msgstr "帮助翻译！"
+msgid "Documentation"
+msgstr "文档"
 
 #: ../../../app/views/shared/_header.html.erb:37
 msgid "Account"
 msgstr "账户"
 
-#: ../../../app/views/shared/_header.html.erb:41
+#: ../../../app/views/shared/_header.html.erb:42
+msgid "Admin Dashboard"
+msgstr "管理仪表板"
+
+#: ../../../app/views/shared/_header.html.erb:46
 msgid "Edit Login Details"
 msgstr "编辑登录信息"
 
-#: ../../../app/views/shared/_header.html.erb:47
+#: ../../../app/views/shared/_header.html.erb:52
 msgid "Log Out"
 msgstr "登出"
 
-#: ../../../app/views/shared/_header.html.erb:53
+#: ../../../app/views/shared/_header.html.erb:58
 msgid "Log In"
 msgstr "登录"
 
-#: ../../../app/views/shared/_header.html.erb:57
+#: ../../../app/views/shared/_header.html.erb:62
 msgid "Sign Up"
 msgstr "注册账号"
-
-#: ../../../app/views/shared/_lang_selector_modal.erb:6
-msgid "Select your language"
-msgstr "选择你的语言"
-
-#: ../../../app/views/shared/_newsletter_sign_up.html.erb:3
-msgid "Get The Newsletter"
-msgstr "获取时事通讯"
-
-#: ../../../app/views/shared/_newsletter_sign_up.html.erb:5
-msgid ""
-"Updates on big releases, security issues, features, integrations, tips and mor"
-"e."
-msgstr "有关重大版本、安全问题、功能、集成、提示等的更新。"
-
-#: ../../../app/views/shared/_newsletter_sign_up.html.erb:13
-msgid "Enter your email..."
-msgstr "输入你的电子邮箱..."
-
-#: ../../../app/views/shared/_newsletter_sign_up.html.erb:14
-msgid "Subscribe"
-msgstr "订阅"
 
 #: ../../../app/views/shared/_pw_generator_modal.html.erb:5
 msgid "Configure Password Generation"
@@ -2417,10 +1796,6 @@ msgstr "辅音"
 #: ../../../app/views/shared/_pw_generator_modal.html.erb:71
 msgid "Reset to Defaults"
 msgstr "重置为默认值"
-
-#: ../../../app/views/shared/_secret_url_bar.html.erb:13
-msgid "Secret Link Language"
-msgstr "秘密链接语言"
 
 #: ../../../app/views/urls/active.html.erb:1
 #: ../../../app/views/urls/active.html.erb:18
@@ -2480,11 +1855,3 @@ msgstr "将生成一个秘密 URL，该 URL 将重定向到指定的 URL。"
 #: ../../../app/views/urls/new.html.erb:124
 msgid "Upon expiration, the push URL will be deleted entirely."
 msgstr "到期后，推送 URL 将被完全删除。"
-
-#: ../../../app/views/urls/new_anonymous.html.erb:1
-msgid "Securely Share URLs"
-msgstr "安全地共享 URL"
-
-#: ../../../app/views/urls/new_anonymous.html.erb:9
-msgid "Securely Send URLs That Expire Automatically"
-msgstr "安全地发送自动过期的 URL"

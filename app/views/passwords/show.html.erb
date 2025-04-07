@@ -1,7 +1,7 @@
 <% plain_title(_('Your Secret Link')) %>
 
-<div class="container-fluid h-100 mx-0 py-0 px-0 bg-light" data-controller="copy passwords" data-copy-lang-copied-value="<%= _('Copied!') %>">
-  <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center bg-light">
+<div class="container-fluid h-100 mx-0 py-0 px-0" data-controller="copy passwords" data-copy-lang-copied-value="<%= _('Copied!') %>">
+  <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
     <% unless @push.payload.empty? %>
         <div class='text-center m-3'>
           <p class=""><strong><%= _('Please obtain and securely store this content in a secure manner, such as in a password manager.') %></strong></p>
@@ -32,7 +32,7 @@
             <%= _('(whichever occurs first).') %>
         <% end %>
       </p>
-      <% if @push.deletable_by_viewer %>
+      <% if @push.deletable_by_viewer && @push.views_remaining.positive? %>
         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
           <em class="bi bi-trash"></em> <%= _('Delete This Secret Link Now') %>
         </button>
@@ -44,7 +44,7 @@
   </div>
 </div>
 
-<% if @push.deletable_by_viewer %>
+<% if @push.deletable_by_viewer && @push.views_remaining.positive? %>
   <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" data-controller="form">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">

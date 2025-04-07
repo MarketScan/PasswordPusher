@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  invisible_captcha only: :create
+
   layout "application", only: %i[edit update token]
   layout "login", except: %i[edit update token]
 
@@ -43,20 +45,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/token
   def token
-    redirect_to user_session_path if current_user.nil?
-
-    # Pre-existing accounts don't have a token yet.
-    # Save the user record to have one automatically generated.
-    current_user.save if current_user && current_user.authentication_token.blank?
+    if current_user.nil?
+      redirect_to user_session_path
+    elsif current_user&.authentication_token.blank?
+      current_user.regenerate_authentication_token!
+    end
   end
 
-  # PUT /resource/token
+  # DELETE /resource/token
   def regen_token
-    redirect_to user_session_path unless user_signed_in?
-    current_user.authentication_token = nil
-    current_user.save
-
-    redirect_to token_user_registration_path
+    if current_user.nil?
+      redirect_to user_session_path
+    else
+      current_user.regenerate_authentication_token!
+      redirect_to token_user_registration_path
+    end
   end
 
   # protected
@@ -75,6 +78,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_sign_up_path_for(resource)
   #   super(resource)
   # end
+
+  def after_inactive_sign_up_path_for(resource)
+    new_user_session_path
+  end
 
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)

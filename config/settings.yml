@@ -2,7 +2,7 @@
 #
 # This file uses YAML syntax.  Indentation must be 2 spaces (not tabs).
 #
-# See also https://github.com/pglombardo/PasswordPusher/blob/master/Configuration.md
+# See also https://docs.pwpush.com/docs/config-strategies/
 # for a further explanation of the larger settings available here.
 
 ### Application Defaults
@@ -50,6 +50,26 @@ enable_file_pushes: false
 # PWP__ENABLE_LOGINS='false'
 #
 enable_logins: false
+
+## Login Session Timeout
+#
+# The duration you want to timeout the user session without activity. After this
+# time the user will be asked for credentials again.
+#
+# Default: 2 hours
+#
+# Examples:
+#
+# login_session_timeout: "15 minutes"
+# login_session_timeout: "6 hours"
+# login_session_timeout: "1 day"
+# login_session_timeout: "3 weeks"
+# login_session_timeout: "1 month"
+#
+# Environment variable override:
+# PWP__LOGIN_SESSION_TIMEOUT='2 hours'
+#
+login_session_timeout: "2 hours"
 
 ## Disable Signups
 #
@@ -109,6 +129,8 @@ allow_anonymous: true
 # The domain (without protocol) where this instance is hosted
 # Used in generating fully qualified URLs.
 #
+# Make sure to set this for email links to work correctly.
+#
 # Environment variable override:
 # PWP__HOST_DOMAIN='pwpush.com'
 #
@@ -118,6 +140,8 @@ allow_anonymous: true
 #
 # The protocol to reach the domain above
 # Used in generating fully qualified URLs.
+#
+# Make sure to set this for email links to work correctly.
 #
 # Environment variable override:
 # PWP__HOST_PROTOCOL='https'
@@ -140,7 +164,7 @@ host_protocol: 'https'
 
 ### Show version on the footer
 #
-# Enable/disable PasswordPusher verison on the footer.
+# Enable/disable PasswordPusher version on the footer.
 #
 # Environment variable override:
 # PWP__SHOW_VERSION=true
@@ -290,7 +314,7 @@ pw:
   # in the future by adding a new checkbox and a `blur_default` setting.
   #
   # Environment variable override:
-  # PWP__PW__BLUR='false'
+  # PWP__PW__ENABLE_BLUR='false'
   #
   enable_blur: true
 
@@ -469,7 +493,7 @@ files:
   #   * microsoft - use Microsoft Azure Storage (and provide 'as' credentials below)
   #
   # Environment variable override:
-  # PWP__FILES_STORAGE='local'
+  # PWP__FILES__STORAGE='local'
   #
   storage: 'local'
 
@@ -578,7 +602,7 @@ gen:
   # The exact number of syllables that a generated password will have
   #
   # Environment variable override:
-  # PWP__GEN__SYLLABLE_COUNT=3
+  # PWP__GEN__SYLLABLES_COUNT=3
   #
   syllables_count: 3
 
@@ -672,40 +696,58 @@ brand:
 # Throttling enforces a minimum time interval
 # between subsequent HTTP requests from a particular client, as
 # well as by defining a maximum number of allowed HTTP requests
-# per a given time period (per second, minute, hourly, or daily).
+# per a given time period (per second or minute)
 #
-# See https://github.com/dryruby/rack-throttle#throttling-strategies
-# for a description of function.
+# See https://github.com/rack/rack-attack
 #
 throttling:
-  # ..maximum number of allowed HTTP requests per day
-  #
-  # Default: 5000
-  #
-  # Environment Variable Override: PWP__THROTTLING__DAILY='5000'
-  daily: 5000
-
-  # ..maximum number of allowed HTTP requests per hour
-  #
-  # Default: 600
-  #
-  # Environment Variable Override: PWP__THROTTLING__HOURLY='600'
-  hourly: 600
-
   # ..maximum number of allowed HTTP requests per minute
   #
-  # Default: 60
+  # Default: 120
   #
   # Environment Variable Override: PWP__THROTTLING__MINUTE='60'
-  minute: 60
+  minute: 120
 
   # ..maximum number of allowed HTTP requests per second
   #
-  # Default: 20
+  # Default: 60
   #
   # Environment Variable Override: PWP__THROTTLING__SECOND='20'
-  second: 20
+  second: 60
 
+### Trusted Proxies
+#
+# By default, Password Pusher will only proxy related headers from proxies on
+# the local network.  If you are using a proxy that is not on the local network,
+# you will need to add the IP address of the proxy to the list below.
+#
+# This is useful if you are using a remote reverse proxy such as Cloudflare to
+# serve the application.  If local, you can leave this setting as is.
+# 
+# Multiple IP addresses can be added by separating them with a comma.
+#
+# Environment Variable Override:
+# PWP__TRUSTED_PROXIES='<ipaddress>'
+# PWP__TRUSTED_PROXIES='<ipaddress1>,<ipaddress2>'
+#
+# trusted_proxies:
+#   - '1.2.3.4'
+#   - '2.3.4.5'
+
+## Cloudflare Proxy
+#
+# If you are using Cloudflare as a proxy, you will need to set the following
+# value to true.  This will cause the application to fetch the list of Cloudflare
+# proxy IP addresses and add them to the list of trusted proxies.
+#
+# Note that on application boot, this will trigger two HTTPs requests to fetch
+# the list of Cloudflare IP addresses.  The requests each have a timeout of 15 seconds
+# and may delay on container boot.
+#
+# Environment Variable Override:
+# PWP__CLOUDFLARE_PROXY='false'
+#
+cloudflare_proxy: false
 
 ### Mail Server Configuration
 #
@@ -718,6 +760,8 @@ throttling:
 # for ActionMailer is at:
 # https://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
 #
+# IMPORTANT: Also set host_domain and host_protocol above for email links to work correctly!
+#
 mail:
   # Email delivery errors will be shown in the application
   # Environment Variable Override: PWP__MAIL__RAISE_DELIVERY_ERRORS='false'
@@ -726,14 +770,6 @@ mail:
   # Allows you to use a remote mail server. Just change it from its default "localhost" setting.
   # Environment Variable Override: PWP__MAIL__SMTP_ADDRESS='smtp.example.com'
   # smtp_address: smtp.example.com
-
-  # If your mail server requires authentication, set the username in this setting.
-  # Environment Variable Override: PWP__MAIL__SMTP_USER_NAME='apikey'
-  # smtp_user_name: 'apikey'
-
-  # If your mail server requires authentication, set the password in this setting.
-  # Environment Variable Override: PWP__MAIL__SMTP_PASSWORD='something@&#$'
-  # smtp_password: ''
 
   # If you need to specify a HELO domain, you can do it here.
   # Environment Variable Override: PWP__MAIL__SMTP_DOMAIN='xyz.dev'
@@ -749,8 +785,19 @@ mail:
   # or :cram_md5 (combines a Challenge/Response mechanism to exchange
   # information and a cryptographic Message Digest 5 algorithm to hash
   # important information)
+  #
+  # Important: Comment this out if your server doesn't require authentication.
+  #
   # Environment Variable Override: PWP__MAIL__SMTP_AUTHENTICATION='plain'
-  smtp_authentication: 'plain'
+  # smtp_authentication: 'plain'
+
+  # If your mail server requires authentication, set the username in this setting.
+  # Environment Variable Override: PWP__MAIL__SMTP_USER_NAME='apikey'
+  # smtp_user_name: 'apikey'
+
+  # If your mail server requires authentication, set the password in this setting.
+  # Environment Variable Override: PWP__MAIL__SMTP_PASSWORD='something@&#$'
+  # smtp_password: ''
 
   # Use STARTTLS when connecting to your SMTP server and fail if unsupported.
   # Environment Variable Override: PWP__MAIL__SMTP_STARTTLS='true'
@@ -777,15 +824,7 @@ mail:
   # Configure the e-mail address which will be shown as 'From' in emails
   # See config/initializers/devise.rb where this is used
   # Environment Variable Override: PWP__MAIL__MAILER_SENDER='"Password Pusher" <pglombardo@pwpush.com>'
-  # mailer_sender: '"Password Pusher" <pglombardo@pwpush.com>'
-
-### Feedback Form
-feedback:
-  # The email that will receive the information filled out by users in the
-  # Feedback form.
-  #
-  # Environment Variable Override: PWP__FEEDBACK__EMAIL='my@email.com'
-  email: 'feedback@pwpush.com'
+  # mailer_sender: '"Password Pusher" <oss@pwpush.com>'
 
 ### Docker Pre-compilation
 #
@@ -796,9 +835,6 @@ feedback:
 #
 # Pre-compilation isn't supported in this yaml file.  It is only supported
 # through the environment variable PWP_PRECOMPILE='true'.
-#
-# See the following for more information:
-# https://github.com/pglombardo/PasswordPusher/blob/master/Configuration.md#how-to-precompile-css-assets
 #
 # Environment Variable: PWP_PRECOMPILE='false'
 
@@ -842,35 +878,37 @@ default_locale: :en
 # list below.
 #
 enabled_language_codes:
-  - ca # 'Català'
-  - cs # 'Čeština'
-  - da # 'Dansk'
-  - de # 'Deutsch'
-  - en # 'English'
-  - es # 'Español'
-  - eu # 'Euskara'
-  - fi # 'Suomi'
-  - fr # 'Français'
-  - hi # 'हिन्दी'
-  - hu # 'Magyar'
-  - id # 'Indonesian'
-  - is # 'Íslenska'
-  - it # 'Italiano'
-  - ja # '日本語'
-  - ko # '한국어'
-  - lv # 'Latviski'
-  - nl # 'Nederlands'
-  - 'no' # 'Norsk' # _no_ keyword in Ruby evaluates to false  #-(
-  - pl # 'Polski'
+  - ca    # 'Català'
+  - cs    # 'Čeština'
+  - da    # 'Dansk'
+  - de    # 'Deutsch'
+  - en    # 'English'
+  - en-GB # 'English (UK)'
+  - es    # 'Español'
+  - eu    # 'Euskara'
+  - fi    # 'Suomi'
+  - fr    # 'Français'
+  - hi    # 'हिन्दी'
+  - hu    # 'Magyar'
+  - id    # 'Indonesian'
+  - is    # 'Íslenska'
+  - it    # 'Italiano'
+  - ja    # '日本語'
+  - ko    # '한국어'
+  - lv    # 'Latviski'
+  - nl    # 'Nederlands'
+  - 'no'  # 'Norsk' # _no_ keyword in Ruby evaluates to false  #-(
+  - pl    # 'Polski'
   - pt-BR # 'Português'
   - pt-PT # 'Português'
-  - ro # 'Română'
-  - ru # 'Русский'
-  - sr # 'Српски'
-  - sv # 'Svenska'
-  - th # 'ไทย'
-  - uk # 'Українська'
-  - ur # 'اردو'
+  - ro    # 'Română'
+  - ru    # 'Русский'
+  - sr    # 'Српски'
+  - sk    # 'Slovenský'
+  - sv    # 'Svenska'
+  - th    # 'ไทย'
+  - uk    # 'Українська'
+  - ur    # 'اردو'
   - zh-CN # '中文'
 
 ### Language & Internationalization
@@ -887,6 +925,7 @@ language_codes:
   en: 'English'
   es: 'Español'
   eu: 'Euskara'
+  en-GB: 'English (UK)'
   fi: 'Suomi'
   fr: 'Français'
   hi: 'हिन्दी'
@@ -904,6 +943,7 @@ language_codes:
   pt-PT: 'Português'
   ro: 'Română'
   ru: 'Русский'
+  sk: 'Slovenský'
   sr: 'Српски'
   sv: 'Svenska'
   th: 'ไทย'
@@ -923,6 +963,7 @@ country_codes:
   da: :dk
   de: :de
   en: :us
+  en-GB: :gb
   es: :es
   eu: :es-pv
   fi: :fi
@@ -942,6 +983,7 @@ country_codes:
   pt-PT: :pt
   ro: :ro
   ru: :ru
+  sk: :sk
   sr: :rs
   sv: :se
   th: :th

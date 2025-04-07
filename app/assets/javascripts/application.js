@@ -37,8 +37,8 @@
   var init_adapters = __esm({
     "node_modules/@hotwired/turbo-rails/node_modules/@rails/actioncable/src/adapters.js"() {
       adapters_default = {
-        logger: self.console,
-        WebSocket: self.WebSocket
+        logger: typeof console !== "undefined" ? console : void 0,
+        WebSocket: typeof WebSocket !== "undefined" ? WebSocket : void 0
       };
     }
   });
@@ -92,12 +92,11 @@
         isRunning() {
           return this.startedAt && !this.stoppedAt;
         }
-        recordPing() {
+        recordMessage() {
           this.pingedAt = now();
         }
         recordConnect() {
           this.reconnectAttempts = 0;
-          this.recordPing();
           delete this.disconnectedAt;
           logger_default.log("ConnectionMonitor recorded connect");
         }
@@ -185,7 +184,8 @@
         "disconnect_reasons": {
           "unauthorized": "unauthorized",
           "invalid_request": "invalid_request",
-          "server_restart": "server_restart"
+          "server_restart": "server_restart",
+          "remote": "remote"
         },
         "default_mount_path": "/cable",
         "protocols": [
@@ -228,11 +228,12 @@
             logger_default.log(`Attempted to open WebSocket, but existing socket is ${this.getState()}`);
             return false;
           } else {
-            logger_default.log(`Opening WebSocket, current state is ${this.getState()}, subprotocols: ${protocols}`);
+            const socketProtocols = [...protocols, ...this.consumer.subprotocols || []];
+            logger_default.log(`Opening WebSocket, current state is ${this.getState()}, subprotocols: ${socketProtocols}`);
             if (this.webSocket) {
               this.uninstallEventHandlers();
             }
-            this.webSocket = new adapters_default.WebSocket(this.consumer.url, protocols);
+            this.webSocket = new adapters_default.WebSocket(this.consumer.url, socketProtocols);
             this.installEventHandlers();
             this.monitor.start();
             return true;
@@ -272,6 +273,9 @@
         isActive() {
           return this.isState("open", "connecting");
         }
+        triedToReconnect() {
+          return this.monitor.reconnectAttempts > 0;
+        }
         // Private
         isProtocolSupported() {
           return indexOf.call(supportedProtocols, this.getProtocol()) >= 0;
@@ -309,18 +313,27 @@
             return;
           }
           const { identifier, message, reason, reconnect, type } = JSON.parse(event.data);
+          this.monitor.recordMessage();
           switch (type) {
             case message_types.welcome:
+              if (this.triedToReconnect()) {
+                this.reconnectAttempted = true;
+              }
               this.monitor.recordConnect();
               return this.subscriptions.reload();
             case message_types.disconnect:
               logger_default.log(`Disconnecting. Reason: ${reason}`);
               return this.close({ allowReconnect: reconnect });
             case message_types.ping:
-              return this.monitor.recordPing();
+              return null;
             case message_types.confirmation:
               this.subscriptions.confirmSubscription(identifier);
-              return this.subscriptions.notify(identifier, "connected");
+              if (this.reconnectAttempted) {
+                this.reconnectAttempted = false;
+                return this.subscriptions.notify(identifier, "connected", { reconnected: true });
+              } else {
+                return this.subscriptions.notify(identifier, "connected", { reconnected: false });
+              }
             case message_types.rejection:
               return this.subscriptions.reject(identifier);
             default:
@@ -540,6 +553,7 @@
           this._url = url;
           this.subscriptions = new Subscriptions(this);
           this.connection = new connection_default(this);
+          this.subprotocols = [];
         }
         get url() {
           return createWebSocketURL(this._url);
@@ -557,6 +571,9 @@
           if (!this.connection.isActive()) {
             return this.connection.open();
           }
+        }
+        addSubProtocol(subprotocol) {
+          this.subprotocols = [...this.subprotocols, subprotocol];
         }
       };
     }
@@ -629,13 +646,11 @@
           let char = alpha[random(alpha.length)];
           return titlecased && !index ? char.toUpperCase() : char;
         });
-        if (hasNumbers)
-          syllable += random(10);
+        if (hasNumbers) syllable += random(10);
         return i && separators ? separators[random(separators.length)] + syllable : syllable;
       });
       var produce = (number, callback) => {
-        for (var i = 0, result = ""; i < number; i++)
-          result += callback(i);
+        for (var i = 0, result = ""; i < number; i++) result += callback(i);
         return result;
       };
       var buffer = [];
@@ -652,41 +667,58 @@
   });
 
   // node_modules/@hotwired/turbo/dist/turbo.es2017-esm.js
-  (function() {
-    if (window.Reflect === void 0 || window.customElements === void 0 || window.customElements.polyfillWrapFlushCallback) {
-      return;
-    }
-    const BuiltInHTMLElement = HTMLElement;
-    const wrapperForTheName = {
-      HTMLElement: function HTMLElement2() {
-        return Reflect.construct(BuiltInHTMLElement, [], this.constructor);
-      }
-    };
-    window.HTMLElement = wrapperForTheName["HTMLElement"];
-    HTMLElement.prototype = BuiltInHTMLElement.prototype;
-    HTMLElement.prototype.constructor = HTMLElement;
-    Object.setPrototypeOf(HTMLElement, BuiltInHTMLElement);
-  })();
+  var turbo_es2017_esm_exports = {};
+  __export(turbo_es2017_esm_exports, {
+    FetchEnctype: () => FetchEnctype,
+    FetchMethod: () => FetchMethod,
+    FetchRequest: () => FetchRequest,
+    FetchResponse: () => FetchResponse,
+    FrameElement: () => FrameElement,
+    FrameLoadingStyle: () => FrameLoadingStyle,
+    FrameRenderer: () => FrameRenderer,
+    PageRenderer: () => PageRenderer,
+    PageSnapshot: () => PageSnapshot,
+    StreamActions: () => StreamActions,
+    StreamElement: () => StreamElement,
+    StreamSourceElement: () => StreamSourceElement,
+    cache: () => cache,
+    clearCache: () => clearCache,
+    config: () => config,
+    connectStreamSource: () => connectStreamSource,
+    disconnectStreamSource: () => disconnectStreamSource,
+    fetch: () => fetchWithTurboHeaders,
+    fetchEnctypeFromString: () => fetchEnctypeFromString,
+    fetchMethodFromString: () => fetchMethodFromString,
+    isSafe: () => isSafe,
+    navigator: () => navigator$1,
+    registerAdapter: () => registerAdapter,
+    renderStreamMessage: () => renderStreamMessage,
+    session: () => session,
+    setConfirmMethod: () => setConfirmMethod,
+    setFormMode: () => setFormMode,
+    setProgressBarDelay: () => setProgressBarDelay,
+    start: () => start,
+    visit: () => visit
+  });
   (function(prototype) {
-    if (typeof prototype.requestSubmit == "function")
-      return;
-    prototype.requestSubmit = function(submitter) {
-      if (submitter) {
-        validateSubmitter(submitter, this);
-        submitter.click();
+    if (typeof prototype.requestSubmit == "function") return;
+    prototype.requestSubmit = function(submitter2) {
+      if (submitter2) {
+        validateSubmitter(submitter2, this);
+        submitter2.click();
       } else {
-        submitter = document.createElement("input");
-        submitter.type = "submit";
-        submitter.hidden = true;
-        this.appendChild(submitter);
-        submitter.click();
-        this.removeChild(submitter);
+        submitter2 = document.createElement("input");
+        submitter2.type = "submit";
+        submitter2.hidden = true;
+        this.appendChild(submitter2);
+        submitter2.click();
+        this.removeChild(submitter2);
       }
     };
-    function validateSubmitter(submitter, form) {
-      submitter instanceof HTMLElement || raise(TypeError, "parameter 1 is not of type 'HTMLElement'");
-      submitter.type == "submit" || raise(TypeError, "The specified element is not a submit button");
-      submitter.form == form || raise(DOMException, "The specified element is not owned by this form element", "NotFoundError");
+    function validateSubmitter(submitter2, form) {
+      submitter2 instanceof HTMLElement || raise(TypeError, "parameter 1 is not of type 'HTMLElement'");
+      submitter2.type == "submit" || raise(TypeError, "The specified element is not a submit button");
+      submitter2.form == form || raise(DOMException, "The specified element is not owned by this form element", "NotFoundError");
     }
     function raise(errorConstructor, message, name) {
       throw new errorConstructor("Failed to execute 'requestSubmit' on 'HTMLFormElement': " + message + ".", name);
@@ -696,22 +728,24 @@
   function findSubmitterFromClickTarget(target) {
     const element = target instanceof Element ? target : target instanceof Node ? target.parentElement : null;
     const candidate = element ? element.closest("input, button") : null;
-    return (candidate === null || candidate === void 0 ? void 0 : candidate.type) == "submit" ? candidate : null;
+    return candidate?.type == "submit" ? candidate : null;
   }
   function clickCaptured(event) {
-    const submitter = findSubmitterFromClickTarget(event.target);
-    if (submitter && submitter.form) {
-      submittersByForm.set(submitter.form, submitter);
+    const submitter2 = findSubmitterFromClickTarget(event.target);
+    if (submitter2 && submitter2.form) {
+      submittersByForm.set(submitter2.form, submitter2);
     }
   }
   (function() {
-    if ("submitter" in Event.prototype)
-      return;
+    if ("submitter" in Event.prototype) return;
     let prototype = window.Event.prototype;
-    if ("SubmitEvent" in window && /Apple Computer/.test(navigator.vendor)) {
-      prototype = window.SubmitEvent.prototype;
-    } else if ("SubmitEvent" in window) {
-      return;
+    if ("SubmitEvent" in window) {
+      const prototypeOfSubmitEvent = window.SubmitEvent.prototype;
+      if (/Apple Computer/.test(navigator.vendor) && !("submitter" in prototypeOfSubmitEvent)) {
+        prototype = prototypeOfSubmitEvent;
+      } else {
+        return;
+      }
     }
     addEventListener("click", clickCaptured, true);
     Object.defineProperty(prototype, "submitter", {
@@ -722,18 +756,18 @@
       }
     });
   })();
-  var FrameLoadingStyle;
-  (function(FrameLoadingStyle2) {
-    FrameLoadingStyle2["eager"] = "eager";
-    FrameLoadingStyle2["lazy"] = "lazy";
-  })(FrameLoadingStyle || (FrameLoadingStyle = {}));
+  var FrameLoadingStyle = {
+    eager: "eager",
+    lazy: "lazy"
+  };
   var FrameElement = class _FrameElement extends HTMLElement {
+    static delegateConstructor = void 0;
+    loaded = Promise.resolve();
     static get observedAttributes() {
-      return ["disabled", "complete", "loading", "src"];
+      return ["disabled", "loading", "src"];
     }
     constructor() {
       super();
-      this.loaded = Promise.resolve();
       this.delegate = new _FrameElement.delegateConstructor(this);
     }
     connectedCallback() {
@@ -748,17 +782,21 @@
     attributeChangedCallback(name) {
       if (name == "loading") {
         this.delegate.loadingStyleChanged();
-      } else if (name == "complete") {
-        this.delegate.completeChanged();
       } else if (name == "src") {
         this.delegate.sourceURLChanged();
-      } else {
+      } else if (name == "disabled") {
         this.delegate.disabledChanged();
       }
     }
+    /**
+     * Gets the URL to lazily load source HTML from
+     */
     get src() {
       return this.getAttribute("src");
     }
+    /**
+     * Sets the URL to lazily load source HTML from
+     */
     set src(value) {
       if (value) {
         this.setAttribute("src", value);
@@ -766,9 +804,34 @@
         this.removeAttribute("src");
       }
     }
+    /**
+     * Gets the refresh mode for the frame.
+     */
+    get refresh() {
+      return this.getAttribute("refresh");
+    }
+    /**
+     * Sets the refresh mode for the frame.
+     */
+    set refresh(value) {
+      if (value) {
+        this.setAttribute("refresh", value);
+      } else {
+        this.removeAttribute("refresh");
+      }
+    }
+    get shouldReloadWithMorph() {
+      return this.src && this.refresh === "morph";
+    }
+    /**
+     * Determines if the element is loading
+     */
     get loading() {
       return frameLoadingStyleFromString(this.getAttribute("loading") || "");
     }
+    /**
+     * Sets the value of if the element is loading
+     */
     set loading(value) {
       if (value) {
         this.setAttribute("loading", value);
@@ -776,9 +839,19 @@
         this.removeAttribute("loading");
       }
     }
+    /**
+     * Gets the disabled state of the frame.
+     *
+     * If disabled, no requests will be intercepted by the frame.
+     */
     get disabled() {
       return this.hasAttribute("disabled");
     }
+    /**
+     * Sets the disabled state of the frame.
+     *
+     * If disabled, no requests will be intercepted by the frame.
+     */
     set disabled(value) {
       if (value) {
         this.setAttribute("disabled", "");
@@ -786,9 +859,19 @@
         this.removeAttribute("disabled");
       }
     }
+    /**
+     * Gets the autoscroll state of the frame.
+     *
+     * If true, the frame will be scrolled into view automatically on update.
+     */
     get autoscroll() {
       return this.hasAttribute("autoscroll");
     }
+    /**
+     * Sets the autoscroll state of the frame.
+     *
+     * If true, the frame will be scrolled into view automatically on update.
+     */
     set autoscroll(value) {
       if (value) {
         this.setAttribute("autoscroll", "");
@@ -796,15 +879,27 @@
         this.removeAttribute("autoscroll");
       }
     }
+    /**
+     * Determines if the element has finished loading
+     */
     get complete() {
       return !this.delegate.isLoading;
     }
+    /**
+     * Gets the active state of the frame.
+     *
+     * If inactive, source changes will not be observed.
+     */
     get isActive() {
       return this.ownerDocument === document && !this.isPreview;
     }
+    /**
+     * Sets the active state of the frame.
+     *
+     * If inactive, source changes will not be observed.
+     */
     get isPreview() {
-      var _a, _b;
-      return (_b = (_a = this.ownerDocument) === null || _a === void 0 ? void 0 : _a.documentElement) === null || _b === void 0 ? void 0 : _b.hasAttribute("data-turbo-preview");
+      return this.ownerDocument?.documentElement?.hasAttribute("data-turbo-preview");
     }
   };
   function frameLoadingStyleFromString(style) {
@@ -815,6 +910,313 @@
         return FrameLoadingStyle.eager;
     }
   }
+  var drive = {
+    enabled: true,
+    progressBarDelay: 500,
+    unvisitableExtensions: /* @__PURE__ */ new Set(
+      [
+        ".7z",
+        ".aac",
+        ".apk",
+        ".avi",
+        ".bmp",
+        ".bz2",
+        ".css",
+        ".csv",
+        ".deb",
+        ".dmg",
+        ".doc",
+        ".docx",
+        ".exe",
+        ".gif",
+        ".gz",
+        ".heic",
+        ".heif",
+        ".ico",
+        ".iso",
+        ".jpeg",
+        ".jpg",
+        ".js",
+        ".json",
+        ".m4a",
+        ".mkv",
+        ".mov",
+        ".mp3",
+        ".mp4",
+        ".mpeg",
+        ".mpg",
+        ".msi",
+        ".ogg",
+        ".ogv",
+        ".pdf",
+        ".pkg",
+        ".png",
+        ".ppt",
+        ".pptx",
+        ".rar",
+        ".rtf",
+        ".svg",
+        ".tar",
+        ".tif",
+        ".tiff",
+        ".txt",
+        ".wav",
+        ".webm",
+        ".webp",
+        ".wma",
+        ".wmv",
+        ".xls",
+        ".xlsx",
+        ".xml",
+        ".zip"
+      ]
+    )
+  };
+  function activateScriptElement(element) {
+    if (element.getAttribute("data-turbo-eval") == "false") {
+      return element;
+    } else {
+      const createdScriptElement = document.createElement("script");
+      const cspNonce = getCspNonce();
+      if (cspNonce) {
+        createdScriptElement.nonce = cspNonce;
+      }
+      createdScriptElement.textContent = element.textContent;
+      createdScriptElement.async = false;
+      copyElementAttributes(createdScriptElement, element);
+      return createdScriptElement;
+    }
+  }
+  function copyElementAttributes(destinationElement, sourceElement) {
+    for (const { name, value } of sourceElement.attributes) {
+      destinationElement.setAttribute(name, value);
+    }
+  }
+  function createDocumentFragment(html) {
+    const template = document.createElement("template");
+    template.innerHTML = html;
+    return template.content;
+  }
+  function dispatch(eventName, { target, cancelable, detail } = {}) {
+    const event = new CustomEvent(eventName, {
+      cancelable,
+      bubbles: true,
+      composed: true,
+      detail
+    });
+    if (target && target.isConnected) {
+      target.dispatchEvent(event);
+    } else {
+      document.documentElement.dispatchEvent(event);
+    }
+    return event;
+  }
+  function cancelEvent(event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+  function nextRepaint() {
+    if (document.visibilityState === "hidden") {
+      return nextEventLoopTick();
+    } else {
+      return nextAnimationFrame();
+    }
+  }
+  function nextAnimationFrame() {
+    return new Promise((resolve) => requestAnimationFrame(() => resolve()));
+  }
+  function nextEventLoopTick() {
+    return new Promise((resolve) => setTimeout(() => resolve(), 0));
+  }
+  function nextMicrotask() {
+    return Promise.resolve();
+  }
+  function parseHTMLDocument(html = "") {
+    return new DOMParser().parseFromString(html, "text/html");
+  }
+  function unindent(strings, ...values) {
+    const lines = interpolate(strings, values).replace(/^\n/, "").split("\n");
+    const match = lines[0].match(/^\s+/);
+    const indent = match ? match[0].length : 0;
+    return lines.map((line) => line.slice(indent)).join("\n");
+  }
+  function interpolate(strings, values) {
+    return strings.reduce((result, string, i) => {
+      const value = values[i] == void 0 ? "" : values[i];
+      return result + string + value;
+    }, "");
+  }
+  function uuid() {
+    return Array.from({ length: 36 }).map((_, i) => {
+      if (i == 8 || i == 13 || i == 18 || i == 23) {
+        return "-";
+      } else if (i == 14) {
+        return "4";
+      } else if (i == 19) {
+        return (Math.floor(Math.random() * 4) + 8).toString(16);
+      } else {
+        return Math.floor(Math.random() * 15).toString(16);
+      }
+    }).join("");
+  }
+  function getAttribute(attributeName, ...elements) {
+    for (const value of elements.map((element) => element?.getAttribute(attributeName))) {
+      if (typeof value == "string") return value;
+    }
+    return null;
+  }
+  function hasAttribute(attributeName, ...elements) {
+    return elements.some((element) => element && element.hasAttribute(attributeName));
+  }
+  function markAsBusy(...elements) {
+    for (const element of elements) {
+      if (element.localName == "turbo-frame") {
+        element.setAttribute("busy", "");
+      }
+      element.setAttribute("aria-busy", "true");
+    }
+  }
+  function clearBusyState(...elements) {
+    for (const element of elements) {
+      if (element.localName == "turbo-frame") {
+        element.removeAttribute("busy");
+      }
+      element.removeAttribute("aria-busy");
+    }
+  }
+  function waitForLoad(element, timeoutInMilliseconds = 2e3) {
+    return new Promise((resolve) => {
+      const onComplete = () => {
+        element.removeEventListener("error", onComplete);
+        element.removeEventListener("load", onComplete);
+        resolve();
+      };
+      element.addEventListener("load", onComplete, { once: true });
+      element.addEventListener("error", onComplete, { once: true });
+      setTimeout(resolve, timeoutInMilliseconds);
+    });
+  }
+  function getHistoryMethodForAction(action) {
+    switch (action) {
+      case "replace":
+        return history.replaceState;
+      case "advance":
+      case "restore":
+        return history.pushState;
+    }
+  }
+  function isAction(action) {
+    return action == "advance" || action == "replace" || action == "restore";
+  }
+  function getVisitAction(...elements) {
+    const action = getAttribute("data-turbo-action", ...elements);
+    return isAction(action) ? action : null;
+  }
+  function getMetaElement(name) {
+    return document.querySelector(`meta[name="${name}"]`);
+  }
+  function getMetaContent(name) {
+    const element = getMetaElement(name);
+    return element && element.content;
+  }
+  function getCspNonce() {
+    const element = getMetaElement("csp-nonce");
+    if (element) {
+      const { nonce, content } = element;
+      return nonce == "" ? content : nonce;
+    }
+  }
+  function setMetaContent(name, content) {
+    let element = getMetaElement(name);
+    if (!element) {
+      element = document.createElement("meta");
+      element.setAttribute("name", name);
+      document.head.appendChild(element);
+    }
+    element.setAttribute("content", content);
+    return element;
+  }
+  function findClosestRecursively(element, selector) {
+    if (element instanceof Element) {
+      return element.closest(selector) || findClosestRecursively(element.assignedSlot || element.getRootNode()?.host, selector);
+    }
+  }
+  function elementIsFocusable(element) {
+    const inertDisabledOrHidden = "[inert], :disabled, [hidden], details:not([open]), dialog:not([open])";
+    return !!element && element.closest(inertDisabledOrHidden) == null && typeof element.focus == "function";
+  }
+  function queryAutofocusableElement(elementOrDocumentFragment) {
+    return Array.from(elementOrDocumentFragment.querySelectorAll("[autofocus]")).find(elementIsFocusable);
+  }
+  async function around(callback, reader) {
+    const before = reader();
+    callback();
+    await nextAnimationFrame();
+    const after = reader();
+    return [before, after];
+  }
+  function doesNotTargetIFrame(name) {
+    if (name === "_blank") {
+      return false;
+    } else if (name) {
+      for (const element of document.getElementsByName(name)) {
+        if (element instanceof HTMLIFrameElement) return false;
+      }
+      return true;
+    } else {
+      return true;
+    }
+  }
+  function findLinkFromClickTarget(target) {
+    return findClosestRecursively(target, "a[href]:not([target^=_]):not([download])");
+  }
+  function getLocationForLink(link) {
+    return expandURL(link.getAttribute("href") || "");
+  }
+  function debounce(fn2, delay) {
+    let timeoutId = null;
+    return (...args) => {
+      const callback = () => fn2.apply(this, args);
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(callback, delay);
+    };
+  }
+  var submitter = {
+    "aria-disabled": {
+      beforeSubmit: (submitter2) => {
+        submitter2.setAttribute("aria-disabled", "true");
+        submitter2.addEventListener("click", cancelEvent);
+      },
+      afterSubmit: (submitter2) => {
+        submitter2.removeAttribute("aria-disabled");
+        submitter2.removeEventListener("click", cancelEvent);
+      }
+    },
+    "disabled": {
+      beforeSubmit: (submitter2) => submitter2.disabled = true,
+      afterSubmit: (submitter2) => submitter2.disabled = false
+    }
+  };
+  var Config = class {
+    #submitter = null;
+    constructor(config2) {
+      Object.assign(this, config2);
+    }
+    get submitter() {
+      return this.#submitter;
+    }
+    set submitter(value) {
+      this.#submitter = submitter[value] || value;
+    }
+  };
+  var forms = new Config({
+    mode: "on",
+    submitter: "disabled"
+  });
+  var config = {
+    drive,
+    forms
+  };
   function expandURL(locatable) {
     return new URL(locatable.toString(), document.baseURI);
   }
@@ -826,22 +1228,19 @@
       return anchorMatch[1];
     }
   }
-  function getAction(form, submitter) {
-    const action = (submitter === null || submitter === void 0 ? void 0 : submitter.getAttribute("formaction")) || form.getAttribute("action") || form.action;
+  function getAction$1(form, submitter2) {
+    const action = submitter2?.getAttribute("formaction") || form.getAttribute("action") || form.action;
     return expandURL(action);
   }
   function getExtension(url) {
     return (getLastPathComponent(url).match(/\.[^.]*$/) || [])[0] || "";
-  }
-  function isHTML(url) {
-    return !!getExtension(url).match(/^(?:|\.(?:htm|html|xhtml|php))$/);
   }
   function isPrefixedBy(baseURL, url) {
     const prefix = getPrefix(url);
     return baseURL.href === expandURL(prefix).href || baseURL.href.startsWith(prefix);
   }
   function locationIsVisitable(location2, rootLocation) {
-    return isPrefixedBy(location2, rootLocation) && isHTML(location2);
+    return isPrefixedBy(location2, rootLocation) && !config.drive.unvisitableExtensions.has(getExtension(location2));
   }
   function getRequestURL(url) {
     const anchor = getAnchor(url);
@@ -910,167 +1309,32 @@
       return this.response.headers.get(name);
     }
   };
-  function activateScriptElement(element) {
-    if (element.getAttribute("data-turbo-eval") == "false") {
-      return element;
-    } else {
-      const createdScriptElement = document.createElement("script");
-      const cspNonce = getMetaContent("csp-nonce");
-      if (cspNonce) {
-        createdScriptElement.nonce = cspNonce;
+  var LimitedSet = class extends Set {
+    constructor(maxSize) {
+      super();
+      this.maxSize = maxSize;
+    }
+    add(value) {
+      if (this.size >= this.maxSize) {
+        const iterator = this.values();
+        const oldestValue = iterator.next().value;
+        this.delete(oldestValue);
       }
-      createdScriptElement.textContent = element.textContent;
-      createdScriptElement.async = false;
-      copyElementAttributes(createdScriptElement, element);
-      return createdScriptElement;
+      super.add(value);
     }
-  }
-  function copyElementAttributes(destinationElement, sourceElement) {
-    for (const { name, value } of sourceElement.attributes) {
-      destinationElement.setAttribute(name, value);
-    }
-  }
-  function createDocumentFragment(html) {
-    const template = document.createElement("template");
-    template.innerHTML = html;
-    return template.content;
-  }
-  function dispatch(eventName, { target, cancelable, detail } = {}) {
-    const event = new CustomEvent(eventName, {
-      cancelable,
-      bubbles: true,
-      composed: true,
-      detail
-    });
-    if (target && target.isConnected) {
-      target.dispatchEvent(event);
-    } else {
-      document.documentElement.dispatchEvent(event);
-    }
-    return event;
-  }
-  function nextAnimationFrame() {
-    return new Promise((resolve) => requestAnimationFrame(() => resolve()));
-  }
-  function nextEventLoopTick() {
-    return new Promise((resolve) => setTimeout(() => resolve(), 0));
-  }
-  function nextMicrotask() {
-    return Promise.resolve();
-  }
-  function parseHTMLDocument(html = "") {
-    return new DOMParser().parseFromString(html, "text/html");
-  }
-  function unindent(strings, ...values) {
-    const lines = interpolate(strings, values).replace(/^\n/, "").split("\n");
-    const match = lines[0].match(/^\s+/);
-    const indent = match ? match[0].length : 0;
-    return lines.map((line) => line.slice(indent)).join("\n");
-  }
-  function interpolate(strings, values) {
-    return strings.reduce((result, string, i) => {
-      const value = values[i] == void 0 ? "" : values[i];
-      return result + string + value;
-    }, "");
-  }
-  function uuid() {
-    return Array.from({ length: 36 }).map((_, i) => {
-      if (i == 8 || i == 13 || i == 18 || i == 23) {
-        return "-";
-      } else if (i == 14) {
-        return "4";
-      } else if (i == 19) {
-        return (Math.floor(Math.random() * 4) + 8).toString(16);
-      } else {
-        return Math.floor(Math.random() * 15).toString(16);
-      }
-    }).join("");
-  }
-  function getAttribute(attributeName, ...elements) {
-    for (const value of elements.map((element) => element === null || element === void 0 ? void 0 : element.getAttribute(attributeName))) {
-      if (typeof value == "string")
-        return value;
-    }
-    return null;
-  }
-  function hasAttribute(attributeName, ...elements) {
-    return elements.some((element) => element && element.hasAttribute(attributeName));
-  }
-  function markAsBusy(...elements) {
-    for (const element of elements) {
-      if (element.localName == "turbo-frame") {
-        element.setAttribute("busy", "");
-      }
-      element.setAttribute("aria-busy", "true");
-    }
-  }
-  function clearBusyState(...elements) {
-    for (const element of elements) {
-      if (element.localName == "turbo-frame") {
-        element.removeAttribute("busy");
-      }
-      element.removeAttribute("aria-busy");
-    }
-  }
-  function waitForLoad(element, timeoutInMilliseconds = 2e3) {
-    return new Promise((resolve) => {
-      const onComplete = () => {
-        element.removeEventListener("error", onComplete);
-        element.removeEventListener("load", onComplete);
-        resolve();
-      };
-      element.addEventListener("load", onComplete, { once: true });
-      element.addEventListener("error", onComplete, { once: true });
-      setTimeout(resolve, timeoutInMilliseconds);
+  };
+  var recentRequests = new LimitedSet(20);
+  var nativeFetch = window.fetch;
+  function fetchWithTurboHeaders(url, options = {}) {
+    const modifiedHeaders = new Headers(options.headers || {});
+    const requestUID = uuid();
+    recentRequests.add(requestUID);
+    modifiedHeaders.append("X-Turbo-Request-Id", requestUID);
+    return nativeFetch(url, {
+      ...options,
+      headers: modifiedHeaders
     });
   }
-  function getHistoryMethodForAction(action) {
-    switch (action) {
-      case "replace":
-        return history.replaceState;
-      case "advance":
-      case "restore":
-        return history.pushState;
-    }
-  }
-  function isAction(action) {
-    return action == "advance" || action == "replace" || action == "restore";
-  }
-  function getVisitAction(...elements) {
-    const action = getAttribute("data-turbo-action", ...elements);
-    return isAction(action) ? action : null;
-  }
-  function getMetaElement(name) {
-    return document.querySelector(`meta[name="${name}"]`);
-  }
-  function getMetaContent(name) {
-    const element = getMetaElement(name);
-    return element && element.content;
-  }
-  function setMetaContent(name, content) {
-    let element = getMetaElement(name);
-    if (!element) {
-      element = document.createElement("meta");
-      element.setAttribute("name", name);
-      document.head.appendChild(element);
-    }
-    element.setAttribute("content", content);
-    return element;
-  }
-  function findClosestRecursively(element, selector) {
-    var _a;
-    if (element instanceof Element) {
-      return element.closest(selector) || findClosestRecursively(element.assignedSlot || ((_a = element.getRootNode()) === null || _a === void 0 ? void 0 : _a.host), selector);
-    }
-  }
-  var FetchMethod;
-  (function(FetchMethod2) {
-    FetchMethod2[FetchMethod2["get"] = 0] = "get";
-    FetchMethod2[FetchMethod2["post"] = 1] = "post";
-    FetchMethod2[FetchMethod2["put"] = 2] = "put";
-    FetchMethod2[FetchMethod2["patch"] = 3] = "patch";
-    FetchMethod2[FetchMethod2["delete"] = 4] = "delete";
-  })(FetchMethod || (FetchMethod = {}));
   function fetchMethodFromString(method) {
     switch (method.toLowerCase()) {
       case "get":
@@ -1085,17 +1349,75 @@
         return FetchMethod.delete;
     }
   }
+  var FetchMethod = {
+    get: "get",
+    post: "post",
+    put: "put",
+    patch: "patch",
+    delete: "delete"
+  };
+  function fetchEnctypeFromString(encoding) {
+    switch (encoding.toLowerCase()) {
+      case FetchEnctype.multipart:
+        return FetchEnctype.multipart;
+      case FetchEnctype.plain:
+        return FetchEnctype.plain;
+      default:
+        return FetchEnctype.urlEncoded;
+    }
+  }
+  var FetchEnctype = {
+    urlEncoded: "application/x-www-form-urlencoded",
+    multipart: "multipart/form-data",
+    plain: "text/plain"
+  };
   var FetchRequest = class {
-    constructor(delegate, method, location2, body = new URLSearchParams(), target = null) {
-      this.abortController = new AbortController();
-      this.resolveRequestPromise = (_value) => {
-      };
+    abortController = new AbortController();
+    #resolveRequestPromise = (_value) => {
+    };
+    constructor(delegate, method, location2, requestBody = new URLSearchParams(), target = null, enctype = FetchEnctype.urlEncoded) {
+      const [url, body] = buildResourceAndBody(expandURL(location2), method, requestBody, enctype);
       this.delegate = delegate;
-      this.method = method;
-      this.headers = this.defaultHeaders;
-      this.body = body;
-      this.url = location2;
+      this.url = url;
       this.target = target;
+      this.fetchOptions = {
+        credentials: "same-origin",
+        redirect: "follow",
+        method: method.toUpperCase(),
+        headers: { ...this.defaultHeaders },
+        body,
+        signal: this.abortSignal,
+        referrer: this.delegate.referrer?.href
+      };
+      this.enctype = enctype;
+    }
+    get method() {
+      return this.fetchOptions.method;
+    }
+    set method(value) {
+      const fetchBody = this.isSafe ? this.url.searchParams : this.fetchOptions.body || new FormData();
+      const fetchMethod = fetchMethodFromString(value) || FetchMethod.get;
+      this.url.search = "";
+      const [url, body] = buildResourceAndBody(this.url, fetchMethod, fetchBody, this.enctype);
+      this.url = url;
+      this.fetchOptions.body = body;
+      this.fetchOptions.method = fetchMethod.toUpperCase();
+    }
+    get headers() {
+      return this.fetchOptions.headers;
+    }
+    set headers(value) {
+      this.fetchOptions.headers = value;
+    }
+    get body() {
+      if (this.isSafe) {
+        return this.url.searchParams;
+      } else {
+        return this.fetchOptions.body;
+      }
+    }
+    set body(value) {
+      this.fetchOptions.body = value;
     }
     get location() {
       return this.url;
@@ -1112,14 +1434,19 @@
     async perform() {
       const { fetchOptions } = this;
       this.delegate.prepareRequest(this);
-      await this.allowRequestToBeIntercepted(fetchOptions);
+      const event = await this.#allowRequestToBeIntercepted(fetchOptions);
       try {
         this.delegate.requestStarted(this);
-        const response = await fetch(this.url.href, fetchOptions);
+        if (event.detail.fetchRequest) {
+          this.response = event.detail.fetchRequest.response;
+        } else {
+          this.response = fetchWithTurboHeaders(this.url.href, fetchOptions);
+        }
+        const response = await this.response;
         return await this.receive(response);
       } catch (error2) {
         if (error2.name !== "AbortError") {
-          if (this.willDelegateErrorHandling(error2)) {
+          if (this.#willDelegateErrorHandling(error2)) {
             this.delegate.requestErrored(this, error2);
           }
           throw error2;
@@ -1144,25 +1471,13 @@
       }
       return fetchResponse;
     }
-    get fetchOptions() {
-      var _a;
-      return {
-        method: FetchMethod[this.method].toUpperCase(),
-        credentials: "same-origin",
-        headers: this.headers,
-        redirect: "follow",
-        body: this.isSafe ? null : this.body,
-        signal: this.abortSignal,
-        referrer: (_a = this.delegate.referrer) === null || _a === void 0 ? void 0 : _a.href
-      };
-    }
     get defaultHeaders() {
       return {
         Accept: "text/html, application/xhtml+xml"
       };
     }
     get isSafe() {
-      return this.method === FetchMethod.get;
+      return isSafe(this.method);
     }
     get abortSignal() {
       return this.abortController.signal;
@@ -1170,21 +1485,22 @@
     acceptResponseType(mimeType) {
       this.headers["Accept"] = [mimeType, this.headers["Accept"]].join(", ");
     }
-    async allowRequestToBeIntercepted(fetchOptions) {
-      const requestInterception = new Promise((resolve) => this.resolveRequestPromise = resolve);
+    async #allowRequestToBeIntercepted(fetchOptions) {
+      const requestInterception = new Promise((resolve) => this.#resolveRequestPromise = resolve);
       const event = dispatch("turbo:before-fetch-request", {
         cancelable: true,
         detail: {
           fetchOptions,
           url: this.url,
-          resume: this.resolveRequestPromise
+          resume: this.#resolveRequestPromise
         },
         target: this.target
       });
-      if (event.defaultPrevented)
-        await requestInterception;
+      this.url = event.detail.url;
+      if (event.defaultPrevented) await requestInterception;
+      return event;
     }
-    willDelegateErrorHandling(error2) {
+    #willDelegateErrorHandling(error2) {
       const event = dispatch("turbo:fetch-request-error", {
         target: this.target,
         cancelable: true,
@@ -1193,15 +1509,35 @@
       return !event.defaultPrevented;
     }
   };
+  function isSafe(fetchMethod) {
+    return fetchMethodFromString(fetchMethod) == FetchMethod.get;
+  }
+  function buildResourceAndBody(resource, method, requestBody, enctype) {
+    const searchParams = Array.from(requestBody).length > 0 ? new URLSearchParams(entriesExcludingFiles(requestBody)) : resource.searchParams;
+    if (isSafe(method)) {
+      return [mergeIntoURLSearchParams(resource, searchParams), null];
+    } else if (enctype == FetchEnctype.urlEncoded) {
+      return [resource, searchParams];
+    } else {
+      return [resource, requestBody];
+    }
+  }
+  function entriesExcludingFiles(requestBody) {
+    const entries = [];
+    for (const [name, value] of requestBody) {
+      if (value instanceof File) continue;
+      else entries.push([name, value]);
+    }
+    return entries;
+  }
+  function mergeIntoURLSearchParams(url, requestBody) {
+    const searchParams = new URLSearchParams(entriesExcludingFiles(requestBody));
+    url.search = searchParams.toString();
+    return url;
+  }
   var AppearanceObserver = class {
+    started = false;
     constructor(delegate, element) {
-      this.started = false;
-      this.intersect = (entries) => {
-        const lastEntry = entries.slice(-1)[0];
-        if (lastEntry === null || lastEntry === void 0 ? void 0 : lastEntry.isIntersecting) {
-          this.delegate.elementAppearedInViewport(this.element);
-        }
-      };
       this.delegate = delegate;
       this.element = element;
       this.intersectionObserver = new IntersectionObserver(this.intersect);
@@ -1218,8 +1554,15 @@
         this.intersectionObserver.unobserve(this.element);
       }
     }
+    intersect = (entries) => {
+      const lastEntry = entries.slice(-1)[0];
+      if (lastEntry?.isIntersecting) {
+        this.delegate.elementAppearedInViewport(this.element);
+      }
+    };
   };
   var StreamMessage = class {
+    static contentType = "text/vnd.turbo-stream.html";
     static wrap(message) {
       if (typeof message == "string") {
         return new this(createDocumentFragment(message));
@@ -1231,7 +1574,6 @@
       this.fragment = importStreamElements(fragment);
     }
   };
-  StreamMessage.contentType = "text/vnd.turbo-stream.html";
   function importStreamElements(fragment) {
     for (const element of fragment.querySelectorAll("turbo-stream")) {
       const streamElement = document.importNode(element, true);
@@ -1242,86 +1584,88 @@
     }
     return fragment;
   }
-  var FormSubmissionState;
-  (function(FormSubmissionState2) {
-    FormSubmissionState2[FormSubmissionState2["initialized"] = 0] = "initialized";
-    FormSubmissionState2[FormSubmissionState2["requesting"] = 1] = "requesting";
-    FormSubmissionState2[FormSubmissionState2["waiting"] = 2] = "waiting";
-    FormSubmissionState2[FormSubmissionState2["receiving"] = 3] = "receiving";
-    FormSubmissionState2[FormSubmissionState2["stopping"] = 4] = "stopping";
-    FormSubmissionState2[FormSubmissionState2["stopped"] = 5] = "stopped";
-  })(FormSubmissionState || (FormSubmissionState = {}));
-  var FormEnctype;
-  (function(FormEnctype2) {
-    FormEnctype2["urlEncoded"] = "application/x-www-form-urlencoded";
-    FormEnctype2["multipart"] = "multipart/form-data";
-    FormEnctype2["plain"] = "text/plain";
-  })(FormEnctype || (FormEnctype = {}));
-  function formEnctypeFromString(encoding) {
-    switch (encoding.toLowerCase()) {
-      case FormEnctype.multipart:
-        return FormEnctype.multipart;
-      case FormEnctype.plain:
-        return FormEnctype.plain;
-      default:
-        return FormEnctype.urlEncoded;
+  var PREFETCH_DELAY = 100;
+  var PrefetchCache = class {
+    #prefetchTimeout = null;
+    #prefetched = null;
+    get(url) {
+      if (this.#prefetched && this.#prefetched.url === url && this.#prefetched.expire > Date.now()) {
+        return this.#prefetched.request;
+      }
     }
-  }
+    setLater(url, request, ttl) {
+      this.clear();
+      this.#prefetchTimeout = setTimeout(() => {
+        request.perform();
+        this.set(url, request, ttl);
+        this.#prefetchTimeout = null;
+      }, PREFETCH_DELAY);
+    }
+    set(url, request, ttl) {
+      this.#prefetched = { url, request, expire: new Date((/* @__PURE__ */ new Date()).getTime() + ttl) };
+    }
+    clear() {
+      if (this.#prefetchTimeout) clearTimeout(this.#prefetchTimeout);
+      this.#prefetched = null;
+    }
+  };
+  var cacheTtl = 10 * 1e3;
+  var prefetchCache = new PrefetchCache();
+  var FormSubmissionState = {
+    initialized: "initialized",
+    requesting: "requesting",
+    waiting: "waiting",
+    receiving: "receiving",
+    stopping: "stopping",
+    stopped: "stopped"
+  };
   var FormSubmission = class _FormSubmission {
-    static confirmMethod(message, _element, _submitter) {
+    state = FormSubmissionState.initialized;
+    static confirmMethod(message) {
       return Promise.resolve(confirm(message));
     }
-    constructor(delegate, formElement, submitter, mustRedirect = false) {
-      this.state = FormSubmissionState.initialized;
+    constructor(delegate, formElement, submitter2, mustRedirect = false) {
+      const method = getMethod(formElement, submitter2);
+      const action = getAction(getFormAction(formElement, submitter2), method);
+      const body = buildFormData(formElement, submitter2);
+      const enctype = getEnctype(formElement, submitter2);
       this.delegate = delegate;
       this.formElement = formElement;
-      this.submitter = submitter;
-      this.formData = buildFormData(formElement, submitter);
-      this.location = expandURL(this.action);
-      if (this.method == FetchMethod.get) {
-        mergeFormDataEntries(this.location, [...this.body.entries()]);
-      }
-      this.fetchRequest = new FetchRequest(this, this.method, this.location, this.body, this.formElement);
+      this.submitter = submitter2;
+      this.fetchRequest = new FetchRequest(this, method, action, body, formElement, enctype);
       this.mustRedirect = mustRedirect;
     }
     get method() {
-      var _a;
-      const method = ((_a = this.submitter) === null || _a === void 0 ? void 0 : _a.getAttribute("formmethod")) || this.formElement.getAttribute("method") || "";
-      return fetchMethodFromString(method.toLowerCase()) || FetchMethod.get;
+      return this.fetchRequest.method;
+    }
+    set method(value) {
+      this.fetchRequest.method = value;
     }
     get action() {
-      var _a;
-      const formElementAction = typeof this.formElement.action === "string" ? this.formElement.action : null;
-      if ((_a = this.submitter) === null || _a === void 0 ? void 0 : _a.hasAttribute("formaction")) {
-        return this.submitter.getAttribute("formaction") || "";
-      } else {
-        return this.formElement.getAttribute("action") || formElementAction || "";
-      }
+      return this.fetchRequest.url.toString();
+    }
+    set action(value) {
+      this.fetchRequest.url = expandURL(value);
     }
     get body() {
-      if (this.enctype == FormEnctype.urlEncoded || this.method == FetchMethod.get) {
-        return new URLSearchParams(this.stringFormData);
-      } else {
-        return this.formData;
-      }
+      return this.fetchRequest.body;
     }
     get enctype() {
-      var _a;
-      return formEnctypeFromString(((_a = this.submitter) === null || _a === void 0 ? void 0 : _a.getAttribute("formenctype")) || this.formElement.enctype);
+      return this.fetchRequest.enctype;
     }
     get isSafe() {
       return this.fetchRequest.isSafe;
     }
-    get stringFormData() {
-      return [...this.formData].reduce((entries, [name, value]) => {
-        return entries.concat(typeof value == "string" ? [[name, value]] : []);
-      }, []);
+    get location() {
+      return this.fetchRequest.url;
     }
+    // The submission process
     async start() {
       const { initialized, requesting } = FormSubmissionState;
       const confirmationMessage = getAttribute("data-turbo-confirm", this.submitter, this.formElement);
       if (typeof confirmationMessage === "string") {
-        const answer = await _FormSubmission.confirmMethod(confirmationMessage, this.formElement, this.submitter);
+        const confirmMethod = typeof config.forms.confirm === "function" ? config.forms.confirm : _FormSubmission.confirmMethod;
+        const answer = await confirmMethod(confirmationMessage, this.formElement, this.submitter);
         if (!answer) {
           return;
         }
@@ -1339,6 +1683,7 @@
         return true;
       }
     }
+    // Fetch request delegate
     prepareRequest(request) {
       if (!request.isSafe) {
         const token = getCookieValue(getMetaContent("csrf-param")) || getMetaContent("csrf-token");
@@ -1351,10 +1696,10 @@
       }
     }
     requestStarted(_request) {
-      var _a;
       this.state = FormSubmissionState.waiting;
-      (_a = this.submitter) === null || _a === void 0 ? void 0 : _a.setAttribute("disabled", "");
+      if (this.submitter) config.forms.submitter.beforeSubmit(this.submitter);
       this.setSubmitsWith();
+      markAsBusy(this.formElement);
       dispatch("turbo:submit-start", {
         target: this.formElement,
         detail: { formSubmission: this }
@@ -1362,12 +1707,16 @@
       this.delegate.formSubmissionStarted(this);
     }
     requestPreventedHandlingResponse(request, response) {
+      prefetchCache.clear();
       this.result = { success: response.succeeded, fetchResponse: response };
     }
     requestSucceededWithResponse(request, response) {
       if (response.clientError || response.serverError) {
         this.delegate.formSubmissionFailedWithResponse(this, response);
-      } else if (this.requestMustRedirect(request) && responseSucceededWithoutRedirect(response)) {
+        return;
+      }
+      prefetchCache.clear();
+      if (this.requestMustRedirect(request) && responseSucceededWithoutRedirect(response)) {
         const error2 = new Error("Form responses must redirect to another location");
         this.delegate.formSubmissionErrored(this, error2);
       } else {
@@ -1385,19 +1734,19 @@
       this.delegate.formSubmissionErrored(this, error2);
     }
     requestFinished(_request) {
-      var _a;
       this.state = FormSubmissionState.stopped;
-      (_a = this.submitter) === null || _a === void 0 ? void 0 : _a.removeAttribute("disabled");
+      if (this.submitter) config.forms.submitter.afterSubmit(this.submitter);
       this.resetSubmitterText();
+      clearBusyState(this.formElement);
       dispatch("turbo:submit-end", {
         target: this.formElement,
-        detail: Object.assign({ formSubmission: this }, this.result)
+        detail: { formSubmission: this, ...this.result }
       });
       this.delegate.formSubmissionFinished(this);
     }
+    // Private
     setSubmitsWith() {
-      if (!this.submitter || !this.submitsWith)
-        return;
+      if (!this.submitter || !this.submitsWith) return;
       if (this.submitter.matches("button")) {
         this.originalSubmitText = this.submitter.innerHTML;
         this.submitter.innerHTML = this.submitsWith;
@@ -1408,8 +1757,7 @@
       }
     }
     resetSubmitterText() {
-      if (!this.submitter || !this.originalSubmitText)
-        return;
+      if (!this.submitter || !this.originalSubmitText) return;
       if (this.submitter.matches("button")) {
         this.submitter.innerHTML = this.originalSubmitText;
       } else if (this.submitter.matches("input")) {
@@ -1424,14 +1772,13 @@
       return !request.isSafe || hasAttribute("data-turbo-stream", this.submitter, this.formElement);
     }
     get submitsWith() {
-      var _a;
-      return (_a = this.submitter) === null || _a === void 0 ? void 0 : _a.getAttribute("data-turbo-submits-with");
+      return this.submitter?.getAttribute("data-turbo-submits-with");
     }
   };
-  function buildFormData(formElement, submitter) {
+  function buildFormData(formElement, submitter2) {
     const formData = new FormData(formElement);
-    const name = submitter === null || submitter === void 0 ? void 0 : submitter.getAttribute("name");
-    const value = submitter === null || submitter === void 0 ? void 0 : submitter.getAttribute("value");
+    const name = submitter2?.getAttribute("name");
+    const value = submitter2?.getAttribute("value");
     if (name) {
       formData.append(name, value || "");
     }
@@ -1450,15 +1797,27 @@
   function responseSucceededWithoutRedirect(response) {
     return response.statusCode == 200 && !response.redirected;
   }
-  function mergeFormDataEntries(url, entries) {
-    const searchParams = new URLSearchParams();
-    for (const [name, value] of entries) {
-      if (value instanceof File)
-        continue;
-      searchParams.append(name, value);
+  function getFormAction(formElement, submitter2) {
+    const formElementAction = typeof formElement.action === "string" ? formElement.action : null;
+    if (submitter2?.hasAttribute("formaction")) {
+      return submitter2.getAttribute("formaction") || "";
+    } else {
+      return formElement.getAttribute("action") || formElementAction || "";
     }
-    url.search = searchParams.toString();
-    return url;
+  }
+  function getAction(formAction, fetchMethod) {
+    const action = expandURL(formAction);
+    if (isSafe(fetchMethod)) {
+      action.search = "";
+    }
+    return action;
+  }
+  function getMethod(formElement, submitter2) {
+    const method = submitter2?.getAttribute("formmethod") || formElement.getAttribute("method") || "";
+    return fetchMethodFromString(method.toLowerCase()) || FetchMethod.get;
+  }
+  function getEnctype(formElement, submitter2) {
+    return fetchEnctypeFromString(submitter2?.getAttribute("formenctype") || formElement.enctype);
   }
   var Snapshot = class {
     constructor(element) {
@@ -1480,14 +1839,7 @@
       return this.element.isConnected;
     }
     get firstAutofocusableElement() {
-      const inertDisabledOrHidden = "[inert], :disabled, [hidden], details:not([open]), dialog:not([open])";
-      for (const element of this.element.querySelectorAll("[autofocus]")) {
-        if (element.closest(inertDisabledOrHidden) == null)
-          return element;
-        else
-          continue;
-      }
-      return null;
+      return queryAutofocusableElement(this.element);
     }
     get permanentElements() {
       return queryPermanentElementsAll(this.element);
@@ -1514,23 +1866,8 @@
     return node.querySelectorAll("[id][data-turbo-permanent]");
   }
   var FormSubmitObserver = class {
+    started = false;
     constructor(delegate, eventTarget) {
-      this.started = false;
-      this.submitCaptured = () => {
-        this.eventTarget.removeEventListener("submit", this.submitBubbled, false);
-        this.eventTarget.addEventListener("submit", this.submitBubbled, false);
-      };
-      this.submitBubbled = (event) => {
-        if (!event.defaultPrevented) {
-          const form = event.target instanceof HTMLFormElement ? event.target : void 0;
-          const submitter = event.submitter || void 0;
-          if (form && submissionDoesNotDismissDialog(form, submitter) && submissionDoesNotTargetIFrame(form, submitter) && this.delegate.willSubmitForm(form, submitter)) {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            this.delegate.formSubmitted(form, submitter);
-          }
-        }
-      };
       this.delegate = delegate;
       this.eventTarget = eventTarget;
     }
@@ -1546,32 +1883,40 @@
         this.started = false;
       }
     }
+    submitCaptured = () => {
+      this.eventTarget.removeEventListener("submit", this.submitBubbled, false);
+      this.eventTarget.addEventListener("submit", this.submitBubbled, false);
+    };
+    submitBubbled = (event) => {
+      if (!event.defaultPrevented) {
+        const form = event.target instanceof HTMLFormElement ? event.target : void 0;
+        const submitter2 = event.submitter || void 0;
+        if (form && submissionDoesNotDismissDialog(form, submitter2) && submissionDoesNotTargetIFrame(form, submitter2) && this.delegate.willSubmitForm(form, submitter2)) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          this.delegate.formSubmitted(form, submitter2);
+        }
+      }
+    };
   };
-  function submissionDoesNotDismissDialog(form, submitter) {
-    const method = (submitter === null || submitter === void 0 ? void 0 : submitter.getAttribute("formmethod")) || form.getAttribute("method");
+  function submissionDoesNotDismissDialog(form, submitter2) {
+    const method = submitter2?.getAttribute("formmethod") || form.getAttribute("method");
     return method != "dialog";
   }
-  function submissionDoesNotTargetIFrame(form, submitter) {
-    if ((submitter === null || submitter === void 0 ? void 0 : submitter.hasAttribute("formtarget")) || form.hasAttribute("target")) {
-      const target = (submitter === null || submitter === void 0 ? void 0 : submitter.getAttribute("formtarget")) || form.target;
-      for (const element of document.getElementsByName(target)) {
-        if (element instanceof HTMLIFrameElement)
-          return false;
-      }
-      return true;
-    } else {
-      return true;
-    }
+  function submissionDoesNotTargetIFrame(form, submitter2) {
+    const target = submitter2?.getAttribute("formtarget") || form.getAttribute("target");
+    return doesNotTargetIFrame(target);
   }
   var View = class {
+    #resolveRenderPromise = (_value) => {
+    };
+    #resolveInterceptionPromise = (_value) => {
+    };
     constructor(delegate, element) {
-      this.resolveRenderPromise = (_value) => {
-      };
-      this.resolveInterceptionPromise = (_value) => {
-      };
       this.delegate = delegate;
       this.element = element;
     }
+    // Scrolling
     scrollToAnchor(anchor) {
       const element = this.snapshot.getElementForAnchor(anchor);
       if (element) {
@@ -1607,28 +1952,29 @@
     get scrollRoot() {
       return window;
     }
+    // Rendering
     async render(renderer) {
-      const { isPreview, shouldRender, newSnapshot: snapshot } = renderer;
+      const { isPreview, shouldRender, willRender, newSnapshot: snapshot } = renderer;
+      const shouldInvalidate = willRender;
       if (shouldRender) {
         try {
-          this.renderPromise = new Promise((resolve) => this.resolveRenderPromise = resolve);
+          this.renderPromise = new Promise((resolve) => this.#resolveRenderPromise = resolve);
           this.renderer = renderer;
           await this.prepareToRenderSnapshot(renderer);
-          const renderInterception = new Promise((resolve) => this.resolveInterceptionPromise = resolve);
-          const options = { resume: this.resolveInterceptionPromise, render: this.renderer.renderElement };
+          const renderInterception = new Promise((resolve) => this.#resolveInterceptionPromise = resolve);
+          const options = { resume: this.#resolveInterceptionPromise, render: this.renderer.renderElement, renderMethod: this.renderer.renderMethod };
           const immediateRender = this.delegate.allowsImmediateRender(snapshot, options);
-          if (!immediateRender)
-            await renderInterception;
+          if (!immediateRender) await renderInterception;
           await this.renderSnapshot(renderer);
-          this.delegate.viewRenderedSnapshot(snapshot, isPreview);
+          this.delegate.viewRenderedSnapshot(snapshot, isPreview, this.renderer.renderMethod);
           this.delegate.preloadOnLoadLinksForView(this.element);
           this.finishRenderingSnapshot(renderer);
         } finally {
           delete this.renderer;
-          this.resolveRenderPromise(void 0);
+          this.#resolveRenderPromise(void 0);
           delete this.renderPromise;
         }
-      } else {
+      } else if (shouldInvalidate) {
         this.invalidate(renderer.reloadReason);
       }
     }
@@ -1645,6 +1991,12 @@
       } else {
         this.element.removeAttribute("data-turbo-preview");
       }
+    }
+    markVisitDirection(direction) {
+      this.element.setAttribute("data-turbo-visit-direction", direction);
+    }
+    unmarkVisitDirection() {
+      this.element.removeAttribute("data-turbo-visit-direction");
     }
     async renderSnapshot(renderer) {
       await renderer.render();
@@ -1663,26 +2015,6 @@
   };
   var LinkInterceptor = class {
     constructor(delegate, element) {
-      this.clickBubbled = (event) => {
-        if (this.respondsToEventTarget(event.target)) {
-          this.clickEvent = event;
-        } else {
-          delete this.clickEvent;
-        }
-      };
-      this.linkClicked = (event) => {
-        if (this.clickEvent && this.respondsToEventTarget(event.target) && event.target instanceof Element) {
-          if (this.delegate.shouldInterceptLinkClick(event.target, event.detail.url, event.detail.originalEvent)) {
-            this.clickEvent.preventDefault();
-            event.preventDefault();
-            this.delegate.linkClickIntercepted(event.target, event.detail.url, event.detail.originalEvent);
-          }
-        }
-        delete this.clickEvent;
-      };
-      this.willVisit = (_event) => {
-        delete this.clickEvent;
-      };
       this.delegate = delegate;
       this.element = element;
     }
@@ -1696,31 +2028,35 @@
       document.removeEventListener("turbo:click", this.linkClicked);
       document.removeEventListener("turbo:before-visit", this.willVisit);
     }
-    respondsToEventTarget(target) {
-      const element = target instanceof Element ? target : target instanceof Node ? target.parentElement : null;
-      return element && element.closest("turbo-frame, html") == this.element;
+    clickBubbled = (event) => {
+      if (this.clickEventIsSignificant(event)) {
+        this.clickEvent = event;
+      } else {
+        delete this.clickEvent;
+      }
+    };
+    linkClicked = (event) => {
+      if (this.clickEvent && this.clickEventIsSignificant(event)) {
+        if (this.delegate.shouldInterceptLinkClick(event.target, event.detail.url, event.detail.originalEvent)) {
+          this.clickEvent.preventDefault();
+          event.preventDefault();
+          this.delegate.linkClickIntercepted(event.target, event.detail.url, event.detail.originalEvent);
+        }
+      }
+      delete this.clickEvent;
+    };
+    willVisit = (_event) => {
+      delete this.clickEvent;
+    };
+    clickEventIsSignificant(event) {
+      const target = event.composed ? event.target?.parentElement : event.target;
+      const element = findLinkFromClickTarget(target) || target;
+      return element instanceof Element && element.closest("turbo-frame, html") == this.element;
     }
   };
   var LinkClickObserver = class {
+    started = false;
     constructor(delegate, eventTarget) {
-      this.started = false;
-      this.clickCaptured = () => {
-        this.eventTarget.removeEventListener("click", this.clickBubbled, false);
-        this.eventTarget.addEventListener("click", this.clickBubbled, false);
-      };
-      this.clickBubbled = (event) => {
-        if (event instanceof MouseEvent && this.clickEventIsSignificant(event)) {
-          const target = event.composedPath && event.composedPath()[0] || event.target;
-          const link = this.findLinkFromClickTarget(target);
-          if (link && doesNotTargetIFrame(link)) {
-            const location2 = this.getLocationForLink(link);
-            if (this.delegate.willFollowLinkToLocation(link, location2, event)) {
-              event.preventDefault();
-              this.delegate.followedLinkToLocation(link, location2);
-            }
-          }
-        }
-      };
       this.delegate = delegate;
       this.eventTarget = eventTarget;
     }
@@ -1736,27 +2072,27 @@
         this.started = false;
       }
     }
+    clickCaptured = () => {
+      this.eventTarget.removeEventListener("click", this.clickBubbled, false);
+      this.eventTarget.addEventListener("click", this.clickBubbled, false);
+    };
+    clickBubbled = (event) => {
+      if (event instanceof MouseEvent && this.clickEventIsSignificant(event)) {
+        const target = event.composedPath && event.composedPath()[0] || event.target;
+        const link = findLinkFromClickTarget(target);
+        if (link && doesNotTargetIFrame(link.target)) {
+          const location2 = getLocationForLink(link);
+          if (this.delegate.willFollowLinkToLocation(link, location2, event)) {
+            event.preventDefault();
+            this.delegate.followedLinkToLocation(link, location2);
+          }
+        }
+      }
+    };
     clickEventIsSignificant(event) {
       return !(event.target && event.target.isContentEditable || event.defaultPrevented || event.which > 1 || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey);
     }
-    findLinkFromClickTarget(target) {
-      return findClosestRecursively(target, "a[href]:not([target^=_]):not([download])");
-    }
-    getLocationForLink(link) {
-      return expandURL(link.getAttribute("href") || "");
-    }
   };
-  function doesNotTargetIFrame(anchor) {
-    if (anchor.hasAttribute("target")) {
-      for (const element of document.getElementsByName(anchor.target)) {
-        if (element instanceof HTMLIFrameElement)
-          return false;
-      }
-      return true;
-    } else {
-      return true;
-    }
-  }
   var FormLinkClickObserver = class {
     constructor(delegate, element) {
       this.delegate = delegate;
@@ -1768,8 +2104,16 @@
     stop() {
       this.linkInterceptor.stop();
     }
+    // Link hover observer delegate
+    canPrefetchRequestToLocation(link, location2) {
+      return false;
+    }
+    prefetchAndCacheRequestToLocation(link, location2) {
+      return;
+    }
+    // Link click observer delegate
     willFollowLinkToLocation(link, location2, originalEvent) {
-      return this.delegate.willSubmitFormLinkToLocation(link, location2, originalEvent) && link.hasAttribute("data-turbo-method");
+      return this.delegate.willSubmitFormLinkToLocation(link, location2, originalEvent) && (link.hasAttribute("data-turbo-method") || link.hasAttribute("data-turbo-stream"));
     }
     followedLinkToLocation(link, location2) {
       const form = document.createElement("form");
@@ -1782,20 +2126,15 @@
       form.setAttribute("action", action.href);
       form.setAttribute("hidden", "");
       const method = link.getAttribute("data-turbo-method");
-      if (method)
-        form.setAttribute("method", method);
+      if (method) form.setAttribute("method", method);
       const turboFrame = link.getAttribute("data-turbo-frame");
-      if (turboFrame)
-        form.setAttribute("data-turbo-frame", turboFrame);
+      if (turboFrame) form.setAttribute("data-turbo-frame", turboFrame);
       const turboAction = getVisitAction(link);
-      if (turboAction)
-        form.setAttribute("data-turbo-action", turboAction);
+      if (turboAction) form.setAttribute("data-turbo-action", turboAction);
       const turboConfirm = link.getAttribute("data-turbo-confirm");
-      if (turboConfirm)
-        form.setAttribute("data-turbo-confirm", turboConfirm);
+      if (turboConfirm) form.setAttribute("data-turbo-confirm", turboConfirm);
       const turboStream = link.hasAttribute("data-turbo-stream");
-      if (turboStream)
-        form.setAttribute("data-turbo-stream", "");
+      if (turboStream) form.setAttribute("data-turbo-stream", "");
       this.delegate.submittedFormLinkToLocation(link, location2, form);
       document.body.appendChild(form);
       form.addEventListener("turbo:submit-end", () => form.remove(), { once: true });
@@ -1838,7 +2177,7 @@
     }
     replacePlaceholderWithPermanentElement(permanentElement) {
       const placeholder = this.getPlaceholderById(permanentElement.id);
-      placeholder === null || placeholder === void 0 ? void 0 : placeholder.replaceWith(permanentElement);
+      placeholder?.replaceWith(permanentElement);
     }
     getPlaceholderById(id2) {
       return this.placeholders.find((element) => element.content == id2);
@@ -1854,16 +2193,21 @@
     return element;
   }
   var Renderer = class {
-    constructor(currentSnapshot, newSnapshot, renderElement, isPreview, willRender = true) {
-      this.activeElement = null;
+    #activeElement = null;
+    static renderElement(currentElement, newElement) {
+    }
+    constructor(currentSnapshot, newSnapshot, isPreview, willRender = true) {
       this.currentSnapshot = currentSnapshot;
       this.newSnapshot = newSnapshot;
       this.isPreview = isPreview;
       this.willRender = willRender;
-      this.renderElement = renderElement;
+      this.renderElement = this.constructor.renderElement;
       this.promise = new Promise((resolve, reject) => this.resolvingFunctions = { resolve, reject });
     }
     get shouldRender() {
+      return true;
+    }
+    get shouldAutofocus() {
       return true;
     }
     get reloadReason() {
@@ -1871,6 +2215,8 @@
     }
     prepareToRender() {
       return;
+    }
+    render() {
     }
     finishRendering() {
       if (this.resolvingFunctions) {
@@ -1882,22 +2228,24 @@
       await Bardo.preservingPermanentElements(this, this.permanentElementMap, callback);
     }
     focusFirstAutofocusableElement() {
-      const element = this.connectedSnapshot.firstAutofocusableElement;
-      if (elementIsFocusable(element)) {
-        element.focus();
+      if (this.shouldAutofocus) {
+        const element = this.connectedSnapshot.firstAutofocusableElement;
+        if (element) {
+          element.focus();
+        }
       }
     }
+    // Bardo delegate
     enteringBardo(currentPermanentElement) {
-      if (this.activeElement)
-        return;
+      if (this.#activeElement) return;
       if (currentPermanentElement.contains(this.currentSnapshot.activeElement)) {
-        this.activeElement = this.currentSnapshot.activeElement;
+        this.#activeElement = this.currentSnapshot.activeElement;
       }
     }
     leavingBardo(currentPermanentElement) {
-      if (currentPermanentElement.contains(this.activeElement) && this.activeElement instanceof HTMLElement) {
-        this.activeElement.focus();
-        this.activeElement = null;
+      if (currentPermanentElement.contains(this.#activeElement) && this.#activeElement instanceof HTMLElement) {
+        this.#activeElement.focus();
+        this.#activeElement = null;
       }
     }
     get connectedSnapshot() {
@@ -1912,18 +2260,17 @@
     get permanentElementMap() {
       return this.currentSnapshot.getPermanentElementMapForSnapshot(this.newSnapshot);
     }
+    get renderMethod() {
+      return "replace";
+    }
   };
-  function elementIsFocusable(element) {
-    return element && typeof element.focus == "function";
-  }
   var FrameRenderer = class extends Renderer {
     static renderElement(currentElement, newElement) {
-      var _a;
       const destinationRange = document.createRange();
       destinationRange.selectNodeContents(currentElement);
       destinationRange.deleteContents();
       const frameElement = newElement;
-      const sourceRange = (_a = frameElement.ownerDocument) === null || _a === void 0 ? void 0 : _a.createRange();
+      const sourceRange = frameElement.ownerDocument?.createRange();
       if (sourceRange) {
         sourceRange.selectNodeContents(frameElement);
         currentElement.appendChild(sourceRange.extractContents());
@@ -1937,14 +2284,14 @@
       return true;
     }
     async render() {
-      await nextAnimationFrame();
+      await nextRepaint();
       this.preservingPermanentElements(() => {
         this.loadFrameElement();
       });
       this.scrollFrameIntoView();
-      await nextAnimationFrame();
+      await nextRepaint();
       this.focusFirstAutofocusableElement();
-      await nextAnimationFrame();
+      await nextRepaint();
       this.activateScriptElements();
     }
     loadFrameElement() {
@@ -1987,7 +2334,612 @@
       return defaultValue;
     }
   }
+  var Idiomorph = /* @__PURE__ */ function() {
+    let EMPTY_SET = /* @__PURE__ */ new Set();
+    let defaults = {
+      morphStyle: "outerHTML",
+      callbacks: {
+        beforeNodeAdded: noOp,
+        afterNodeAdded: noOp,
+        beforeNodeMorphed: noOp,
+        afterNodeMorphed: noOp,
+        beforeNodeRemoved: noOp,
+        afterNodeRemoved: noOp,
+        beforeAttributeUpdated: noOp
+      },
+      head: {
+        style: "merge",
+        shouldPreserve: function(elt) {
+          return elt.getAttribute("im-preserve") === "true";
+        },
+        shouldReAppend: function(elt) {
+          return elt.getAttribute("im-re-append") === "true";
+        },
+        shouldRemove: noOp,
+        afterHeadMorphed: noOp
+      }
+    };
+    function morph(oldNode, newContent, config2 = {}) {
+      if (oldNode instanceof Document) {
+        oldNode = oldNode.documentElement;
+      }
+      if (typeof newContent === "string") {
+        newContent = parseContent(newContent);
+      }
+      let normalizedContent = normalizeContent(newContent);
+      let ctx = createMorphContext(oldNode, normalizedContent, config2);
+      return morphNormalizedContent(oldNode, normalizedContent, ctx);
+    }
+    function morphNormalizedContent(oldNode, normalizedNewContent, ctx) {
+      if (ctx.head.block) {
+        let oldHead = oldNode.querySelector("head");
+        let newHead = normalizedNewContent.querySelector("head");
+        if (oldHead && newHead) {
+          let promises = handleHeadElement(newHead, oldHead, ctx);
+          Promise.all(promises).then(function() {
+            morphNormalizedContent(oldNode, normalizedNewContent, Object.assign(ctx, {
+              head: {
+                block: false,
+                ignore: true
+              }
+            }));
+          });
+          return;
+        }
+      }
+      if (ctx.morphStyle === "innerHTML") {
+        morphChildren2(normalizedNewContent, oldNode, ctx);
+        return oldNode.children;
+      } else if (ctx.morphStyle === "outerHTML" || ctx.morphStyle == null) {
+        let bestMatch = findBestNodeMatch(normalizedNewContent, oldNode, ctx);
+        let previousSibling = bestMatch?.previousSibling;
+        let nextSibling = bestMatch?.nextSibling;
+        let morphedNode = morphOldNodeTo(oldNode, bestMatch, ctx);
+        if (bestMatch) {
+          return insertSiblings(previousSibling, morphedNode, nextSibling);
+        } else {
+          return [];
+        }
+      } else {
+        throw "Do not understand how to morph style " + ctx.morphStyle;
+      }
+    }
+    function ignoreValueOfActiveElement(possibleActiveElement, ctx) {
+      return ctx.ignoreActiveValue && possibleActiveElement === document.activeElement && possibleActiveElement !== document.body;
+    }
+    function morphOldNodeTo(oldNode, newContent, ctx) {
+      if (ctx.ignoreActive && oldNode === document.activeElement) ;
+      else if (newContent == null) {
+        if (ctx.callbacks.beforeNodeRemoved(oldNode) === false) return oldNode;
+        oldNode.remove();
+        ctx.callbacks.afterNodeRemoved(oldNode);
+        return null;
+      } else if (!isSoftMatch(oldNode, newContent)) {
+        if (ctx.callbacks.beforeNodeRemoved(oldNode) === false) return oldNode;
+        if (ctx.callbacks.beforeNodeAdded(newContent) === false) return oldNode;
+        oldNode.parentElement.replaceChild(newContent, oldNode);
+        ctx.callbacks.afterNodeAdded(newContent);
+        ctx.callbacks.afterNodeRemoved(oldNode);
+        return newContent;
+      } else {
+        if (ctx.callbacks.beforeNodeMorphed(oldNode, newContent) === false) return oldNode;
+        if (oldNode instanceof HTMLHeadElement && ctx.head.ignore) ;
+        else if (oldNode instanceof HTMLHeadElement && ctx.head.style !== "morph") {
+          handleHeadElement(newContent, oldNode, ctx);
+        } else {
+          syncNodeFrom(newContent, oldNode, ctx);
+          if (!ignoreValueOfActiveElement(oldNode, ctx)) {
+            morphChildren2(newContent, oldNode, ctx);
+          }
+        }
+        ctx.callbacks.afterNodeMorphed(oldNode, newContent);
+        return oldNode;
+      }
+    }
+    function morphChildren2(newParent, oldParent, ctx) {
+      let nextNewChild = newParent.firstChild;
+      let insertionPoint = oldParent.firstChild;
+      let newChild;
+      while (nextNewChild) {
+        newChild = nextNewChild;
+        nextNewChild = newChild.nextSibling;
+        if (insertionPoint == null) {
+          if (ctx.callbacks.beforeNodeAdded(newChild) === false) return;
+          oldParent.appendChild(newChild);
+          ctx.callbacks.afterNodeAdded(newChild);
+          removeIdsFromConsideration(ctx, newChild);
+          continue;
+        }
+        if (isIdSetMatch(newChild, insertionPoint, ctx)) {
+          morphOldNodeTo(insertionPoint, newChild, ctx);
+          insertionPoint = insertionPoint.nextSibling;
+          removeIdsFromConsideration(ctx, newChild);
+          continue;
+        }
+        let idSetMatch = findIdSetMatch(newParent, oldParent, newChild, insertionPoint, ctx);
+        if (idSetMatch) {
+          insertionPoint = removeNodesBetween(insertionPoint, idSetMatch, ctx);
+          morphOldNodeTo(idSetMatch, newChild, ctx);
+          removeIdsFromConsideration(ctx, newChild);
+          continue;
+        }
+        let softMatch = findSoftMatch(newParent, oldParent, newChild, insertionPoint, ctx);
+        if (softMatch) {
+          insertionPoint = removeNodesBetween(insertionPoint, softMatch, ctx);
+          morphOldNodeTo(softMatch, newChild, ctx);
+          removeIdsFromConsideration(ctx, newChild);
+          continue;
+        }
+        if (ctx.callbacks.beforeNodeAdded(newChild) === false) return;
+        oldParent.insertBefore(newChild, insertionPoint);
+        ctx.callbacks.afterNodeAdded(newChild);
+        removeIdsFromConsideration(ctx, newChild);
+      }
+      while (insertionPoint !== null) {
+        let tempNode = insertionPoint;
+        insertionPoint = insertionPoint.nextSibling;
+        removeNode(tempNode, ctx);
+      }
+    }
+    function ignoreAttribute(attr, to, updateType, ctx) {
+      if (attr === "value" && ctx.ignoreActiveValue && to === document.activeElement) {
+        return true;
+      }
+      return ctx.callbacks.beforeAttributeUpdated(attr, to, updateType) === false;
+    }
+    function syncNodeFrom(from, to, ctx) {
+      let type = from.nodeType;
+      if (type === 1) {
+        const fromAttributes = from.attributes;
+        const toAttributes = to.attributes;
+        for (const fromAttribute of fromAttributes) {
+          if (ignoreAttribute(fromAttribute.name, to, "update", ctx)) {
+            continue;
+          }
+          if (to.getAttribute(fromAttribute.name) !== fromAttribute.value) {
+            to.setAttribute(fromAttribute.name, fromAttribute.value);
+          }
+        }
+        for (let i = toAttributes.length - 1; 0 <= i; i--) {
+          const toAttribute = toAttributes[i];
+          if (ignoreAttribute(toAttribute.name, to, "remove", ctx)) {
+            continue;
+          }
+          if (!from.hasAttribute(toAttribute.name)) {
+            to.removeAttribute(toAttribute.name);
+          }
+        }
+      }
+      if (type === 8 || type === 3) {
+        if (to.nodeValue !== from.nodeValue) {
+          to.nodeValue = from.nodeValue;
+        }
+      }
+      if (!ignoreValueOfActiveElement(to, ctx)) {
+        syncInputValue(from, to, ctx);
+      }
+    }
+    function syncBooleanAttribute(from, to, attributeName, ctx) {
+      if (from[attributeName] !== to[attributeName]) {
+        let ignoreUpdate = ignoreAttribute(attributeName, to, "update", ctx);
+        if (!ignoreUpdate) {
+          to[attributeName] = from[attributeName];
+        }
+        if (from[attributeName]) {
+          if (!ignoreUpdate) {
+            to.setAttribute(attributeName, from[attributeName]);
+          }
+        } else {
+          if (!ignoreAttribute(attributeName, to, "remove", ctx)) {
+            to.removeAttribute(attributeName);
+          }
+        }
+      }
+    }
+    function syncInputValue(from, to, ctx) {
+      if (from instanceof HTMLInputElement && to instanceof HTMLInputElement && from.type !== "file") {
+        let fromValue = from.value;
+        let toValue = to.value;
+        syncBooleanAttribute(from, to, "checked", ctx);
+        syncBooleanAttribute(from, to, "disabled", ctx);
+        if (!from.hasAttribute("value")) {
+          if (!ignoreAttribute("value", to, "remove", ctx)) {
+            to.value = "";
+            to.removeAttribute("value");
+          }
+        } else if (fromValue !== toValue) {
+          if (!ignoreAttribute("value", to, "update", ctx)) {
+            to.setAttribute("value", fromValue);
+            to.value = fromValue;
+          }
+        }
+      } else if (from instanceof HTMLOptionElement) {
+        syncBooleanAttribute(from, to, "selected", ctx);
+      } else if (from instanceof HTMLTextAreaElement && to instanceof HTMLTextAreaElement) {
+        let fromValue = from.value;
+        let toValue = to.value;
+        if (ignoreAttribute("value", to, "update", ctx)) {
+          return;
+        }
+        if (fromValue !== toValue) {
+          to.value = fromValue;
+        }
+        if (to.firstChild && to.firstChild.nodeValue !== fromValue) {
+          to.firstChild.nodeValue = fromValue;
+        }
+      }
+    }
+    function handleHeadElement(newHeadTag, currentHead, ctx) {
+      let added = [];
+      let removed = [];
+      let preserved = [];
+      let nodesToAppend = [];
+      let headMergeStyle = ctx.head.style;
+      let srcToNewHeadNodes = /* @__PURE__ */ new Map();
+      for (const newHeadChild of newHeadTag.children) {
+        srcToNewHeadNodes.set(newHeadChild.outerHTML, newHeadChild);
+      }
+      for (const currentHeadElt of currentHead.children) {
+        let inNewContent = srcToNewHeadNodes.has(currentHeadElt.outerHTML);
+        let isReAppended = ctx.head.shouldReAppend(currentHeadElt);
+        let isPreserved = ctx.head.shouldPreserve(currentHeadElt);
+        if (inNewContent || isPreserved) {
+          if (isReAppended) {
+            removed.push(currentHeadElt);
+          } else {
+            srcToNewHeadNodes.delete(currentHeadElt.outerHTML);
+            preserved.push(currentHeadElt);
+          }
+        } else {
+          if (headMergeStyle === "append") {
+            if (isReAppended) {
+              removed.push(currentHeadElt);
+              nodesToAppend.push(currentHeadElt);
+            }
+          } else {
+            if (ctx.head.shouldRemove(currentHeadElt) !== false) {
+              removed.push(currentHeadElt);
+            }
+          }
+        }
+      }
+      nodesToAppend.push(...srcToNewHeadNodes.values());
+      let promises = [];
+      for (const newNode of nodesToAppend) {
+        let newElt = document.createRange().createContextualFragment(newNode.outerHTML).firstChild;
+        if (ctx.callbacks.beforeNodeAdded(newElt) !== false) {
+          if (newElt.href || newElt.src) {
+            let resolve = null;
+            let promise = new Promise(function(_resolve) {
+              resolve = _resolve;
+            });
+            newElt.addEventListener("load", function() {
+              resolve();
+            });
+            promises.push(promise);
+          }
+          currentHead.appendChild(newElt);
+          ctx.callbacks.afterNodeAdded(newElt);
+          added.push(newElt);
+        }
+      }
+      for (const removedElement of removed) {
+        if (ctx.callbacks.beforeNodeRemoved(removedElement) !== false) {
+          currentHead.removeChild(removedElement);
+          ctx.callbacks.afterNodeRemoved(removedElement);
+        }
+      }
+      ctx.head.afterHeadMorphed(currentHead, { added, kept: preserved, removed });
+      return promises;
+    }
+    function noOp() {
+    }
+    function mergeDefaults(config2) {
+      let finalConfig = {};
+      Object.assign(finalConfig, defaults);
+      Object.assign(finalConfig, config2);
+      finalConfig.callbacks = {};
+      Object.assign(finalConfig.callbacks, defaults.callbacks);
+      Object.assign(finalConfig.callbacks, config2.callbacks);
+      finalConfig.head = {};
+      Object.assign(finalConfig.head, defaults.head);
+      Object.assign(finalConfig.head, config2.head);
+      return finalConfig;
+    }
+    function createMorphContext(oldNode, newContent, config2) {
+      config2 = mergeDefaults(config2);
+      return {
+        target: oldNode,
+        newContent,
+        config: config2,
+        morphStyle: config2.morphStyle,
+        ignoreActive: config2.ignoreActive,
+        ignoreActiveValue: config2.ignoreActiveValue,
+        idMap: createIdMap(oldNode, newContent),
+        deadIds: /* @__PURE__ */ new Set(),
+        callbacks: config2.callbacks,
+        head: config2.head
+      };
+    }
+    function isIdSetMatch(node1, node2, ctx) {
+      if (node1 == null || node2 == null) {
+        return false;
+      }
+      if (node1.nodeType === node2.nodeType && node1.tagName === node2.tagName) {
+        if (node1.id !== "" && node1.id === node2.id) {
+          return true;
+        } else {
+          return getIdIntersectionCount(ctx, node1, node2) > 0;
+        }
+      }
+      return false;
+    }
+    function isSoftMatch(node1, node2) {
+      if (node1 == null || node2 == null) {
+        return false;
+      }
+      return node1.nodeType === node2.nodeType && node1.tagName === node2.tagName;
+    }
+    function removeNodesBetween(startInclusive, endExclusive, ctx) {
+      while (startInclusive !== endExclusive) {
+        let tempNode = startInclusive;
+        startInclusive = startInclusive.nextSibling;
+        removeNode(tempNode, ctx);
+      }
+      removeIdsFromConsideration(ctx, endExclusive);
+      return endExclusive.nextSibling;
+    }
+    function findIdSetMatch(newContent, oldParent, newChild, insertionPoint, ctx) {
+      let newChildPotentialIdCount = getIdIntersectionCount(ctx, newChild, oldParent);
+      let potentialMatch = null;
+      if (newChildPotentialIdCount > 0) {
+        let potentialMatch2 = insertionPoint;
+        let otherMatchCount = 0;
+        while (potentialMatch2 != null) {
+          if (isIdSetMatch(newChild, potentialMatch2, ctx)) {
+            return potentialMatch2;
+          }
+          otherMatchCount += getIdIntersectionCount(ctx, potentialMatch2, newContent);
+          if (otherMatchCount > newChildPotentialIdCount) {
+            return null;
+          }
+          potentialMatch2 = potentialMatch2.nextSibling;
+        }
+      }
+      return potentialMatch;
+    }
+    function findSoftMatch(newContent, oldParent, newChild, insertionPoint, ctx) {
+      let potentialSoftMatch = insertionPoint;
+      let nextSibling = newChild.nextSibling;
+      let siblingSoftMatchCount = 0;
+      while (potentialSoftMatch != null) {
+        if (getIdIntersectionCount(ctx, potentialSoftMatch, newContent) > 0) {
+          return null;
+        }
+        if (isSoftMatch(newChild, potentialSoftMatch)) {
+          return potentialSoftMatch;
+        }
+        if (isSoftMatch(nextSibling, potentialSoftMatch)) {
+          siblingSoftMatchCount++;
+          nextSibling = nextSibling.nextSibling;
+          if (siblingSoftMatchCount >= 2) {
+            return null;
+          }
+        }
+        potentialSoftMatch = potentialSoftMatch.nextSibling;
+      }
+      return potentialSoftMatch;
+    }
+    function parseContent(newContent) {
+      let parser = new DOMParser();
+      let contentWithSvgsRemoved = newContent.replace(/<svg(\s[^>]*>|>)([\s\S]*?)<\/svg>/gim, "");
+      if (contentWithSvgsRemoved.match(/<\/html>/) || contentWithSvgsRemoved.match(/<\/head>/) || contentWithSvgsRemoved.match(/<\/body>/)) {
+        let content = parser.parseFromString(newContent, "text/html");
+        if (contentWithSvgsRemoved.match(/<\/html>/)) {
+          content.generatedByIdiomorph = true;
+          return content;
+        } else {
+          let htmlElement = content.firstChild;
+          if (htmlElement) {
+            htmlElement.generatedByIdiomorph = true;
+            return htmlElement;
+          } else {
+            return null;
+          }
+        }
+      } else {
+        let responseDoc = parser.parseFromString("<body><template>" + newContent + "</template></body>", "text/html");
+        let content = responseDoc.body.querySelector("template").content;
+        content.generatedByIdiomorph = true;
+        return content;
+      }
+    }
+    function normalizeContent(newContent) {
+      if (newContent == null) {
+        const dummyParent = document.createElement("div");
+        return dummyParent;
+      } else if (newContent.generatedByIdiomorph) {
+        return newContent;
+      } else if (newContent instanceof Node) {
+        const dummyParent = document.createElement("div");
+        dummyParent.append(newContent);
+        return dummyParent;
+      } else {
+        const dummyParent = document.createElement("div");
+        for (const elt of [...newContent]) {
+          dummyParent.append(elt);
+        }
+        return dummyParent;
+      }
+    }
+    function insertSiblings(previousSibling, morphedNode, nextSibling) {
+      let stack = [];
+      let added = [];
+      while (previousSibling != null) {
+        stack.push(previousSibling);
+        previousSibling = previousSibling.previousSibling;
+      }
+      while (stack.length > 0) {
+        let node = stack.pop();
+        added.push(node);
+        morphedNode.parentElement.insertBefore(node, morphedNode);
+      }
+      added.push(morphedNode);
+      while (nextSibling != null) {
+        stack.push(nextSibling);
+        added.push(nextSibling);
+        nextSibling = nextSibling.nextSibling;
+      }
+      while (stack.length > 0) {
+        morphedNode.parentElement.insertBefore(stack.pop(), morphedNode.nextSibling);
+      }
+      return added;
+    }
+    function findBestNodeMatch(newContent, oldNode, ctx) {
+      let currentElement;
+      currentElement = newContent.firstChild;
+      let bestElement = currentElement;
+      let score = 0;
+      while (currentElement) {
+        let newScore = scoreElement(currentElement, oldNode, ctx);
+        if (newScore > score) {
+          bestElement = currentElement;
+          score = newScore;
+        }
+        currentElement = currentElement.nextSibling;
+      }
+      return bestElement;
+    }
+    function scoreElement(node1, node2, ctx) {
+      if (isSoftMatch(node1, node2)) {
+        return 0.5 + getIdIntersectionCount(ctx, node1, node2);
+      }
+      return 0;
+    }
+    function removeNode(tempNode, ctx) {
+      removeIdsFromConsideration(ctx, tempNode);
+      if (ctx.callbacks.beforeNodeRemoved(tempNode) === false) return;
+      tempNode.remove();
+      ctx.callbacks.afterNodeRemoved(tempNode);
+    }
+    function isIdInConsideration(ctx, id2) {
+      return !ctx.deadIds.has(id2);
+    }
+    function idIsWithinNode(ctx, id2, targetNode) {
+      let idSet = ctx.idMap.get(targetNode) || EMPTY_SET;
+      return idSet.has(id2);
+    }
+    function removeIdsFromConsideration(ctx, node) {
+      let idSet = ctx.idMap.get(node) || EMPTY_SET;
+      for (const id2 of idSet) {
+        ctx.deadIds.add(id2);
+      }
+    }
+    function getIdIntersectionCount(ctx, node1, node2) {
+      let sourceSet = ctx.idMap.get(node1) || EMPTY_SET;
+      let matchCount = 0;
+      for (const id2 of sourceSet) {
+        if (isIdInConsideration(ctx, id2) && idIsWithinNode(ctx, id2, node2)) {
+          ++matchCount;
+        }
+      }
+      return matchCount;
+    }
+    function populateIdMapForNode(node, idMap) {
+      let nodeParent = node.parentElement;
+      let idElements = node.querySelectorAll("[id]");
+      for (const elt of idElements) {
+        let current = elt;
+        while (current !== nodeParent && current != null) {
+          let idSet = idMap.get(current);
+          if (idSet == null) {
+            idSet = /* @__PURE__ */ new Set();
+            idMap.set(current, idSet);
+          }
+          idSet.add(elt.id);
+          current = current.parentElement;
+        }
+      }
+    }
+    function createIdMap(oldContent, newContent) {
+      let idMap = /* @__PURE__ */ new Map();
+      populateIdMapForNode(oldContent, idMap);
+      populateIdMapForNode(newContent, idMap);
+      return idMap;
+    }
+    return {
+      morph,
+      defaults
+    };
+  }();
+  function morphElements(currentElement, newElement, { callbacks, ...options } = {}) {
+    Idiomorph.morph(currentElement, newElement, {
+      ...options,
+      callbacks: new DefaultIdiomorphCallbacks(callbacks)
+    });
+  }
+  function morphChildren(currentElement, newElement) {
+    morphElements(currentElement, newElement.children, {
+      morphStyle: "innerHTML"
+    });
+  }
+  var DefaultIdiomorphCallbacks = class {
+    #beforeNodeMorphed;
+    constructor({ beforeNodeMorphed } = {}) {
+      this.#beforeNodeMorphed = beforeNodeMorphed || (() => true);
+    }
+    beforeNodeAdded = (node) => {
+      return !(node.id && node.hasAttribute("data-turbo-permanent") && document.getElementById(node.id));
+    };
+    beforeNodeMorphed = (currentElement, newElement) => {
+      if (currentElement instanceof Element) {
+        if (!currentElement.hasAttribute("data-turbo-permanent") && this.#beforeNodeMorphed(currentElement, newElement)) {
+          const event = dispatch("turbo:before-morph-element", {
+            cancelable: true,
+            target: currentElement,
+            detail: { currentElement, newElement }
+          });
+          return !event.defaultPrevented;
+        } else {
+          return false;
+        }
+      }
+    };
+    beforeAttributeUpdated = (attributeName, target, mutationType) => {
+      const event = dispatch("turbo:before-morph-attribute", {
+        cancelable: true,
+        target,
+        detail: { attributeName, mutationType }
+      });
+      return !event.defaultPrevented;
+    };
+    beforeNodeRemoved = (node) => {
+      return this.beforeNodeMorphed(node);
+    };
+    afterNodeMorphed = (currentElement, newElement) => {
+      if (currentElement instanceof Element) {
+        dispatch("turbo:morph-element", {
+          target: currentElement,
+          detail: { currentElement, newElement }
+        });
+      }
+    };
+  };
+  var MorphingFrameRenderer = class extends FrameRenderer {
+    static renderElement(currentElement, newElement) {
+      dispatch("turbo:before-frame-morph", {
+        target: currentElement,
+        detail: { currentElement, newElement }
+      });
+      morphChildren(currentElement, newElement);
+    }
+    async preservingPermanentElements(callback) {
+      return await callback();
+    }
+  };
   var ProgressBar = class _ProgressBar {
+    static animationDuration = 300;
+    /*ms*/
     static get defaultCSS() {
       return unindent`
       .turbo-progress-bar {
@@ -2005,13 +2957,10 @@
       }
     `;
     }
+    hiding = false;
+    value = 0;
+    visible = false;
     constructor() {
-      this.hiding = false;
-      this.value = 0;
-      this.visible = false;
-      this.trickle = () => {
-        this.setValue(this.value + Math.random() / 100);
-      };
       this.stylesheetElement = this.createStylesheetElement();
       this.progressElement = this.createProgressElement();
       this.installStylesheetElement();
@@ -2039,6 +2988,7 @@
       this.value = value;
       this.refresh();
     }
+    // Private
     installStylesheetElement() {
       document.head.insertBefore(this.stylesheetElement, document.head.firstChild);
     }
@@ -2066,6 +3016,9 @@
       window.clearInterval(this.trickleInterval);
       delete this.trickleInterval;
     }
+    trickle = () => {
+      this.setValue(this.value + Math.random() / 100);
+    };
     refresh() {
       requestAnimationFrame(() => {
         this.progressElement.style.width = `${10 + this.value * 90}%`;
@@ -2075,8 +3028,9 @@
       const element = document.createElement("style");
       element.type = "text/css";
       element.textContent = _ProgressBar.defaultCSS;
-      if (this.cspNonce) {
-        element.nonce = this.cspNonce;
+      const cspNonce = getCspNonce();
+      if (cspNonce) {
+        element.nonce = cspNonce;
       }
       return element;
     }
@@ -2085,24 +3039,23 @@
       element.className = "turbo-progress-bar";
       return element;
     }
-    get cspNonce() {
-      return getMetaContent("csp-nonce");
-    }
   };
-  ProgressBar.animationDuration = 300;
   var HeadSnapshot = class extends Snapshot {
-    constructor() {
-      super(...arguments);
-      this.detailsByOuterHTML = this.children.filter((element) => !elementIsNoscript(element)).map((element) => elementWithoutNonce(element)).reduce((result, element) => {
-        const { outerHTML } = element;
-        const details = outerHTML in result ? result[outerHTML] : {
-          type: elementType(element),
-          tracked: elementIsTracked(element),
-          elements: []
-        };
-        return Object.assign(Object.assign({}, result), { [outerHTML]: Object.assign(Object.assign({}, details), { elements: [...details.elements, element] }) });
-      }, {});
-    }
+    detailsByOuterHTML = this.children.filter((element) => !elementIsNoscript(element)).map((element) => elementWithoutNonce(element)).reduce((result, element) => {
+      const { outerHTML } = element;
+      const details = outerHTML in result ? result[outerHTML] : {
+        type: elementType(element),
+        tracked: elementIsTracked(element),
+        elements: []
+      };
+      return {
+        ...result,
+        [outerHTML]: {
+          ...details,
+          elements: [...details.elements, element]
+        }
+      };
+    }, {});
     get trackedElementSignature() {
       return Object.keys(this.detailsByOuterHTML).filter((outerHTML) => this.detailsByOuterHTML[outerHTML].tracked).join("");
     }
@@ -2133,9 +3086,11 @@
     }
     findMetaElementByName(name) {
       return Object.keys(this.detailsByOuterHTML).reduce((result, outerHTML) => {
-        const { elements: [element] } = this.detailsByOuterHTML[outerHTML];
+        const {
+          elements: [element]
+        } = this.detailsByOuterHTML[outerHTML];
         return elementIsMetaElementWithName(element, name) ? element : result;
-      }, void 0);
+      }, void 0 | void 0);
     }
   };
   function elementType(element) {
@@ -2177,11 +3132,12 @@
     static fromElement(element) {
       return this.fromDocument(element.ownerDocument);
     }
-    static fromDocument({ head, body }) {
-      return new this(body, new HeadSnapshot(head));
+    static fromDocument({ documentElement, body, head }) {
+      return new this(documentElement, body, new HeadSnapshot(head));
     }
-    constructor(element, headSnapshot) {
-      super(element);
+    constructor(documentElement, body, headSnapshot) {
+      super(body);
+      this.documentElement = documentElement;
       this.headSnapshot = headSnapshot;
     }
     clone() {
@@ -2190,22 +3146,22 @@
       const clonedSelectElements = clonedElement.querySelectorAll("select");
       for (const [index, source] of selectElements.entries()) {
         const clone = clonedSelectElements[index];
-        for (const option of clone.selectedOptions)
-          option.selected = false;
-        for (const option of source.selectedOptions)
-          clone.options[option.index].selected = true;
+        for (const option of clone.selectedOptions) option.selected = false;
+        for (const option of source.selectedOptions) clone.options[option.index].selected = true;
       }
       for (const clonedPasswordInput of clonedElement.querySelectorAll('input[type="password"]')) {
         clonedPasswordInput.value = "";
       }
-      return new _PageSnapshot(clonedElement, this.headSnapshot);
+      return new _PageSnapshot(this.documentElement, clonedElement, this.headSnapshot);
+    }
+    get lang() {
+      return this.documentElement.getAttribute("lang");
     }
     get headElement() {
       return this.headSnapshot.element;
     }
     get rootLocation() {
-      var _a;
-      const root = (_a = this.getSetting("root")) !== null && _a !== void 0 ? _a : "/";
+      const root = this.getSetting("root") ?? "/";
       return expandURL(root);
     }
     get cacheControlValue() {
@@ -2220,25 +3176,38 @@
     get isVisitable() {
       return this.getSetting("visit-control") != "reload";
     }
+    get prefersViewTransitions() {
+      return this.headSnapshot.getMetaValue("view-transition") === "same-origin";
+    }
+    get shouldMorphPage() {
+      return this.getSetting("refresh-method") === "morph";
+    }
+    get shouldPreserveScrollPosition() {
+      return this.getSetting("refresh-scroll") === "preserve";
+    }
+    // Private
     getSetting(name) {
       return this.headSnapshot.getMetaValue(`turbo-${name}`);
     }
   };
-  var TimingMetric;
-  (function(TimingMetric2) {
-    TimingMetric2["visitStart"] = "visitStart";
-    TimingMetric2["requestStart"] = "requestStart";
-    TimingMetric2["requestEnd"] = "requestEnd";
-    TimingMetric2["visitEnd"] = "visitEnd";
-  })(TimingMetric || (TimingMetric = {}));
-  var VisitState;
-  (function(VisitState2) {
-    VisitState2["initialized"] = "initialized";
-    VisitState2["started"] = "started";
-    VisitState2["canceled"] = "canceled";
-    VisitState2["failed"] = "failed";
-    VisitState2["completed"] = "completed";
-  })(VisitState || (VisitState = {}));
+  var ViewTransitioner = class {
+    #viewTransitionStarted = false;
+    #lastOperation = Promise.resolve();
+    renderChange(useViewTransition, render) {
+      if (useViewTransition && this.viewTransitionsAvailable && !this.#viewTransitionStarted) {
+        this.#viewTransitionStarted = true;
+        this.#lastOperation = this.#lastOperation.then(async () => {
+          await document.startViewTransition(render).finished;
+        });
+      } else {
+        this.#lastOperation = this.#lastOperation.then(render);
+      }
+      return this.#lastOperation;
+    }
+    get viewTransitionsAvailable() {
+      return document.startViewTransition;
+    }
+  };
   var defaultOptions = {
     action: "advance",
     historyChanged: false,
@@ -2249,27 +3218,62 @@
     shouldCacheSnapshot: true,
     acceptsStreamResponse: false
   };
-  var SystemStatusCode;
-  (function(SystemStatusCode2) {
-    SystemStatusCode2[SystemStatusCode2["networkFailure"] = 0] = "networkFailure";
-    SystemStatusCode2[SystemStatusCode2["timeoutFailure"] = -1] = "timeoutFailure";
-    SystemStatusCode2[SystemStatusCode2["contentTypeMismatch"] = -2] = "contentTypeMismatch";
-  })(SystemStatusCode || (SystemStatusCode = {}));
+  var TimingMetric = {
+    visitStart: "visitStart",
+    requestStart: "requestStart",
+    requestEnd: "requestEnd",
+    visitEnd: "visitEnd"
+  };
+  var VisitState = {
+    initialized: "initialized",
+    started: "started",
+    canceled: "canceled",
+    failed: "failed",
+    completed: "completed"
+  };
+  var SystemStatusCode = {
+    networkFailure: 0,
+    timeoutFailure: -1,
+    contentTypeMismatch: -2
+  };
+  var Direction = {
+    advance: "forward",
+    restore: "back",
+    replace: "none"
+  };
   var Visit = class {
+    identifier = uuid();
+    // Required by turbo-ios
+    timingMetrics = {};
+    followedRedirect = false;
+    historyChanged = false;
+    scrolled = false;
+    shouldCacheSnapshot = true;
+    acceptsStreamResponse = false;
+    snapshotCached = false;
+    state = VisitState.initialized;
+    viewTransitioner = new ViewTransitioner();
     constructor(delegate, location2, restorationIdentifier, options = {}) {
-      this.identifier = uuid();
-      this.timingMetrics = {};
-      this.followedRedirect = false;
-      this.historyChanged = false;
-      this.scrolled = false;
-      this.shouldCacheSnapshot = true;
-      this.acceptsStreamResponse = false;
-      this.snapshotCached = false;
-      this.state = VisitState.initialized;
       this.delegate = delegate;
       this.location = location2;
       this.restorationIdentifier = restorationIdentifier || uuid();
-      const { action, historyChanged, referrer, snapshot, snapshotHTML, response, visitCachedSnapshot, willRender, updateHistory, shouldCacheSnapshot, acceptsStreamResponse } = Object.assign(Object.assign({}, defaultOptions), options);
+      const {
+        action,
+        historyChanged,
+        referrer,
+        snapshot,
+        snapshotHTML,
+        response,
+        visitCachedSnapshot,
+        willRender,
+        updateHistory,
+        shouldCacheSnapshot,
+        acceptsStreamResponse,
+        direction
+      } = {
+        ...defaultOptions,
+        ...options
+      };
       this.action = action;
       this.historyChanged = historyChanged;
       this.referrer = referrer;
@@ -2277,12 +3281,14 @@
       this.snapshotHTML = snapshotHTML;
       this.response = response;
       this.isSamePage = this.delegate.locationWithActionIsSamePage(this.location, this.action);
+      this.isPageRefresh = this.view.isPageRefresh(this);
       this.visitCachedSnapshot = visitCachedSnapshot;
       this.willRender = willRender;
       this.updateHistory = updateHistory;
       this.scrolled = !willRender;
       this.shouldCacheSnapshot = shouldCacheSnapshot;
       this.acceptsStreamResponse = acceptsStreamResponse;
+      this.direction = direction || Direction[action];
     }
     get adapter() {
       return this.delegate.adapter;
@@ -2319,10 +3325,10 @@
     complete() {
       if (this.state == VisitState.started) {
         this.recordTimingMetric(TimingMetric.visitEnd);
+        this.adapter.visitCompleted(this);
         this.state = VisitState.completed;
         this.followRedirect();
         if (!this.followedRedirect) {
-          this.adapter.visitCompleted(this);
           this.delegate.visitCompleted(this);
         }
       }
@@ -2331,12 +3337,12 @@
       if (this.state == VisitState.started) {
         this.state = VisitState.failed;
         this.adapter.visitFailed(this);
+        this.delegate.visitCompleted(this);
       }
     }
     changeHistory() {
-      var _a;
       if (!this.historyChanged && this.updateHistory) {
-        const actionForHistory = this.location.href === ((_a = this.referrer) === null || _a === void 0 ? void 0 : _a.href) ? "replace" : this.action;
+        const actionForHistory = this.location.href === this.referrer?.href ? "replace" : this.action;
         const method = getHistoryMethodForAction(actionForHistory);
         this.history.update(method, this.location, this.restorationIdentifier);
         this.historyChanged = true;
@@ -2380,13 +3386,11 @@
       if (this.response) {
         const { statusCode, responseHTML } = this.response;
         this.render(async () => {
-          if (this.shouldCacheSnapshot)
-            this.cacheSnapshot();
-          if (this.view.renderPromise)
-            await this.view.renderPromise;
+          if (this.shouldCacheSnapshot) this.cacheSnapshot();
+          if (this.view.renderPromise) await this.view.renderPromise;
           if (isSuccessful(statusCode) && responseHTML != null) {
-            await this.view.renderPage(PageSnapshot.fromHTMLString(responseHTML), false, this.willRender, this);
-            this.performScroll();
+            const snapshot = PageSnapshot.fromHTMLString(responseHTML);
+            await this.renderPageSnapshot(snapshot, false);
             this.adapter.visitRendered(this);
             this.complete();
           } else {
@@ -2419,13 +3423,11 @@
         const isPreview = this.shouldIssueRequest();
         this.render(async () => {
           this.cacheSnapshot();
-          if (this.isSamePage) {
+          if (this.isSamePage || this.isPageRefresh) {
             this.adapter.visitRendered(this);
           } else {
-            if (this.view.renderPromise)
-              await this.view.renderPromise;
-            await this.view.renderPage(snapshot, isPreview, this.willRender, this);
-            this.performScroll();
+            if (this.view.renderPromise) await this.view.renderPromise;
+            await this.renderPageSnapshot(snapshot, isPreview);
             this.adapter.visitRendered(this);
             if (!isPreview) {
               this.complete();
@@ -2435,8 +3437,7 @@
       }
     }
     followRedirect() {
-      var _a;
-      if (this.redirectedToLocation && !this.followedRedirect && ((_a = this.response) === null || _a === void 0 ? void 0 : _a.redirected)) {
+      if (this.redirectedToLocation && !this.followedRedirect && this.response?.redirected) {
         this.adapter.visitProposedToLocation(this.redirectedToLocation, {
           action: "replace",
           response: this.response,
@@ -2456,6 +3457,7 @@
         });
       }
     }
+    // Fetch request delegate
     prepareRequest(request) {
       if (this.acceptsStreamResponse) {
         request.acceptResponseType(StreamMessage.contentType);
@@ -2500,8 +3502,9 @@
     requestFinished() {
       this.finishRequest();
     }
+    // Scrolling
     performScroll() {
-      if (!this.scrolled && !this.view.forceReloaded) {
+      if (!this.scrolled && !this.view.forceReloaded && !this.view.shouldPreserveScrollPosition(this)) {
         if (this.action == "restore") {
           this.scrollToRestoredPosition() || this.scrollToAnchor() || this.view.scrollToTop();
         } else {
@@ -2527,12 +3530,14 @@
         return true;
       }
     }
+    // Instrumentation
     recordTimingMetric(metric) {
       this.timingMetrics[metric] = (/* @__PURE__ */ new Date()).getTime();
     }
     getTimingMetrics() {
-      return Object.assign({}, this.timingMetrics);
+      return { ...this.timingMetrics };
     }
+    // Private
     getHistoryMethodForAction(action) {
       switch (action) {
         case "replace":
@@ -2563,10 +3568,16 @@
     async render(callback) {
       this.cancelRender();
       await new Promise((resolve) => {
-        this.frame = requestAnimationFrame(() => resolve());
+        this.frame = document.visibilityState === "hidden" ? setTimeout(() => resolve(), 0) : requestAnimationFrame(() => resolve());
       });
       await callback();
       delete this.frame;
+    }
+    async renderPageSnapshot(snapshot, isPreview) {
+      await this.viewTransitioner.renderChange(this.view.shouldTransitionTo(snapshot), async () => {
+        await this.view.renderPage(snapshot, isPreview, this.willRender, this);
+        this.performScroll();
+      });
     }
     cancelRender() {
       if (this.frame) {
@@ -2579,15 +3590,16 @@
     return statusCode >= 200 && statusCode < 300;
   }
   var BrowserAdapter = class {
+    progressBar = new ProgressBar();
     constructor(session2) {
-      this.progressBar = new ProgressBar();
-      this.showProgressBar = () => {
-        this.progressBar.show();
-      };
       this.session = session2;
     }
     visitProposedToLocation(location2, options) {
-      this.navigator.startVisit(location2, (options === null || options === void 0 ? void 0 : options.restorationIdentifier) || uuid(), options);
+      if (locationIsVisitable(location2, this.navigator.rootLocation)) {
+        this.navigator.startVisit(location2, options?.restorationIdentifier || uuid(), options);
+      } else {
+        window.location.href = location2.toString();
+      }
     }
     visitStarted(visit2) {
       this.location = visit2.location;
@@ -2622,18 +3634,21 @@
       }
     }
     visitRequestFinished(_visit) {
-      this.progressBar.setValue(1);
-      this.hideVisitProgressBar();
     }
     visitCompleted(_visit) {
+      this.progressBar.setValue(1);
+      this.hideVisitProgressBar();
     }
     pageInvalidated(reason) {
       this.reload(reason);
     }
     visitFailed(_visit) {
+      this.progressBar.setValue(1);
+      this.hideVisitProgressBar();
     }
     visitRendered(_visit) {
     }
+    // Form Submission Delegate
     formSubmissionStarted(_formSubmission) {
       this.progressBar.setValue(0);
       this.showFormProgressBarAfterDelay();
@@ -2642,6 +3657,7 @@
       this.progressBar.setValue(1);
       this.hideFormProgressBar();
     }
+    // Private
     showVisitProgressBarAfterDelay() {
       this.visitProgressBarTimeout = window.setTimeout(this.showProgressBar, this.session.progressBarDelay);
     }
@@ -2664,26 +3680,21 @@
         delete this.formProgressBarTimeout;
       }
     }
+    showProgressBar = () => {
+      this.progressBar.show();
+    };
     reload(reason) {
-      var _a;
       dispatch("turbo:reload", { detail: reason });
-      window.location.href = ((_a = this.location) === null || _a === void 0 ? void 0 : _a.toString()) || window.location.href;
+      window.location.href = this.location?.toString() || window.location.href;
     }
     get navigator() {
       return this.session.navigator;
     }
   };
   var CacheObserver = class {
-    constructor() {
-      this.selector = "[data-turbo-temporary]";
-      this.deprecatedSelector = "[data-turbo-cache=false]";
-      this.started = false;
-      this.removeTemporaryElements = (_event) => {
-        for (const element of this.temporaryElements) {
-          element.remove();
-        }
-      };
-    }
+    selector = "[data-turbo-temporary]";
+    deprecatedSelector = "[data-turbo-cache=false]";
+    started = false;
     start() {
       if (!this.started) {
         this.started = true;
@@ -2696,13 +3707,20 @@
         removeEventListener("turbo:before-cache", this.removeTemporaryElements, false);
       }
     }
+    removeTemporaryElements = (_event) => {
+      for (const element of this.temporaryElements) {
+        element.remove();
+      }
+    };
     get temporaryElements() {
       return [...document.querySelectorAll(this.selector), ...this.temporaryElementsWithDeprecation];
     }
     get temporaryElementsWithDeprecation() {
       const elements = document.querySelectorAll(this.deprecatedSelector);
       if (elements.length) {
-        console.warn(`The ${this.deprecatedSelector} selector is deprecated and will be removed in a future version. Use ${this.selector} instead.`);
+        console.warn(
+          `The ${this.deprecatedSelector} selector is deprecated and will be removed in a future version. Use ${this.selector} instead.`
+        );
       }
       return [...elements];
     }
@@ -2722,42 +3740,43 @@
       this.linkInterceptor.stop();
       this.formSubmitObserver.stop();
     }
+    // Link interceptor delegate
     shouldInterceptLinkClick(element, _location, _event) {
-      return this.shouldRedirect(element);
+      return this.#shouldRedirect(element);
     }
     linkClickIntercepted(element, url, event) {
-      const frame = this.findFrameElement(element);
+      const frame = this.#findFrameElement(element);
       if (frame) {
         frame.delegate.linkClickIntercepted(element, url, event);
       }
     }
-    willSubmitForm(element, submitter) {
-      return element.closest("turbo-frame") == null && this.shouldSubmit(element, submitter) && this.shouldRedirect(element, submitter);
+    // Form submit observer delegate
+    willSubmitForm(element, submitter2) {
+      return element.closest("turbo-frame") == null && this.#shouldSubmit(element, submitter2) && this.#shouldRedirect(element, submitter2);
     }
-    formSubmitted(element, submitter) {
-      const frame = this.findFrameElement(element, submitter);
+    formSubmitted(element, submitter2) {
+      const frame = this.#findFrameElement(element, submitter2);
       if (frame) {
-        frame.delegate.formSubmitted(element, submitter);
+        frame.delegate.formSubmitted(element, submitter2);
       }
     }
-    shouldSubmit(form, submitter) {
-      var _a;
-      const action = getAction(form, submitter);
+    #shouldSubmit(form, submitter2) {
+      const action = getAction$1(form, submitter2);
       const meta = this.element.ownerDocument.querySelector(`meta[name="turbo-root"]`);
-      const rootLocation = expandURL((_a = meta === null || meta === void 0 ? void 0 : meta.content) !== null && _a !== void 0 ? _a : "/");
-      return this.shouldRedirect(form, submitter) && locationIsVisitable(action, rootLocation);
+      const rootLocation = expandURL(meta?.content ?? "/");
+      return this.#shouldRedirect(form, submitter2) && locationIsVisitable(action, rootLocation);
     }
-    shouldRedirect(element, submitter) {
-      const isNavigatable = element instanceof HTMLFormElement ? this.session.submissionIsNavigatable(element, submitter) : this.session.elementIsNavigatable(element);
+    #shouldRedirect(element, submitter2) {
+      const isNavigatable = element instanceof HTMLFormElement ? this.session.submissionIsNavigatable(element, submitter2) : this.session.elementIsNavigatable(element);
       if (isNavigatable) {
-        const frame = this.findFrameElement(element, submitter);
+        const frame = this.#findFrameElement(element, submitter2);
         return frame ? frame != element.closest("turbo-frame") : false;
       } else {
         return false;
       }
     }
-    findFrameElement(element, submitter) {
-      const id2 = (submitter === null || submitter === void 0 ? void 0 : submitter.getAttribute("data-turbo-frame")) || element.getAttribute("data-turbo-frame");
+    #findFrameElement(element, submitter2) {
+      const id2 = submitter2?.getAttribute("data-turbo-frame") || element.getAttribute("data-turbo-frame");
       if (id2 && id2 != "_top") {
         const frame = this.element.querySelector(`#${id2}:not([disabled])`);
         if (frame instanceof FrameElement) {
@@ -2767,32 +3786,20 @@
     }
   };
   var History = class {
+    location;
+    restorationIdentifier = uuid();
+    restorationData = {};
+    started = false;
+    pageLoaded = false;
+    currentIndex = 0;
     constructor(delegate) {
-      this.restorationIdentifier = uuid();
-      this.restorationData = {};
-      this.started = false;
-      this.pageLoaded = false;
-      this.onPopState = (event) => {
-        if (this.shouldHandlePopState()) {
-          const { turbo } = event.state || {};
-          if (turbo) {
-            this.location = new URL(window.location.href);
-            const { restorationIdentifier } = turbo;
-            this.restorationIdentifier = restorationIdentifier;
-            this.delegate.historyPoppedToLocationWithRestorationIdentifier(this.location, restorationIdentifier);
-          }
-        }
-      };
-      this.onPageLoad = async (_event) => {
-        await nextMicrotask();
-        this.pageLoaded = true;
-      };
       this.delegate = delegate;
     }
     start() {
       if (!this.started) {
         addEventListener("popstate", this.onPopState, false);
         addEventListener("load", this.onPageLoad, false);
+        this.currentIndex = history.state?.turbo?.restorationIndex || 0;
         this.started = true;
         this.replace(new URL(window.location.href));
       }
@@ -2811,23 +3818,28 @@
       this.update(history.replaceState, location2, restorationIdentifier);
     }
     update(method, location2, restorationIdentifier = uuid()) {
-      const state = { turbo: { restorationIdentifier } };
+      if (method === history.pushState) ++this.currentIndex;
+      const state = { turbo: { restorationIdentifier, restorationIndex: this.currentIndex } };
       method.call(history, state, "", location2.href);
       this.location = location2;
       this.restorationIdentifier = restorationIdentifier;
     }
+    // Restoration data
     getRestorationDataForIdentifier(restorationIdentifier) {
       return this.restorationData[restorationIdentifier] || {};
     }
     updateRestorationData(additionalData) {
       const { restorationIdentifier } = this;
       const restorationData = this.restorationData[restorationIdentifier];
-      this.restorationData[restorationIdentifier] = Object.assign(Object.assign({}, restorationData), additionalData);
+      this.restorationData[restorationIdentifier] = {
+        ...restorationData,
+        ...additionalData
+      };
     }
+    // Scroll restoration
     assumeControlOfScrollRestoration() {
-      var _a;
       if (!this.previousScrollRestoration) {
-        this.previousScrollRestoration = (_a = history.scrollRestoration) !== null && _a !== void 0 ? _a : "auto";
+        this.previousScrollRestoration = history.scrollRestoration ?? "auto";
         history.scrollRestoration = "manual";
       }
     }
@@ -2837,6 +3849,25 @@
         delete this.previousScrollRestoration;
       }
     }
+    // Event handlers
+    onPopState = (event) => {
+      if (this.shouldHandlePopState()) {
+        const { turbo } = event.state || {};
+        if (turbo) {
+          this.location = new URL(window.location.href);
+          const { restorationIdentifier, restorationIndex } = turbo;
+          this.restorationIdentifier = restorationIdentifier;
+          const direction = restorationIndex > this.currentIndex ? "forward" : "back";
+          this.delegate.historyPoppedToLocationWithRestorationIdentifierAndDirection(this.location, restorationIdentifier, direction);
+          this.currentIndex = restorationIndex;
+        }
+      }
+    };
+    onPageLoad = async (_event) => {
+      await nextMicrotask();
+      this.pageLoaded = true;
+    };
+    // Private
     shouldHandlePopState() {
       return this.pageIsLoaded();
     }
@@ -2844,27 +3875,166 @@
       return this.pageLoaded || document.readyState == "complete";
     }
   };
+  var LinkPrefetchObserver = class {
+    started = false;
+    #prefetchedLink = null;
+    constructor(delegate, eventTarget) {
+      this.delegate = delegate;
+      this.eventTarget = eventTarget;
+    }
+    start() {
+      if (this.started) return;
+      if (this.eventTarget.readyState === "loading") {
+        this.eventTarget.addEventListener("DOMContentLoaded", this.#enable, { once: true });
+      } else {
+        this.#enable();
+      }
+    }
+    stop() {
+      if (!this.started) return;
+      this.eventTarget.removeEventListener("mouseenter", this.#tryToPrefetchRequest, {
+        capture: true,
+        passive: true
+      });
+      this.eventTarget.removeEventListener("mouseleave", this.#cancelRequestIfObsolete, {
+        capture: true,
+        passive: true
+      });
+      this.eventTarget.removeEventListener("turbo:before-fetch-request", this.#tryToUsePrefetchedRequest, true);
+      this.started = false;
+    }
+    #enable = () => {
+      this.eventTarget.addEventListener("mouseenter", this.#tryToPrefetchRequest, {
+        capture: true,
+        passive: true
+      });
+      this.eventTarget.addEventListener("mouseleave", this.#cancelRequestIfObsolete, {
+        capture: true,
+        passive: true
+      });
+      this.eventTarget.addEventListener("turbo:before-fetch-request", this.#tryToUsePrefetchedRequest, true);
+      this.started = true;
+    };
+    #tryToPrefetchRequest = (event) => {
+      if (getMetaContent("turbo-prefetch") === "false") return;
+      const target = event.target;
+      const isLink = target.matches && target.matches("a[href]:not([target^=_]):not([download])");
+      if (isLink && this.#isPrefetchable(target)) {
+        const link = target;
+        const location2 = getLocationForLink(link);
+        if (this.delegate.canPrefetchRequestToLocation(link, location2)) {
+          this.#prefetchedLink = link;
+          const fetchRequest = new FetchRequest(
+            this,
+            FetchMethod.get,
+            location2,
+            new URLSearchParams(),
+            target
+          );
+          prefetchCache.setLater(location2.toString(), fetchRequest, this.#cacheTtl);
+        }
+      }
+    };
+    #cancelRequestIfObsolete = (event) => {
+      if (event.target === this.#prefetchedLink) this.#cancelPrefetchRequest();
+    };
+    #cancelPrefetchRequest = () => {
+      prefetchCache.clear();
+      this.#prefetchedLink = null;
+    };
+    #tryToUsePrefetchedRequest = (event) => {
+      if (event.target.tagName !== "FORM" && event.detail.fetchOptions.method === "GET") {
+        const cached = prefetchCache.get(event.detail.url.toString());
+        if (cached) {
+          event.detail.fetchRequest = cached;
+        }
+        prefetchCache.clear();
+      }
+    };
+    prepareRequest(request) {
+      const link = request.target;
+      request.headers["X-Sec-Purpose"] = "prefetch";
+      const turboFrame = link.closest("turbo-frame");
+      const turboFrameTarget = link.getAttribute("data-turbo-frame") || turboFrame?.getAttribute("target") || turboFrame?.id;
+      if (turboFrameTarget && turboFrameTarget !== "_top") {
+        request.headers["Turbo-Frame"] = turboFrameTarget;
+      }
+    }
+    // Fetch request interface
+    requestSucceededWithResponse() {
+    }
+    requestStarted(fetchRequest) {
+    }
+    requestErrored(fetchRequest) {
+    }
+    requestFinished(fetchRequest) {
+    }
+    requestPreventedHandlingResponse(fetchRequest, fetchResponse) {
+    }
+    requestFailedWithResponse(fetchRequest, fetchResponse) {
+    }
+    get #cacheTtl() {
+      return Number(getMetaContent("turbo-prefetch-cache-time")) || cacheTtl;
+    }
+    #isPrefetchable(link) {
+      const href = link.getAttribute("href");
+      if (!href) return false;
+      if (unfetchableLink(link)) return false;
+      if (linkToTheSamePage(link)) return false;
+      if (linkOptsOut(link)) return false;
+      if (nonSafeLink(link)) return false;
+      if (eventPrevented(link)) return false;
+      return true;
+    }
+  };
+  var unfetchableLink = (link) => {
+    return link.origin !== document.location.origin || !["http:", "https:"].includes(link.protocol) || link.hasAttribute("target");
+  };
+  var linkToTheSamePage = (link) => {
+    return link.pathname + link.search === document.location.pathname + document.location.search || link.href.startsWith("#");
+  };
+  var linkOptsOut = (link) => {
+    if (link.getAttribute("data-turbo-prefetch") === "false") return true;
+    if (link.getAttribute("data-turbo") === "false") return true;
+    const turboPrefetchParent = findClosestRecursively(link, "[data-turbo-prefetch]");
+    if (turboPrefetchParent && turboPrefetchParent.getAttribute("data-turbo-prefetch") === "false") return true;
+    return false;
+  };
+  var nonSafeLink = (link) => {
+    const turboMethod = link.getAttribute("data-turbo-method");
+    if (turboMethod && turboMethod.toLowerCase() !== "get") return true;
+    if (isUJS(link)) return true;
+    if (link.hasAttribute("data-turbo-confirm")) return true;
+    if (link.hasAttribute("data-turbo-stream")) return true;
+    return false;
+  };
+  var isUJS = (link) => {
+    return link.hasAttribute("data-remote") || link.hasAttribute("data-behavior") || link.hasAttribute("data-confirm") || link.hasAttribute("data-method");
+  };
+  var eventPrevented = (link) => {
+    const event = dispatch("turbo:before-prefetch", { target: link, cancelable: true });
+    return event.defaultPrevented;
+  };
   var Navigator = class {
     constructor(delegate) {
       this.delegate = delegate;
     }
     proposeVisit(location2, options = {}) {
       if (this.delegate.allowsVisitingLocationWithAction(location2, options.action)) {
-        if (locationIsVisitable(location2, this.view.snapshot.rootLocation)) {
-          this.delegate.visitProposedToLocation(location2, options);
-        } else {
-          window.location.href = location2.toString();
-        }
+        this.delegate.visitProposedToLocation(location2, options);
       }
     }
     startVisit(locatable, restorationIdentifier, options = {}) {
       this.stop();
-      this.currentVisit = new Visit(this, expandURL(locatable), restorationIdentifier, Object.assign({ referrer: this.location }, options));
+      this.currentVisit = new Visit(this, expandURL(locatable), restorationIdentifier, {
+        referrer: this.location,
+        ...options
+      });
       this.currentVisit.start();
     }
-    submitForm(form, submitter) {
+    submitForm(form, submitter2) {
       this.stop();
-      this.formSubmission = new FormSubmission(this, form, submitter, true);
+      this.formSubmission = new FormSubmission(this, form, submitter2, true);
       this.formSubmission.start();
     }
     stop() {
@@ -2883,9 +4053,13 @@
     get view() {
       return this.delegate.view;
     }
+    get rootLocation() {
+      return this.view.snapshot.rootLocation;
+    }
     get history() {
       return this.delegate.history;
     }
+    // Form submission delegate
     formSubmissionStarted(formSubmission) {
       if (typeof this.adapter.formSubmissionStarted === "function") {
         this.adapter.formSubmissionStarted(formSubmission);
@@ -2900,7 +4074,7 @@
             this.view.clearSnapshotCache();
           }
           const { statusCode, redirected } = fetchResponse;
-          const action = this.getActionForFormSubmission(formSubmission);
+          const action = this.#getActionForFormSubmission(formSubmission, fetchResponse);
           const visitOptions = {
             action,
             shouldCacheSnapshot,
@@ -2919,7 +4093,9 @@
         } else {
           await this.view.renderPage(snapshot, false, true, this.currentVisit);
         }
-        this.view.scrollToTop();
+        if (!snapshot.shouldPreserveScrollPosition) {
+          this.view.scrollToTop();
+        }
         this.view.clearSnapshotCache();
       }
     }
@@ -2931,11 +4107,13 @@
         this.adapter.formSubmissionFinished(formSubmission);
       }
     }
+    // Visit delegate
     visitStarted(visit2) {
       this.delegate.visitStarted(visit2);
     }
     visitCompleted(visit2) {
       this.delegate.visitCompleted(visit2);
+      delete this.currentVisit;
     }
     locationWithActionIsSamePage(location2, action) {
       const anchor = getAnchor(location2);
@@ -2946,38 +4124,32 @@
     visitScrolledToSamePageLocation(oldURL, newURL) {
       this.delegate.visitScrolledToSamePageLocation(oldURL, newURL);
     }
+    // Visits
     get location() {
       return this.history.location;
     }
     get restorationIdentifier() {
       return this.history.restorationIdentifier;
     }
-    getActionForFormSubmission({ submitter, formElement }) {
-      return getVisitAction(submitter, formElement) || "advance";
+    #getActionForFormSubmission(formSubmission, fetchResponse) {
+      const { submitter: submitter2, formElement } = formSubmission;
+      return getVisitAction(submitter2, formElement) || this.#getDefaultAction(fetchResponse);
+    }
+    #getDefaultAction(fetchResponse) {
+      const sameLocationRedirect = fetchResponse.redirected && fetchResponse.location.href === this.location?.href;
+      return sameLocationRedirect ? "replace" : "advance";
     }
   };
-  var PageStage;
-  (function(PageStage2) {
-    PageStage2[PageStage2["initial"] = 0] = "initial";
-    PageStage2[PageStage2["loading"] = 1] = "loading";
-    PageStage2[PageStage2["interactive"] = 2] = "interactive";
-    PageStage2[PageStage2["complete"] = 3] = "complete";
-  })(PageStage || (PageStage = {}));
+  var PageStage = {
+    initial: 0,
+    loading: 1,
+    interactive: 2,
+    complete: 3
+  };
   var PageObserver = class {
+    stage = PageStage.initial;
+    started = false;
     constructor(delegate) {
-      this.stage = PageStage.initial;
-      this.started = false;
-      this.interpretReadyState = () => {
-        const { readyState } = this;
-        if (readyState == "interactive") {
-          this.pageIsInteractive();
-        } else if (readyState == "complete") {
-          this.pageIsComplete();
-        }
-      };
-      this.pageWillUnload = () => {
-        this.delegate.pageWillUnload();
-      };
       this.delegate = delegate;
     }
     start() {
@@ -2997,6 +4169,14 @@
         this.started = false;
       }
     }
+    interpretReadyState = () => {
+      const { readyState } = this;
+      if (readyState == "interactive") {
+        this.pageIsInteractive();
+      } else if (readyState == "complete") {
+        this.pageIsComplete();
+      }
+    };
     pageIsInteractive() {
       if (this.stage == PageStage.loading) {
         this.stage = PageStage.interactive;
@@ -3010,16 +4190,16 @@
         this.delegate.pageLoaded();
       }
     }
+    pageWillUnload = () => {
+      this.delegate.pageWillUnload();
+    };
     get readyState() {
       return document.readyState;
     }
   };
   var ScrollObserver = class {
+    started = false;
     constructor(delegate) {
-      this.started = false;
-      this.onScroll = () => {
-        this.updatePosition({ x: window.pageXOffset, y: window.pageYOffset });
-      };
       this.delegate = delegate;
     }
     start() {
@@ -3035,14 +4215,25 @@
         this.started = false;
       }
     }
+    onScroll = () => {
+      this.updatePosition({ x: window.pageXOffset, y: window.pageYOffset });
+    };
+    // Private
     updatePosition(position) {
       this.delegate.scrollPositionChanged(position);
     }
   };
   var StreamMessageRenderer = class {
     render({ fragment }) {
-      Bardo.preservingPermanentElements(this, getPermanentElementMapForFragment(fragment), () => document.documentElement.appendChild(fragment));
+      Bardo.preservingPermanentElements(this, getPermanentElementMapForFragment(fragment), () => {
+        withAutofocusFromFragment(fragment, () => {
+          withPreservedFocus(() => {
+            document.documentElement.appendChild(fragment);
+          });
+        });
+      });
     }
+    // Bardo delegate
     enteringBardo(currentPermanentElement, newPermanentElement) {
       newPermanentElement.replaceWith(currentPermanentElement.cloneNode(true));
     }
@@ -3063,33 +4254,64 @@
     }
     return permanentElementMap;
   }
+  async function withAutofocusFromFragment(fragment, callback) {
+    const generatedID = `turbo-stream-autofocus-${uuid()}`;
+    const turboStreams = fragment.querySelectorAll("turbo-stream");
+    const elementWithAutofocus = firstAutofocusableElementInStreams(turboStreams);
+    let willAutofocusId = null;
+    if (elementWithAutofocus) {
+      if (elementWithAutofocus.id) {
+        willAutofocusId = elementWithAutofocus.id;
+      } else {
+        willAutofocusId = generatedID;
+      }
+      elementWithAutofocus.id = willAutofocusId;
+    }
+    callback();
+    await nextRepaint();
+    const hasNoActiveElement = document.activeElement == null || document.activeElement == document.body;
+    if (hasNoActiveElement && willAutofocusId) {
+      const elementToAutofocus = document.getElementById(willAutofocusId);
+      if (elementIsFocusable(elementToAutofocus)) {
+        elementToAutofocus.focus();
+      }
+      if (elementToAutofocus && elementToAutofocus.id == generatedID) {
+        elementToAutofocus.removeAttribute("id");
+      }
+    }
+  }
+  async function withPreservedFocus(callback) {
+    const [activeElementBeforeRender, activeElementAfterRender] = await around(callback, () => document.activeElement);
+    const restoreFocusTo = activeElementBeforeRender && activeElementBeforeRender.id;
+    if (restoreFocusTo) {
+      const elementToFocus = document.getElementById(restoreFocusTo);
+      if (elementIsFocusable(elementToFocus) && elementToFocus != activeElementAfterRender) {
+        elementToFocus.focus();
+      }
+    }
+  }
+  function firstAutofocusableElementInStreams(nodeListOfStreamElements) {
+    for (const streamElement of nodeListOfStreamElements) {
+      const elementWithAutofocus = queryAutofocusableElement(streamElement.templateElement.content);
+      if (elementWithAutofocus) return elementWithAutofocus;
+    }
+    return null;
+  }
   var StreamObserver = class {
+    sources = /* @__PURE__ */ new Set();
+    #started = false;
     constructor(delegate) {
-      this.sources = /* @__PURE__ */ new Set();
-      this.started = false;
-      this.inspectFetchResponse = (event) => {
-        const response = fetchResponseFromEvent(event);
-        if (response && fetchResponseIsStream(response)) {
-          event.preventDefault();
-          this.receiveMessageResponse(response);
-        }
-      };
-      this.receiveMessageEvent = (event) => {
-        if (this.started && typeof event.data == "string") {
-          this.receiveMessageHTML(event.data);
-        }
-      };
       this.delegate = delegate;
     }
     start() {
-      if (!this.started) {
-        this.started = true;
+      if (!this.#started) {
+        this.#started = true;
         addEventListener("turbo:before-fetch-response", this.inspectFetchResponse, false);
       }
     }
     stop() {
-      if (this.started) {
-        this.started = false;
+      if (this.#started) {
+        this.#started = false;
         removeEventListener("turbo:before-fetch-response", this.inspectFetchResponse, false);
       }
     }
@@ -3108,6 +4330,18 @@
     streamSourceIsConnected(source) {
       return this.sources.has(source);
     }
+    inspectFetchResponse = (event) => {
+      const response = fetchResponseFromEvent(event);
+      if (response && fetchResponseIsStream(response)) {
+        event.preventDefault();
+        this.receiveMessageResponse(response);
+      }
+    };
+    receiveMessageEvent = (event) => {
+      if (this.#started && typeof event.data == "string") {
+        this.receiveMessageHTML(event.data);
+      }
+    };
     async receiveMessageResponse(response) {
       const html = await response.responseHTML;
       if (html) {
@@ -3119,15 +4353,13 @@
     }
   };
   function fetchResponseFromEvent(event) {
-    var _a;
-    const fetchResponse = (_a = event.detail) === null || _a === void 0 ? void 0 : _a.fetchResponse;
+    const fetchResponse = event.detail?.fetchResponse;
     if (fetchResponse instanceof FetchResponse) {
       return fetchResponse;
     }
   }
   function fetchResponseIsStream(response) {
-    var _a;
-    const contentType = (_a = response.contentType) !== null && _a !== void 0 ? _a : "";
+    const contentType = response.contentType ?? "";
     return contentType.startsWith(StreamMessage.contentType);
   }
   var ErrorRenderer = class extends Renderer {
@@ -3184,6 +4416,7 @@
       }
     }
     async prepareToRender() {
+      this.#setLanguage();
       await this.mergeHead();
     }
     async render() {
@@ -3206,12 +4439,24 @@
     get newElement() {
       return this.newSnapshot.element;
     }
+    #setLanguage() {
+      const { documentElement } = this.currentSnapshot;
+      const { lang } = this.newSnapshot;
+      if (lang) {
+        documentElement.setAttribute("lang", lang);
+      } else {
+        documentElement.removeAttribute("lang");
+      }
+    }
     async mergeHead() {
       const mergedHeadElements = this.mergeProvisionalElements();
       const newStylesheetElements = this.copyNewHeadStylesheetElements();
       this.copyNewHeadScriptElements();
       await mergedHeadElements;
       await newStylesheetElements;
+      if (this.willRender) {
+        this.removeUnusedDynamicStylesheetElements();
+      }
     }
     async replaceBody() {
       await this.preservingPermanentElements(async () => {
@@ -3233,6 +4478,11 @@
     copyNewHeadScriptElements() {
       for (const element of this.newHeadScriptElements) {
         document.head.appendChild(activateScriptElement(element));
+      }
+    }
+    removeUnusedDynamicStylesheetElements() {
+      for (const element of this.unusedDynamicStylesheetElements) {
+        document.head.removeChild(element);
       }
     }
     async mergeProvisionalElements() {
@@ -3287,6 +4537,14 @@
     async assignNewBody() {
       await this.renderElement(this.currentElement, this.newElement);
     }
+    get unusedDynamicStylesheetElements() {
+      return this.oldHeadStylesheetElements.filter((element) => {
+        return element.getAttribute("data-turbo-track") === "dynamic";
+      });
+    }
+    get oldHeadStylesheetElements() {
+      return this.currentHeadSnapshot.getStylesheetElementsNotInSnapshot(this.newHeadSnapshot);
+    }
     get newHeadStylesheetElements() {
       return this.newHeadSnapshot.getStylesheetElementsNotInSnapshot(this.currentHeadSnapshot);
     }
@@ -3303,10 +4561,35 @@
       return this.newElement.querySelectorAll("script");
     }
   };
+  var MorphingPageRenderer = class extends PageRenderer {
+    static renderElement(currentElement, newElement) {
+      morphElements(currentElement, newElement, {
+        callbacks: {
+          beforeNodeMorphed: (element) => !canRefreshFrame(element)
+        }
+      });
+      for (const frame of currentElement.querySelectorAll("turbo-frame")) {
+        if (canRefreshFrame(frame)) frame.reload();
+      }
+      dispatch("turbo:morph", { detail: { currentElement, newElement } });
+    }
+    async preservingPermanentElements(callback) {
+      return await callback();
+    }
+    get renderMethod() {
+      return "morph";
+    }
+    get shouldAutofocus() {
+      return false;
+    }
+  };
+  function canRefreshFrame(frame) {
+    return frame instanceof FrameElement && frame.src && frame.refresh === "morph" && !frame.closest("[data-turbo-permanent]");
+  }
   var SnapshotCache = class {
+    keys = [];
+    snapshots = {};
     constructor(size) {
-      this.keys = [];
-      this.snapshots = {};
       this.size = size;
     }
     has(location2) {
@@ -3327,6 +4610,7 @@
     clear() {
       this.snapshots = {};
     }
+    // Private
     read(location2) {
       return this.snapshots[toCacheKey(location2)];
     }
@@ -3336,8 +4620,7 @@
     touch(location2) {
       const key = toCacheKey(location2);
       const index = this.keys.indexOf(key);
-      if (index > -1)
-        this.keys.splice(index, 1);
+      if (index > -1) this.keys.splice(index, 1);
       this.keys.unshift(key);
       this.trim();
     }
@@ -3348,24 +4631,26 @@
     }
   };
   var PageView = class extends View {
-    constructor() {
-      super(...arguments);
-      this.snapshotCache = new SnapshotCache(10);
-      this.lastRenderedLocation = new URL(location.href);
-      this.forceReloaded = false;
+    snapshotCache = new SnapshotCache(10);
+    lastRenderedLocation = new URL(location.href);
+    forceReloaded = false;
+    shouldTransitionTo(newSnapshot) {
+      return this.snapshot.prefersViewTransitions && newSnapshot.prefersViewTransitions;
     }
     renderPage(snapshot, isPreview = false, willRender = true, visit2) {
-      const renderer = new PageRenderer(this.snapshot, snapshot, PageRenderer.renderElement, isPreview, willRender);
+      const shouldMorphPage = this.isPageRefresh(visit2) && this.snapshot.shouldMorphPage;
+      const rendererClass = shouldMorphPage ? MorphingPageRenderer : PageRenderer;
+      const renderer = new rendererClass(this.snapshot, snapshot, isPreview, willRender);
       if (!renderer.shouldRender) {
         this.forceReloaded = true;
       } else {
-        visit2 === null || visit2 === void 0 ? void 0 : visit2.changeHistory();
+        visit2?.changeHistory();
       }
       return this.render(renderer);
     }
     renderError(snapshot, visit2) {
-      visit2 === null || visit2 === void 0 ? void 0 : visit2.changeHistory();
-      const renderer = new ErrorRenderer(this.snapshot, snapshot, ErrorRenderer.renderElement, false);
+      visit2?.changeHistory();
+      const renderer = new ErrorRenderer(this.snapshot, snapshot, false);
       return this.render(renderer);
     }
     clearSnapshotCache() {
@@ -3384,30 +4669,37 @@
     getCachedSnapshotForLocation(location2) {
       return this.snapshotCache.get(location2);
     }
+    isPageRefresh(visit2) {
+      return !visit2 || this.lastRenderedLocation.pathname === visit2.location.pathname && visit2.action === "replace";
+    }
+    shouldPreserveScrollPosition(visit2) {
+      return this.isPageRefresh(visit2) && this.snapshot.shouldPreserveScrollPosition;
+    }
     get snapshot() {
       return PageSnapshot.fromElement(this.element);
     }
   };
   var Preloader = class {
-    constructor(delegate) {
-      this.selector = "a[data-turbo-preload]";
+    selector = "a[data-turbo-preload]";
+    constructor(delegate, snapshotCache) {
       this.delegate = delegate;
-    }
-    get snapshotCache() {
-      return this.delegate.navigator.view.snapshotCache;
+      this.snapshotCache = snapshotCache;
     }
     start() {
       if (document.readyState === "loading") {
-        return document.addEventListener("DOMContentLoaded", () => {
-          this.preloadOnLoadLinksForView(document.body);
-        });
+        document.addEventListener("DOMContentLoaded", this.#preloadAll);
       } else {
         this.preloadOnLoadLinksForView(document.body);
       }
     }
+    stop() {
+      document.removeEventListener("DOMContentLoaded", this.#preloadAll);
+    }
     preloadOnLoadLinksForView(element) {
       for (const link of element.querySelectorAll(this.selector)) {
-        this.preloadURL(link);
+        if (this.delegate.shouldPreloadLink(link)) {
+          this.preloadURL(link);
+        }
       }
     }
     async preloadURL(link) {
@@ -3415,41 +4707,85 @@
       if (this.snapshotCache.has(location2)) {
         return;
       }
+      const fetchRequest = new FetchRequest(this, FetchMethod.get, location2, new URLSearchParams(), link);
+      await fetchRequest.perform();
+    }
+    // Fetch request delegate
+    prepareRequest(fetchRequest) {
+      fetchRequest.headers["X-Sec-Purpose"] = "prefetch";
+    }
+    async requestSucceededWithResponse(fetchRequest, fetchResponse) {
       try {
-        const response = await fetch(location2.toString(), { headers: { "VND.PREFETCH": "true", Accept: "text/html" } });
-        const responseText = await response.text();
-        const snapshot = PageSnapshot.fromHTMLString(responseText);
-        this.snapshotCache.put(location2, snapshot);
+        const responseHTML = await fetchResponse.responseHTML;
+        const snapshot = PageSnapshot.fromHTMLString(responseHTML);
+        this.snapshotCache.put(fetchRequest.url, snapshot);
       } catch (_) {
       }
     }
+    requestStarted(fetchRequest) {
+    }
+    requestErrored(fetchRequest) {
+    }
+    requestFinished(fetchRequest) {
+    }
+    requestPreventedHandlingResponse(fetchRequest, fetchResponse) {
+    }
+    requestFailedWithResponse(fetchRequest, fetchResponse) {
+    }
+    #preloadAll = () => {
+      this.preloadOnLoadLinksForView(document.body);
+    };
+  };
+  var Cache = class {
+    constructor(session2) {
+      this.session = session2;
+    }
+    clear() {
+      this.session.clearCache();
+    }
+    resetCacheControl() {
+      this.#setCacheControl("");
+    }
+    exemptPageFromCache() {
+      this.#setCacheControl("no-cache");
+    }
+    exemptPageFromPreview() {
+      this.#setCacheControl("no-preview");
+    }
+    #setCacheControl(value) {
+      setMetaContent("turbo-cache-control", value);
+    }
   };
   var Session = class {
-    constructor() {
-      this.navigator = new Navigator(this);
-      this.history = new History(this);
-      this.preloader = new Preloader(this);
-      this.view = new PageView(this, document.documentElement);
-      this.adapter = new BrowserAdapter(this);
-      this.pageObserver = new PageObserver(this);
-      this.cacheObserver = new CacheObserver();
-      this.linkClickObserver = new LinkClickObserver(this, window);
-      this.formSubmitObserver = new FormSubmitObserver(this, document);
-      this.scrollObserver = new ScrollObserver(this);
-      this.streamObserver = new StreamObserver(this);
-      this.formLinkClickObserver = new FormLinkClickObserver(this, document.documentElement);
-      this.frameRedirector = new FrameRedirector(this, document.documentElement);
-      this.streamMessageRenderer = new StreamMessageRenderer();
-      this.drive = true;
-      this.enabled = true;
-      this.progressBarDelay = 500;
-      this.started = false;
-      this.formMode = "on";
+    navigator = new Navigator(this);
+    history = new History(this);
+    view = new PageView(this, document.documentElement);
+    adapter = new BrowserAdapter(this);
+    pageObserver = new PageObserver(this);
+    cacheObserver = new CacheObserver();
+    linkPrefetchObserver = new LinkPrefetchObserver(this, document);
+    linkClickObserver = new LinkClickObserver(this, window);
+    formSubmitObserver = new FormSubmitObserver(this, document);
+    scrollObserver = new ScrollObserver(this);
+    streamObserver = new StreamObserver(this);
+    formLinkClickObserver = new FormLinkClickObserver(this, document.documentElement);
+    frameRedirector = new FrameRedirector(this, document.documentElement);
+    streamMessageRenderer = new StreamMessageRenderer();
+    cache = new Cache(this);
+    enabled = true;
+    started = false;
+    #pageRefreshDebouncePeriod = 150;
+    constructor(recentRequests2) {
+      this.recentRequests = recentRequests2;
+      this.preloader = new Preloader(this, this.view.snapshotCache);
+      this.debouncedRefresh = this.refresh;
+      this.pageRefreshDebouncePeriod = this.pageRefreshDebouncePeriod;
     }
     start() {
       if (!this.started) {
         this.pageObserver.start();
         this.cacheObserver.start();
+        this.linkPrefetchObserver.start();
         this.formLinkClickObserver.start();
         this.linkClickObserver.start();
         this.formSubmitObserver.start();
@@ -3469,6 +4805,7 @@
       if (this.started) {
         this.pageObserver.stop();
         this.cacheObserver.stop();
+        this.linkPrefetchObserver.stop();
         this.formLinkClickObserver.stop();
         this.linkClickObserver.stop();
         this.formSubmitObserver.stop();
@@ -3476,6 +4813,7 @@
         this.streamObserver.stop();
         this.frameRedirector.stop();
         this.history.stop();
+        this.preloader.stop();
         this.started = false;
       }
     }
@@ -3485,10 +4823,17 @@
     visit(location2, options = {}) {
       const frameElement = options.frame ? document.getElementById(options.frame) : null;
       if (frameElement instanceof FrameElement) {
+        const action = options.action || getVisitAction(frameElement);
+        frameElement.delegate.proposeVisitIfNavigatedWithAction(frameElement, action);
         frameElement.src = location2.toString();
-        frameElement.loaded;
       } else {
         this.navigator.proposeVisit(expandURL(location2), options);
+      }
+    }
+    refresh(url, requestId) {
+      const isRecentRequest = requestId && this.recentRequests.has(requestId);
+      if (!isRecentRequest && !this.navigator.currentVisit) {
+        this.visit(url, { action: "replace", shouldCacheSnapshot: false });
       }
     }
     connectStreamSource(source) {
@@ -3504,10 +4849,28 @@
       this.view.clearSnapshotCache();
     }
     setProgressBarDelay(delay) {
+      console.warn(
+        "Please replace `session.setProgressBarDelay(delay)` with `session.progressBarDelay = delay`. The function is deprecated and will be removed in a future version of Turbo.`"
+      );
       this.progressBarDelay = delay;
     }
-    setFormMode(mode) {
-      this.formMode = mode;
+    set progressBarDelay(delay) {
+      config.drive.progressBarDelay = delay;
+    }
+    get progressBarDelay() {
+      return config.drive.progressBarDelay;
+    }
+    set drive(value) {
+      config.drive.enabled = value;
+    }
+    get drive() {
+      return config.drive.enabled;
+    }
+    set formMode(value) {
+      config.forms.mode = value;
+    }
+    get formMode() {
+      return config.forms.mode;
     }
     get location() {
       return this.history.location;
@@ -3515,11 +4878,33 @@
     get restorationIdentifier() {
       return this.history.restorationIdentifier;
     }
-    historyPoppedToLocationWithRestorationIdentifier(location2, restorationIdentifier) {
+    get pageRefreshDebouncePeriod() {
+      return this.#pageRefreshDebouncePeriod;
+    }
+    set pageRefreshDebouncePeriod(value) {
+      this.refresh = debounce(this.debouncedRefresh.bind(this), value);
+      this.#pageRefreshDebouncePeriod = value;
+    }
+    // Preloader delegate
+    shouldPreloadLink(element) {
+      const isUnsafe = element.hasAttribute("data-turbo-method");
+      const isStream = element.hasAttribute("data-turbo-stream");
+      const frameTarget = element.getAttribute("data-turbo-frame");
+      const frame = frameTarget == "_top" ? null : document.getElementById(frameTarget) || findClosestRecursively(element, "turbo-frame:not([disabled])");
+      if (isUnsafe || isStream || frame instanceof FrameElement) {
+        return false;
+      } else {
+        const location2 = new URL(element.href);
+        return this.elementIsNavigatable(element) && locationIsVisitable(location2, this.snapshot.rootLocation);
+      }
+    }
+    // History delegate
+    historyPoppedToLocationWithRestorationIdentifierAndDirection(location2, restorationIdentifier, direction) {
       if (this.enabled) {
         this.navigator.startVisit(location2, restorationIdentifier, {
           action: "restore",
-          historyChanged: true
+          historyChanged: true,
+          direction
         });
       } else {
         this.adapter.pageInvalidated({
@@ -3527,14 +4912,21 @@
         });
       }
     }
+    // Scroll observer delegate
     scrollPositionChanged(position) {
       this.history.updateRestorationData({ scrollPosition: position });
     }
+    // Form click observer delegate
     willSubmitFormLinkToLocation(link, location2) {
       return this.elementIsNavigatable(link) && locationIsVisitable(location2, this.snapshot.rootLocation);
     }
     submittedFormLinkToLocation() {
     }
+    // Link hover observer delegate
+    canPrefetchRequestToLocation(link, location2) {
+      return this.elementIsNavigatable(link) && locationIsVisitable(location2, this.snapshot.rootLocation);
+    }
+    // Link click observer delegate
     willFollowLinkToLocation(link, location2, event) {
       return this.elementIsNavigatable(link) && locationIsVisitable(location2, this.snapshot.rootLocation) && this.applicationAllowsFollowingLinkToLocation(link, location2, event);
     }
@@ -3543,6 +4935,7 @@
       const acceptsStreamResponse = link.hasAttribute("data-turbo-stream");
       this.visit(location2.href, { action, acceptsStreamResponse });
     }
+    // Navigator delegate
     allowsVisitingLocationWithAction(location2, action) {
       return this.locationWithActionIsSamePage(location2, action) || this.applicationAllowsVisitingLocation(location2);
     }
@@ -3550,9 +4943,11 @@
       extendURLWithDeprecatedProperties(location2);
       this.adapter.visitProposedToLocation(location2, options);
     }
+    // Visit delegate
     visitStarted(visit2) {
       if (!visit2.acceptsStreamResponse) {
         markAsBusy(document.documentElement);
+        this.view.markVisitDirection(visit2.direction);
       }
       extendURLWithDeprecatedProperties(visit2.location);
       if (!visit2.silent) {
@@ -3560,6 +4955,7 @@
       }
     }
     visitCompleted(visit2) {
+      this.view.unmarkVisitDirection();
       clearBusyState(document.documentElement);
       this.notifyApplicationAfterPageLoad(visit2.getTimingMetrics());
     }
@@ -3569,13 +4965,15 @@
     visitScrolledToSamePageLocation(oldURL, newURL) {
       this.notifyApplicationAfterVisitingSamePageLocation(oldURL, newURL);
     }
-    willSubmitForm(form, submitter) {
-      const action = getAction(form, submitter);
-      return this.submissionIsNavigatable(form, submitter) && locationIsVisitable(expandURL(action), this.snapshot.rootLocation);
+    // Form submit observer delegate
+    willSubmitForm(form, submitter2) {
+      const action = getAction$1(form, submitter2);
+      return this.submissionIsNavigatable(form, submitter2) && locationIsVisitable(expandURL(action), this.snapshot.rootLocation);
     }
-    formSubmitted(form, submitter) {
-      this.navigator.submitForm(form, submitter);
+    formSubmitted(form, submitter2) {
+      this.navigator.submitForm(form, submitter2);
     }
+    // Page observer delegate
     pageBecameInteractive() {
       this.view.lastRenderedLocation = this.location;
       this.notifyApplicationAfterPageLoad();
@@ -3586,26 +4984,30 @@
     pageWillUnload() {
       this.history.relinquishControlOfScrollRestoration();
     }
+    // Stream observer delegate
     receivedMessageFromStream(message) {
       this.renderStreamMessage(message);
     }
+    // Page view delegate
     viewWillCacheSnapshot() {
-      var _a;
-      if (!((_a = this.navigator.currentVisit) === null || _a === void 0 ? void 0 : _a.silent)) {
+      if (!this.navigator.currentVisit?.silent) {
         this.notifyApplicationBeforeCachingSnapshot();
       }
     }
     allowsImmediateRender({ element }, options) {
       const event = this.notifyApplicationBeforeRender(element, options);
-      const { defaultPrevented, detail: { render } } = event;
+      const {
+        defaultPrevented,
+        detail: { render }
+      } = event;
       if (this.view.renderer && render) {
         this.view.renderer.renderElement = render;
       }
       return !defaultPrevented;
     }
-    viewRenderedSnapshot(_snapshot, _isPreview) {
+    viewRenderedSnapshot(_snapshot, _isPreview, renderMethod) {
       this.view.lastRenderedLocation = this.history.location;
-      this.notifyApplicationAfterRender();
+      this.notifyApplicationAfterRender(renderMethod);
     }
     preloadOnLoadLinksForView(element) {
       this.preloader.preloadOnLoadLinksForView(element);
@@ -3613,12 +5015,14 @@
     viewInvalidated(reason) {
       this.adapter.pageInvalidated(reason);
     }
+    // Frame element
     frameLoaded(frame) {
       this.notifyApplicationAfterFrameLoad(frame);
     }
     frameRendered(fetchResponse, frame) {
       this.notifyApplicationAfterFrameRender(fetchResponse, frame);
     }
+    // Application events
     applicationAllowsFollowingLinkToLocation(link, location2, ev) {
       const event = this.notifyApplicationAfterClickingLinkToLocation(link, location2, ev);
       return !event.defaultPrevented;
@@ -3648,12 +5052,12 @@
     }
     notifyApplicationBeforeRender(newBody, options) {
       return dispatch("turbo:before-render", {
-        detail: Object.assign({ newBody }, options),
+        detail: { newBody, ...options },
         cancelable: true
       });
     }
-    notifyApplicationAfterRender() {
-      return dispatch("turbo:render");
+    notifyApplicationAfterRender(renderMethod) {
+      return dispatch("turbo:render", { detail: { renderMethod } });
     }
     notifyApplicationAfterPageLoad(timing = {}) {
       return dispatch("turbo:load", {
@@ -3661,10 +5065,12 @@
       });
     }
     notifyApplicationAfterVisitingSamePageLocation(oldURL, newURL) {
-      dispatchEvent(new HashChangeEvent("hashchange", {
-        oldURL: oldURL.toString(),
-        newURL: newURL.toString()
-      }));
+      dispatchEvent(
+        new HashChangeEvent("hashchange", {
+          oldURL: oldURL.toString(),
+          newURL: newURL.toString()
+        })
+      );
     }
     notifyApplicationAfterFrameLoad(frame) {
       return dispatch("turbo:frame-load", { target: frame });
@@ -3676,12 +5082,13 @@
         cancelable: true
       });
     }
-    submissionIsNavigatable(form, submitter) {
-      if (this.formMode == "off") {
+    // Helpers
+    submissionIsNavigatable(form, submitter2) {
+      if (config.forms.mode == "off") {
         return false;
       } else {
-        const submitterIsNavigatable = submitter ? this.elementIsNavigatable(submitter) : true;
-        if (this.formMode == "optin") {
+        const submitterIsNavigatable = submitter2 ? this.elementIsNavigatable(submitter2) : true;
+        if (config.forms.mode == "optin") {
           return submitterIsNavigatable && form.closest('[data-turbo="true"]') != null;
         } else {
           return submitterIsNavigatable && this.elementIsNavigatable(form);
@@ -3691,7 +5098,7 @@
     elementIsNavigatable(element) {
       const container = findClosestRecursively(element, "[data-turbo]");
       const withinFrame = findClosestRecursively(element, "turbo-frame");
-      if (this.drive || withinFrame) {
+      if (config.drive.enabled || withinFrame) {
         if (container) {
           return container.getAttribute("data-turbo") != "false";
         } else {
@@ -3705,6 +5112,7 @@
         }
       }
     }
+    // Private
     getActionForLink(link) {
       return getVisitAction(link) || "advance";
     }
@@ -3722,63 +5130,8 @@
       }
     }
   };
-  var Cache = class {
-    constructor(session2) {
-      this.session = session2;
-    }
-    clear() {
-      this.session.clearCache();
-    }
-    resetCacheControl() {
-      this.setCacheControl("");
-    }
-    exemptPageFromCache() {
-      this.setCacheControl("no-cache");
-    }
-    exemptPageFromPreview() {
-      this.setCacheControl("no-preview");
-    }
-    setCacheControl(value) {
-      setMetaContent("turbo-cache-control", value);
-    }
-  };
-  var StreamActions = {
-    after() {
-      this.targetElements.forEach((e) => {
-        var _a;
-        return (_a = e.parentElement) === null || _a === void 0 ? void 0 : _a.insertBefore(this.templateContent, e.nextSibling);
-      });
-    },
-    append() {
-      this.removeDuplicateTargetChildren();
-      this.targetElements.forEach((e) => e.append(this.templateContent));
-    },
-    before() {
-      this.targetElements.forEach((e) => {
-        var _a;
-        return (_a = e.parentElement) === null || _a === void 0 ? void 0 : _a.insertBefore(this.templateContent, e);
-      });
-    },
-    prepend() {
-      this.removeDuplicateTargetChildren();
-      this.targetElements.forEach((e) => e.prepend(this.templateContent));
-    },
-    remove() {
-      this.targetElements.forEach((e) => e.remove());
-    },
-    replace() {
-      this.targetElements.forEach((e) => e.replaceWith(this.templateContent));
-    },
-    update() {
-      this.targetElements.forEach((targetElement) => {
-        targetElement.innerHTML = "";
-        targetElement.append(this.templateContent);
-      });
-    }
-  };
-  var session = new Session();
-  var cache = new Cache(session);
-  var { navigator: navigator$1 } = session;
+  var session = new Session(recentRequests);
+  var { cache, navigator: navigator$1 } = session;
   function start() {
     session.start();
   }
@@ -3798,17 +5151,28 @@
     session.renderStreamMessage(message);
   }
   function clearCache() {
-    console.warn("Please replace `Turbo.clearCache()` with `Turbo.cache.clear()`. The top-level function is deprecated and will be removed in a future version of Turbo.`");
+    console.warn(
+      "Please replace `Turbo.clearCache()` with `Turbo.cache.clear()`. The top-level function is deprecated and will be removed in a future version of Turbo.`"
+    );
     session.clearCache();
   }
   function setProgressBarDelay(delay) {
-    session.setProgressBarDelay(delay);
+    console.warn(
+      "Please replace `Turbo.setProgressBarDelay(delay)` with `Turbo.config.drive.progressBarDelay = delay`. The top-level function is deprecated and will be removed in a future version of Turbo.`"
+    );
+    config.drive.progressBarDelay = delay;
   }
   function setConfirmMethod(confirmMethod) {
-    FormSubmission.confirmMethod = confirmMethod;
+    console.warn(
+      "Please replace `Turbo.setConfirmMethod(confirmMethod)` with `Turbo.config.forms.confirm = confirmMethod`. The top-level function is deprecated and will be removed in a future version of Turbo.`"
+    );
+    config.forms.confirm = confirmMethod;
   }
   function setFormMode(mode) {
-    session.setFormMode(mode);
+    console.warn(
+      "Please replace `Turbo.setFormMode(mode)` with `Turbo.config.forms.mode = mode`. The top-level function is deprecated and will be removed in a future version of Turbo.`"
+    );
+    config.forms.mode = mode;
   }
   var Turbo = /* @__PURE__ */ Object.freeze({
     __proto__: null,
@@ -3818,6 +5182,8 @@
     PageRenderer,
     PageSnapshot,
     FrameRenderer,
+    fetch: fetchWithTurboHeaders,
+    config,
     start,
     registerAdapter,
     visit,
@@ -3827,29 +5193,21 @@
     clearCache,
     setProgressBarDelay,
     setConfirmMethod,
-    setFormMode,
-    StreamActions
+    setFormMode
   });
   var TurboFrameMissingError = class extends Error {
   };
   var FrameController = class {
+    fetchResponseLoaded = (_fetchResponse) => Promise.resolve();
+    #currentFetchRequest = null;
+    #resolveVisitPromise = () => {
+    };
+    #connected = false;
+    #hasBeenLoaded = false;
+    #ignoredAttributes = /* @__PURE__ */ new Set();
+    #shouldMorphFrame = false;
+    action = null;
     constructor(element) {
-      this.fetchResponseLoaded = (_fetchResponse) => {
-      };
-      this.currentFetchRequest = null;
-      this.resolveVisitPromise = () => {
-      };
-      this.connected = false;
-      this.hasBeenLoaded = false;
-      this.ignoredAttributes = /* @__PURE__ */ new Set();
-      this.action = null;
-      this.visitCachedSnapshot = ({ element: element2 }) => {
-        const frame = element2.querySelector("#" + this.element.id);
-        if (frame && this.previousFrameElement) {
-          frame.replaceChildren(...this.previousFrameElement.children);
-        }
-        delete this.previousFrameElement;
-      };
       this.element = element;
       this.view = new FrameView(this, this.element);
       this.appearanceObserver = new AppearanceObserver(this, this.element);
@@ -3858,13 +5216,14 @@
       this.restorationIdentifier = uuid();
       this.formSubmitObserver = new FormSubmitObserver(this, this.element);
     }
+    // Frame delegate
     connect() {
-      if (!this.connected) {
-        this.connected = true;
+      if (!this.#connected) {
+        this.#connected = true;
         if (this.loadingStyle == FrameLoadingStyle.lazy) {
           this.appearanceObserver.start();
         } else {
-          this.loadSourceURL();
+          this.#loadSourceURL();
         }
         this.formLinkClickObserver.start();
         this.linkInterceptor.start();
@@ -3872,8 +5231,8 @@
       }
     }
     disconnect() {
-      if (this.connected) {
-        this.connected = false;
+      if (this.#connected) {
+        this.#connected = false;
         this.appearanceObserver.stop();
         this.formLinkClickObserver.stop();
         this.linkInterceptor.stop();
@@ -3882,47 +5241,40 @@
     }
     disabledChanged() {
       if (this.loadingStyle == FrameLoadingStyle.eager) {
-        this.loadSourceURL();
+        this.#loadSourceURL();
       }
     }
     sourceURLChanged() {
-      if (this.isIgnoringChangesTo("src"))
-        return;
+      if (this.#isIgnoringChangesTo("src")) return;
       if (this.element.isConnected) {
         this.complete = false;
       }
-      if (this.loadingStyle == FrameLoadingStyle.eager || this.hasBeenLoaded) {
-        this.loadSourceURL();
+      if (this.loadingStyle == FrameLoadingStyle.eager || this.#hasBeenLoaded) {
+        this.#loadSourceURL();
       }
     }
     sourceURLReloaded() {
-      const { src } = this.element;
-      this.ignoringChangesToAttribute("complete", () => {
-        this.element.removeAttribute("complete");
-      });
+      const { refresh, src } = this.element;
+      this.#shouldMorphFrame = src && refresh === "morph";
+      this.element.removeAttribute("complete");
       this.element.src = null;
       this.element.src = src;
       return this.element.loaded;
-    }
-    completeChanged() {
-      if (this.isIgnoringChangesTo("complete"))
-        return;
-      this.loadSourceURL();
     }
     loadingStyleChanged() {
       if (this.loadingStyle == FrameLoadingStyle.lazy) {
         this.appearanceObserver.start();
       } else {
         this.appearanceObserver.stop();
-        this.loadSourceURL();
+        this.#loadSourceURL();
       }
     }
-    async loadSourceURL() {
+    async #loadSourceURL() {
       if (this.enabled && this.isActive && !this.complete && this.sourceURL) {
-        this.element.loaded = this.visit(expandURL(this.sourceURL));
+        this.element.loaded = this.#visit(expandURL(this.sourceURL));
         this.appearanceObserver.stop();
         await this.element.loaded;
-        this.hasBeenLoaded = true;
+        this.#hasBeenLoaded = true;
       }
     }
     async loadResponse(fetchResponse) {
@@ -3935,50 +5287,53 @@
           const document2 = parseHTMLDocument(html);
           const pageSnapshot = PageSnapshot.fromDocument(document2);
           if (pageSnapshot.isVisitable) {
-            await this.loadFrameResponse(fetchResponse, document2);
+            await this.#loadFrameResponse(fetchResponse, document2);
           } else {
-            await this.handleUnvisitableFrameResponse(fetchResponse);
+            await this.#handleUnvisitableFrameResponse(fetchResponse);
           }
         }
       } finally {
-        this.fetchResponseLoaded = () => {
-        };
+        this.#shouldMorphFrame = false;
+        this.fetchResponseLoaded = () => Promise.resolve();
       }
     }
+    // Appearance observer delegate
     elementAppearedInViewport(element) {
-      this.proposeVisitIfNavigatedWithAction(element, element);
-      this.loadSourceURL();
+      this.proposeVisitIfNavigatedWithAction(element, getVisitAction(element));
+      this.#loadSourceURL();
     }
+    // Form link click observer delegate
     willSubmitFormLinkToLocation(link) {
-      return this.shouldInterceptNavigation(link);
+      return this.#shouldInterceptNavigation(link);
     }
     submittedFormLinkToLocation(link, _location, form) {
-      const frame = this.findFrameElement(link);
-      if (frame)
-        form.setAttribute("data-turbo-frame", frame.id);
+      const frame = this.#findFrameElement(link);
+      if (frame) form.setAttribute("data-turbo-frame", frame.id);
     }
+    // Link interceptor delegate
     shouldInterceptLinkClick(element, _location, _event) {
-      return this.shouldInterceptNavigation(element);
+      return this.#shouldInterceptNavigation(element);
     }
     linkClickIntercepted(element, location2) {
-      this.navigateFrame(element, location2);
+      this.#navigateFrame(element, location2);
     }
-    willSubmitForm(element, submitter) {
-      return element.closest("turbo-frame") == this.element && this.shouldInterceptNavigation(element, submitter);
+    // Form submit observer delegate
+    willSubmitForm(element, submitter2) {
+      return element.closest("turbo-frame") == this.element && this.#shouldInterceptNavigation(element, submitter2);
     }
-    formSubmitted(element, submitter) {
+    formSubmitted(element, submitter2) {
       if (this.formSubmission) {
         this.formSubmission.stop();
       }
-      this.formSubmission = new FormSubmission(this, element, submitter);
+      this.formSubmission = new FormSubmission(this, element, submitter2);
       const { fetchRequest } = this.formSubmission;
       this.prepareRequest(fetchRequest);
       this.formSubmission.start();
     }
+    // Fetch request delegate
     prepareRequest(request) {
-      var _a;
       request.headers["Turbo-Frame"] = this.id;
-      if ((_a = this.currentNavigationElement) === null || _a === void 0 ? void 0 : _a.hasAttribute("data-turbo-stream")) {
+      if (this.currentNavigationElement?.hasAttribute("data-turbo-stream")) {
         request.acceptResponseType(StreamMessage.contentType);
       }
     }
@@ -3986,29 +5341,30 @@
       markAsBusy(this.element);
     }
     requestPreventedHandlingResponse(_request, _response) {
-      this.resolveVisitPromise();
+      this.#resolveVisitPromise();
     }
     async requestSucceededWithResponse(request, response) {
       await this.loadResponse(response);
-      this.resolveVisitPromise();
+      this.#resolveVisitPromise();
     }
     async requestFailedWithResponse(request, response) {
       await this.loadResponse(response);
-      this.resolveVisitPromise();
+      this.#resolveVisitPromise();
     }
     requestErrored(request, error2) {
       console.error(error2);
-      this.resolveVisitPromise();
+      this.#resolveVisitPromise();
     }
     requestFinished(_request) {
       clearBusyState(this.element);
     }
+    // Form submission delegate
     formSubmissionStarted({ formElement }) {
-      markAsBusy(formElement, this.findFrameElement(formElement));
+      markAsBusy(formElement, this.#findFrameElement(formElement));
     }
     formSubmissionSucceededWithResponse(formSubmission, response) {
-      const frame = this.findFrameElement(formSubmission.formElement, formSubmission.submitter);
-      frame.delegate.proposeVisitIfNavigatedWithAction(frame, formSubmission.formElement, formSubmission.submitter);
+      const frame = this.#findFrameElement(formSubmission.formElement, formSubmission.submitter);
+      frame.delegate.proposeVisitIfNavigatedWithAction(frame, getVisitAction(formSubmission.submitter, formSubmission.formElement, frame));
       frame.delegate.loadResponse(response);
       if (!formSubmission.isSafe) {
         session.clearCache();
@@ -4022,78 +5378,90 @@
       console.error(error2);
     }
     formSubmissionFinished({ formElement }) {
-      clearBusyState(formElement, this.findFrameElement(formElement));
+      clearBusyState(formElement, this.#findFrameElement(formElement));
     }
+    // View delegate
     allowsImmediateRender({ element: newFrame }, options) {
       const event = dispatch("turbo:before-frame-render", {
         target: this.element,
-        detail: Object.assign({ newFrame }, options),
+        detail: { newFrame, ...options },
         cancelable: true
       });
-      const { defaultPrevented, detail: { render } } = event;
+      const {
+        defaultPrevented,
+        detail: { render }
+      } = event;
       if (this.view.renderer && render) {
         this.view.renderer.renderElement = render;
       }
       return !defaultPrevented;
     }
-    viewRenderedSnapshot(_snapshot, _isPreview) {
+    viewRenderedSnapshot(_snapshot, _isPreview, _renderMethod) {
     }
     preloadOnLoadLinksForView(element) {
       session.preloadOnLoadLinksForView(element);
     }
     viewInvalidated() {
     }
+    // Frame renderer delegate
     willRenderFrame(currentElement, _newElement) {
       this.previousFrameElement = currentElement.cloneNode(true);
     }
-    async loadFrameResponse(fetchResponse, document2) {
+    visitCachedSnapshot = ({ element }) => {
+      const frame = element.querySelector("#" + this.element.id);
+      if (frame && this.previousFrameElement) {
+        frame.replaceChildren(...this.previousFrameElement.children);
+      }
+      delete this.previousFrameElement;
+    };
+    // Private
+    async #loadFrameResponse(fetchResponse, document2) {
       const newFrameElement = await this.extractForeignFrameElement(document2.body);
+      const rendererClass = this.#shouldMorphFrame ? MorphingFrameRenderer : FrameRenderer;
       if (newFrameElement) {
         const snapshot = new Snapshot(newFrameElement);
-        const renderer = new FrameRenderer(this, this.view.snapshot, snapshot, FrameRenderer.renderElement, false, false);
-        if (this.view.renderPromise)
-          await this.view.renderPromise;
+        const renderer = new rendererClass(this, this.view.snapshot, snapshot, false, false);
+        if (this.view.renderPromise) await this.view.renderPromise;
         this.changeHistory();
         await this.view.render(renderer);
         this.complete = true;
         session.frameRendered(fetchResponse, this.element);
         session.frameLoaded(this.element);
-        this.fetchResponseLoaded(fetchResponse);
-      } else if (this.willHandleFrameMissingFromResponse(fetchResponse)) {
-        this.handleFrameMissingFromResponse(fetchResponse);
+        await this.fetchResponseLoaded(fetchResponse);
+      } else if (this.#willHandleFrameMissingFromResponse(fetchResponse)) {
+        this.#handleFrameMissingFromResponse(fetchResponse);
       }
     }
-    async visit(url) {
-      var _a;
+    async #visit(url) {
       const request = new FetchRequest(this, FetchMethod.get, url, new URLSearchParams(), this.element);
-      (_a = this.currentFetchRequest) === null || _a === void 0 ? void 0 : _a.cancel();
-      this.currentFetchRequest = request;
+      this.#currentFetchRequest?.cancel();
+      this.#currentFetchRequest = request;
       return new Promise((resolve) => {
-        this.resolveVisitPromise = () => {
-          this.resolveVisitPromise = () => {
+        this.#resolveVisitPromise = () => {
+          this.#resolveVisitPromise = () => {
           };
-          this.currentFetchRequest = null;
+          this.#currentFetchRequest = null;
           resolve();
         };
         request.perform();
       });
     }
-    navigateFrame(element, url, submitter) {
-      const frame = this.findFrameElement(element, submitter);
-      frame.delegate.proposeVisitIfNavigatedWithAction(frame, element, submitter);
-      this.withCurrentNavigationElement(element, () => {
+    #navigateFrame(element, url, submitter2) {
+      const frame = this.#findFrameElement(element, submitter2);
+      frame.delegate.proposeVisitIfNavigatedWithAction(frame, getVisitAction(submitter2, element, frame));
+      this.#withCurrentNavigationElement(element, () => {
         frame.src = url;
       });
     }
-    proposeVisitIfNavigatedWithAction(frame, element, submitter) {
-      this.action = getVisitAction(submitter, element, frame);
+    proposeVisitIfNavigatedWithAction(frame, action = null) {
+      this.action = action;
       if (this.action) {
         const pageSnapshot = PageSnapshot.fromElement(frame).clone();
         const { visitCachedSnapshot } = frame.delegate;
-        frame.delegate.fetchResponseLoaded = (fetchResponse) => {
+        frame.delegate.fetchResponseLoaded = async (fetchResponse) => {
           if (frame.src) {
             const { statusCode, redirected } = fetchResponse;
-            const responseHTML = frame.ownerDocument.documentElement.outerHTML;
+            const responseHTML = await fetchResponse.responseHTML;
             const response = { statusCode, redirected, responseHTML };
             const options = {
               response,
@@ -4103,8 +5471,7 @@
               restorationIdentifier: this.restorationIdentifier,
               snapshot: pageSnapshot
             };
-            if (this.action)
-              options.action = this.action;
+            if (this.action) options.action = this.action;
             session.visit(frame.src, options);
           }
         };
@@ -4116,16 +5483,18 @@
         session.history.update(method, expandURL(this.element.src || ""), this.restorationIdentifier);
       }
     }
-    async handleUnvisitableFrameResponse(fetchResponse) {
-      console.warn(`The response (${fetchResponse.statusCode}) from <turbo-frame id="${this.element.id}"> is performing a full page visit due to turbo-visit-control.`);
-      await this.visitResponse(fetchResponse.response);
+    async #handleUnvisitableFrameResponse(fetchResponse) {
+      console.warn(
+        `The response (${fetchResponse.statusCode}) from <turbo-frame id="${this.element.id}"> is performing a full page visit due to turbo-visit-control.`
+      );
+      await this.#visitResponse(fetchResponse.response);
     }
-    willHandleFrameMissingFromResponse(fetchResponse) {
+    #willHandleFrameMissingFromResponse(fetchResponse) {
       this.element.setAttribute("complete", "");
       const response = fetchResponse.response;
-      const visit2 = async (url, options = {}) => {
+      const visit2 = async (url, options) => {
         if (url instanceof Response) {
-          this.visitResponse(url);
+          this.#visitResponse(url);
         } else {
           session.visit(url, options);
         }
@@ -4137,24 +5506,23 @@
       });
       return !event.defaultPrevented;
     }
-    handleFrameMissingFromResponse(fetchResponse) {
+    #handleFrameMissingFromResponse(fetchResponse) {
       this.view.missing();
-      this.throwFrameMissingError(fetchResponse);
+      this.#throwFrameMissingError(fetchResponse);
     }
-    throwFrameMissingError(fetchResponse) {
+    #throwFrameMissingError(fetchResponse) {
       const message = `The response (${fetchResponse.statusCode}) did not contain the expected <turbo-frame id="${this.element.id}"> and will be ignored. To perform a full page visit instead, set turbo-visit-control to reload.`;
       throw new TurboFrameMissingError(message);
     }
-    async visitResponse(response) {
+    async #visitResponse(response) {
       const wrapped = new FetchResponse(response);
       const responseHTML = await wrapped.responseHTML;
       const { location: location2, redirected, statusCode } = wrapped;
       return session.visit(location2, { response: { redirected, statusCode, responseHTML } });
     }
-    findFrameElement(element, submitter) {
-      var _a;
-      const id2 = getAttribute("data-turbo-frame", submitter, element) || this.element.getAttribute("target");
-      return (_a = getFrameElementById(id2)) !== null && _a !== void 0 ? _a : this.element;
+    #findFrameElement(element, submitter2) {
+      const id2 = getAttribute("data-turbo-frame", submitter2, element) || this.element.getAttribute("target");
+      return getFrameElementById(id2) ?? this.element;
     }
     async extractForeignFrameElement(container) {
       let element;
@@ -4175,13 +5543,13 @@
       }
       return null;
     }
-    formActionIsVisitable(form, submitter) {
-      const action = getAction(form, submitter);
+    #formActionIsVisitable(form, submitter2) {
+      const action = getAction$1(form, submitter2);
       return locationIsVisitable(expandURL(action), this.rootLocation);
     }
-    shouldInterceptNavigation(element, submitter) {
-      const id2 = getAttribute("data-turbo-frame", submitter, element) || this.element.getAttribute("target");
-      if (element instanceof HTMLFormElement && !this.formActionIsVisitable(element, submitter)) {
+    #shouldInterceptNavigation(element, submitter2) {
+      const id2 = getAttribute("data-turbo-frame", submitter2, element) || this.element.getAttribute("target");
+      if (element instanceof HTMLFormElement && !this.#formActionIsVisitable(element, submitter2)) {
         return false;
       }
       if (!this.enabled || id2 == "_top") {
@@ -4196,11 +5564,12 @@
       if (!session.elementIsNavigatable(element)) {
         return false;
       }
-      if (submitter && !session.elementIsNavigatable(submitter)) {
+      if (submitter2 && !session.elementIsNavigatable(submitter2)) {
         return false;
       }
       return true;
     }
+    // Computed properties
     get id() {
       return this.element.id;
     }
@@ -4213,46 +5582,43 @@
       }
     }
     set sourceURL(sourceURL) {
-      this.ignoringChangesToAttribute("src", () => {
-        this.element.src = sourceURL !== null && sourceURL !== void 0 ? sourceURL : null;
+      this.#ignoringChangesToAttribute("src", () => {
+        this.element.src = sourceURL ?? null;
       });
     }
     get loadingStyle() {
       return this.element.loading;
     }
     get isLoading() {
-      return this.formSubmission !== void 0 || this.resolveVisitPromise() !== void 0;
+      return this.formSubmission !== void 0 || this.#resolveVisitPromise() !== void 0;
     }
     get complete() {
       return this.element.hasAttribute("complete");
     }
     set complete(value) {
-      this.ignoringChangesToAttribute("complete", () => {
-        if (value) {
-          this.element.setAttribute("complete", "");
-        } else {
-          this.element.removeAttribute("complete");
-        }
-      });
+      if (value) {
+        this.element.setAttribute("complete", "");
+      } else {
+        this.element.removeAttribute("complete");
+      }
     }
     get isActive() {
-      return this.element.isActive && this.connected;
+      return this.element.isActive && this.#connected;
     }
     get rootLocation() {
-      var _a;
       const meta = this.element.ownerDocument.querySelector(`meta[name="turbo-root"]`);
-      const root = (_a = meta === null || meta === void 0 ? void 0 : meta.content) !== null && _a !== void 0 ? _a : "/";
+      const root = meta?.content ?? "/";
       return expandURL(root);
     }
-    isIgnoringChangesTo(attributeName) {
-      return this.ignoredAttributes.has(attributeName);
+    #isIgnoringChangesTo(attributeName) {
+      return this.#ignoredAttributes.has(attributeName);
     }
-    ignoringChangesToAttribute(attributeName, callback) {
-      this.ignoredAttributes.add(attributeName);
+    #ignoringChangesToAttribute(attributeName, callback) {
+      this.#ignoredAttributes.add(attributeName);
       callback();
-      this.ignoredAttributes.delete(attributeName);
+      this.#ignoredAttributes.delete(attributeName);
     }
-    withCurrentNavigationElement(element, callback) {
+    #withCurrentNavigationElement(element, callback) {
       this.currentNavigationElement = element;
       callback();
       delete this.currentNavigationElement;
@@ -4282,6 +5648,49 @@
       }
     }
   }
+  var StreamActions = {
+    after() {
+      this.targetElements.forEach((e) => e.parentElement?.insertBefore(this.templateContent, e.nextSibling));
+    },
+    append() {
+      this.removeDuplicateTargetChildren();
+      this.targetElements.forEach((e) => e.append(this.templateContent));
+    },
+    before() {
+      this.targetElements.forEach((e) => e.parentElement?.insertBefore(this.templateContent, e));
+    },
+    prepend() {
+      this.removeDuplicateTargetChildren();
+      this.targetElements.forEach((e) => e.prepend(this.templateContent));
+    },
+    remove() {
+      this.targetElements.forEach((e) => e.remove());
+    },
+    replace() {
+      const method = this.getAttribute("method");
+      this.targetElements.forEach((targetElement) => {
+        if (method === "morph") {
+          morphElements(targetElement, this.templateContent);
+        } else {
+          targetElement.replaceWith(this.templateContent);
+        }
+      });
+    },
+    update() {
+      const method = this.getAttribute("method");
+      this.targetElements.forEach((targetElement) => {
+        if (method === "morph") {
+          morphChildren(targetElement, this.templateContent);
+        } else {
+          targetElement.innerHTML = "";
+          targetElement.append(this.templateContent);
+        }
+      });
+    },
+    refresh() {
+      session.refresh(this.baseURI, this.requestId);
+    }
+  };
   var StreamElement = class _StreamElement extends HTMLElement {
     static async renderElement(newElement) {
       await newElement.performAction();
@@ -4296,11 +5705,10 @@
       }
     }
     async render() {
-      var _a;
-      return (_a = this.renderPromise) !== null && _a !== void 0 ? _a : this.renderPromise = (async () => {
+      return this.renderPromise ??= (async () => {
         const event = this.beforeRenderEvent;
         if (this.dispatchEvent(event)) {
-          await nextAnimationFrame();
+          await nextRepaint();
           await event.detail.render(this);
         }
       })();
@@ -4308,40 +5716,57 @@
     disconnect() {
       try {
         this.remove();
-      } catch (_a) {
+      } catch {
       }
     }
+    /**
+     * Removes duplicate children (by ID)
+     */
     removeDuplicateTargetChildren() {
       this.duplicateChildren.forEach((c) => c.remove());
     }
+    /**
+     * Gets the list of duplicate children (i.e. those with the same ID)
+     */
     get duplicateChildren() {
-      var _a;
       const existingChildren = this.targetElements.flatMap((e) => [...e.children]).filter((c) => !!c.id);
-      const newChildrenIds = [...((_a = this.templateContent) === null || _a === void 0 ? void 0 : _a.children) || []].filter((c) => !!c.id).map((c) => c.id);
+      const newChildrenIds = [...this.templateContent?.children || []].filter((c) => !!c.id).map((c) => c.id);
       return existingChildren.filter((c) => newChildrenIds.includes(c.id));
     }
+    /**
+     * Gets the action function to be performed.
+     */
     get performAction() {
       if (this.action) {
         const actionFunction = StreamActions[this.action];
         if (actionFunction) {
           return actionFunction;
         }
-        this.raise("unknown action");
+        this.#raise("unknown action");
       }
-      this.raise("action attribute is missing");
+      this.#raise("action attribute is missing");
     }
+    /**
+     * Gets the target elements which the template will be rendered to.
+     */
     get targetElements() {
       if (this.target) {
         return this.targetElementsById;
       } else if (this.targets) {
         return this.targetElementsByQuery;
       } else {
-        this.raise("target or targets attribute is missing");
+        this.#raise("target or targets attribute is missing");
       }
     }
+    /**
+     * Gets the contents of the main `<template>`.
+     */
     get templateContent() {
       return this.templateElement.content.cloneNode(true);
     }
+    /**
+     * Gets the main `<template>` used for rendering
+     */
     get templateElement() {
       if (this.firstElementChild === null) {
         const template = this.ownerDocument.createElement("template");
@@ -4350,23 +5775,38 @@
       } else if (this.firstElementChild instanceof HTMLTemplateElement) {
         return this.firstElementChild;
       }
-      this.raise("first child element must be a <template> element");
+      this.#raise("first child element must be a <template> element");
     }
+    /**
+     * Gets the current action.
+     */
     get action() {
       return this.getAttribute("action");
     }
+    /**
+     * Gets the current target (an element ID) to which the result will
+     * be rendered.
+     */
     get target() {
       return this.getAttribute("target");
     }
+    /**
+     * Gets the current "targets" selector (a CSS selector)
+     */
     get targets() {
       return this.getAttribute("targets");
     }
-    raise(message) {
+    /**
+     * Reads the request-id attribute
+     */
+    get requestId() {
+      return this.getAttribute("request-id");
+    }
+    #raise(message) {
       throw new Error(`${this.description}: ${message}`);
     }
     get description() {
-      var _a, _b;
-      return (_b = ((_a = this.outerHTML.match(/<[^>]+>/)) !== null && _a !== void 0 ? _a : [])[0]) !== null && _b !== void 0 ? _b : "<turbo-stream>";
+      return (this.outerHTML.match(/<[^>]+>/) ?? [])[0] ?? "<turbo-stream>";
     }
     get beforeRenderEvent() {
       return new CustomEvent("turbo:before-stream-render", {
@@ -4376,8 +5816,7 @@
       });
     }
     get targetElementsById() {
-      var _a;
-      const element = (_a = this.ownerDocument) === null || _a === void 0 ? void 0 : _a.getElementById(this.target);
+      const element = this.ownerDocument?.getElementById(this.target);
       if (element !== null) {
         return [element];
       } else {
@@ -4385,8 +5824,7 @@
       }
     }
     get targetElementsByQuery() {
-      var _a;
-      const elements = (_a = this.ownerDocument) === null || _a === void 0 ? void 0 : _a.querySelectorAll(this.targets);
+      const elements = this.ownerDocument?.querySelectorAll(this.targets);
       if (elements.length !== 0) {
         return Array.prototype.slice.call(elements);
       } else {
@@ -4395,16 +5833,14 @@
     }
   };
   var StreamSourceElement = class extends HTMLElement {
-    constructor() {
-      super(...arguments);
-      this.streamSource = null;
-    }
+    streamSource = null;
     connectedCallback() {
       this.streamSource = this.src.match(/^ws{1,2}:/) ? new WebSocket(this.src) : new EventSource(this.src);
       connectStreamSource(this.streamSource);
     }
     disconnectedCallback() {
       if (this.streamSource) {
+        this.streamSource.close();
         disconnectStreamSource(this.streamSource);
       }
     }
@@ -4424,14 +5860,13 @@
   }
   (() => {
     let element = document.currentScript;
-    if (!element)
-      return;
-    if (element.hasAttribute("data-turbo-suppress-warning"))
-      return;
+    if (!element) return;
+    if (element.hasAttribute("data-turbo-suppress-warning")) return;
     element = element.parentElement;
     while (element) {
       if (element == document.body) {
-        return console.warn(unindent`
+        return console.warn(
+          unindent`
         You are loading Turbo from a <script> element inside the <body> element. This is probably not what you meant to do!
 
         Load your application’s JavaScript bundle inside the <head> element instead. <script> elements in <body> are evaluated with each page change.
@@ -4440,12 +5875,14 @@
 
         ——
         Suppress this warning by adding a "data-turbo-suppress-warning" attribute to: %s
-      `, element.outerHTML);
+      `,
+          element.outerHTML
+        );
       }
       element = element.parentElement;
     }
   })();
-  window.Turbo = Turbo;
+  window.Turbo = { ...Turbo, StreamActions };
   start();
 
   // node_modules/@hotwired/turbo-rails/app/javascript/turbo/cable.js
@@ -4467,12 +5904,9 @@
 
   // node_modules/@hotwired/turbo-rails/app/javascript/turbo/snakeize.js
   function walk(obj) {
-    if (!obj || typeof obj !== "object")
-      return obj;
-    if (obj instanceof Date || obj instanceof RegExp)
-      return obj;
-    if (Array.isArray(obj))
-      return obj.map(walk);
+    if (!obj || typeof obj !== "object") return obj;
+    if (obj instanceof Date || obj instanceof RegExp) return obj;
+    if (Array.isArray(obj)) return obj.map(walk);
     return Object.keys(obj).reduce(function(acc, key) {
       var camel = key[0].toLowerCase() + key.slice(1).replace(/([A-Z]+)/g, function(m, x) {
         return "_" + x.toLowerCase();
@@ -4484,6 +5918,7 @@
 
   // node_modules/@hotwired/turbo-rails/app/javascript/turbo/cable_stream_source_element.js
   var TurboCableStreamSourceElement = class extends HTMLElement {
+    static observedAttributes = ["channel", "signed-stream-name"];
     async connectedCallback() {
       connectStreamSource(this);
       this.subscription = await subscribeTo(this.channel, {
@@ -4494,8 +5929,14 @@
     }
     disconnectedCallback() {
       disconnectStreamSource(this);
-      if (this.subscription)
-        this.subscription.unsubscribe();
+      if (this.subscription) this.subscription.unsubscribe();
+      this.subscriptionDisconnected();
+    }
+    attributeChangedCallback() {
+      if (this.subscription) {
+        this.disconnectedCallback();
+        this.connectedCallback();
+      }
     }
     dispatchMessageEvent(data) {
       const event = new MessageEvent("message", { data });
@@ -4521,9 +5962,9 @@
   function encodeMethodIntoRequestBody(event) {
     if (event.target instanceof HTMLFormElement) {
       const { target: form, detail: { fetchOptions } } = event;
-      form.addEventListener("turbo:submit-start", ({ detail: { formSubmission: { submitter } } }) => {
+      form.addEventListener("turbo:submit-start", ({ detail: { formSubmission: { submitter: submitter2 } } }) => {
         const body = isBodyInit(fetchOptions.body) ? fetchOptions.body : new URLSearchParams();
-        const method = determineFetchMethod(submitter, body, form);
+        const method = determineFetchMethod(submitter2, body, form);
         if (!/get/i.test(method)) {
           if (/post/i.test(method)) {
             body.delete("_method");
@@ -4535,8 +5976,8 @@
       }, { once: true });
     }
   }
-  function determineFetchMethod(submitter, body, form) {
-    const formMethod = determineFormMethod(submitter);
+  function determineFetchMethod(submitter2, body, form) {
+    const formMethod = determineFormMethod(submitter2);
     const overrideMethod = body.get("_method");
     const method = form.getAttribute("method") || "get";
     if (typeof formMethod == "string") {
@@ -4547,10 +5988,12 @@
       return method;
     }
   }
-  function determineFormMethod(submitter) {
-    if (submitter instanceof HTMLButtonElement || submitter instanceof HTMLInputElement) {
-      if (submitter.hasAttribute("formmethod")) {
-        return submitter.formMethod;
+  function determineFormMethod(submitter2) {
+    if (submitter2 instanceof HTMLButtonElement || submitter2 instanceof HTMLInputElement) {
+      if (submitter2.name === "_method") {
+        return submitter2.value;
+      } else if (submitter2.hasAttribute("formmethod")) {
+        return submitter2.formMethod;
       } else {
         return null;
       }
@@ -4563,6 +6006,7 @@
   }
 
   // node_modules/@hotwired/turbo-rails/app/javascript/turbo/index.js
+  window.Turbo = turbo_es2017_esm_exports;
   addEventListener("turbo:before-fetch-request", encodeMethodIntoRequestBody);
 
   // node_modules/@rails/activestorage/app/assets/javascripts/activestorage.esm.js
@@ -4793,8 +6237,7 @@
         }
         return x.join("");
       }
-      if (hex(md51("hello")) !== "5d41402abc4b2a76b9719d911017c592")
-        ;
+      if (hex(md51("hello")) !== "5d41402abc4b2a76b9719d911017c592") ;
       if (typeof ArrayBuffer !== "undefined" && !ArrayBuffer.prototype.slice) {
         (function() {
           function clamp(val, length) {
@@ -6380,8 +7823,7 @@
       };
       for (var _i = numberOfChecks; _i > 0; _i--) {
         var _ret = _loop(_i);
-        if (_ret === "break")
-          break;
+        if (_ret === "break") break;
       }
     }
     if (state.placement !== firstFittingPlacement) {
@@ -6709,7 +8151,7 @@
   }
 
   // node_modules/@popperjs/core/lib/utils/debounce.js
-  function debounce(fn2) {
+  function debounce2(fn2) {
     var pending;
     return function() {
       if (!pending) {
@@ -6834,7 +8276,7 @@
         },
         // Async and optimistically optimized update – it will not be executed if
         // not necessary (debounced to run at most once-per-tick)
-        update: debounce(function() {
+        update: debounce2(function() {
           return new Promise(function(resolve) {
             instance.forceUpdate();
             resolve(state);
@@ -7359,7 +8801,7 @@
       return normalizeData(element.getAttribute(`data-bs-${normalizeDataKey(key)}`));
     }
   };
-  var Config = class {
+  var Config2 = class {
     // Getters
     static get Default() {
       return {};
@@ -7370,27 +8812,27 @@
     static get NAME() {
       throw new Error('You have to implement the static method "NAME", for each component!');
     }
-    _getConfig(config) {
-      config = this._mergeConfigObj(config);
-      config = this._configAfterMerge(config);
-      this._typeCheckConfig(config);
-      return config;
+    _getConfig(config2) {
+      config2 = this._mergeConfigObj(config2);
+      config2 = this._configAfterMerge(config2);
+      this._typeCheckConfig(config2);
+      return config2;
     }
-    _configAfterMerge(config) {
-      return config;
+    _configAfterMerge(config2) {
+      return config2;
     }
-    _mergeConfigObj(config, element) {
+    _mergeConfigObj(config2, element) {
       const jsonConfig = isElement2(element) ? Manipulator.getDataAttribute(element, "config") : {};
       return {
         ...this.constructor.Default,
         ...typeof jsonConfig === "object" ? jsonConfig : {},
         ...isElement2(element) ? Manipulator.getDataAttributes(element) : {},
-        ...typeof config === "object" ? config : {}
+        ...typeof config2 === "object" ? config2 : {}
       };
     }
-    _typeCheckConfig(config, configTypes = this.constructor.DefaultType) {
+    _typeCheckConfig(config2, configTypes = this.constructor.DefaultType) {
       for (const [property, expectedTypes] of Object.entries(configTypes)) {
-        const value = config[property];
+        const value = config2[property];
         const valueType = isElement2(value) ? "element" : toType(value);
         if (!new RegExp(expectedTypes).test(valueType)) {
           throw new TypeError(`${this.constructor.NAME.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`);
@@ -7398,16 +8840,16 @@
       }
     }
   };
-  var VERSION = "5.3.2";
-  var BaseComponent = class extends Config {
-    constructor(element, config) {
+  var VERSION = "5.3.3";
+  var BaseComponent = class extends Config2 {
+    constructor(element, config2) {
       super();
       element = getElement(element);
       if (!element) {
         return;
       }
       this._element = element;
-      this._config = this._getConfig(config);
+      this._config = this._getConfig(config2);
       Data.set(this._element, this.constructor.DATA_KEY, this);
     }
     // Public
@@ -7421,18 +8863,18 @@
     _queueCallback(callback, element, isAnimated = true) {
       executeAfterTransition(callback, element, isAnimated);
     }
-    _getConfig(config) {
-      config = this._mergeConfigObj(config, this._element);
-      config = this._configAfterMerge(config);
-      this._typeCheckConfig(config);
-      return config;
+    _getConfig(config2) {
+      config2 = this._mergeConfigObj(config2, this._element);
+      config2 = this._configAfterMerge(config2);
+      this._typeCheckConfig(config2);
+      return config2;
     }
     // Static
     static getInstance(element) {
       return Data.get(getElement(element), this.DATA_KEY);
     }
-    static getOrCreateInstance(element, config = {}) {
-      return this.getInstance(element) || new this(element, typeof config === "object" ? config : null);
+    static getOrCreateInstance(element, config2 = {}) {
+      return this.getInstance(element) || new this(element, typeof config2 === "object" ? config2 : null);
     }
     static get VERSION() {
       return VERSION;
@@ -7457,9 +8899,9 @@
       if (hrefAttribute.includes("#") && !hrefAttribute.startsWith("#")) {
         hrefAttribute = `#${hrefAttribute.split("#")[1]}`;
       }
-      selector = hrefAttribute && hrefAttribute !== "#" ? parseSelector(hrefAttribute.trim()) : null;
+      selector = hrefAttribute && hrefAttribute !== "#" ? hrefAttribute.trim() : null;
     }
-    return selector;
+    return selector ? selector.split(",").map((sel) => parseSelector(sel)).join(",") : null;
   };
   var SelectorEngine = {
     find(selector, element = document.documentElement) {
@@ -7565,16 +9007,16 @@
       this.dispose();
     }
     // Static
-    static jQueryInterface(config) {
+    static jQueryInterface(config2) {
       return this.each(function() {
         const data = _Alert.getOrCreateInstance(this);
-        if (typeof config !== "string") {
+        if (typeof config2 !== "string") {
           return;
         }
-        if (data[config] === void 0 || config.startsWith("_") || config === "constructor") {
-          throw new TypeError(`No method named "${config}"`);
+        if (data[config2] === void 0 || config2.startsWith("_") || config2 === "constructor") {
+          throw new TypeError(`No method named "${config2}"`);
         }
-        data[config](this);
+        data[config2](this);
       });
     }
   };
@@ -7597,11 +9039,11 @@
       this._element.setAttribute("aria-pressed", this._element.classList.toggle(CLASS_NAME_ACTIVE$3));
     }
     // Static
-    static jQueryInterface(config) {
+    static jQueryInterface(config2) {
       return this.each(function() {
         const data = _Button.getOrCreateInstance(this);
-        if (config === "toggle") {
-          data[config]();
+        if (config2 === "toggle") {
+          data[config2]();
         }
       });
     }
@@ -7634,14 +9076,14 @@
     leftCallback: "(function|null)",
     rightCallback: "(function|null)"
   };
-  var Swipe = class _Swipe extends Config {
-    constructor(element, config) {
+  var Swipe = class _Swipe extends Config2 {
+    constructor(element, config2) {
       super();
       this._element = element;
       if (!element || !_Swipe.isSupported()) {
         return;
       }
-      this._config = this._getConfig(config);
+      this._config = this._getConfig(config2);
       this._deltaX = 0;
       this._supportPointerEvents = Boolean(window.PointerEvent);
       this._initEvents();
@@ -7766,8 +9208,8 @@
     wrap: "boolean"
   };
   var Carousel = class _Carousel extends BaseComponent {
-    constructor(element, config) {
-      super(element, config);
+    constructor(element, config2) {
+      super(element, config2);
       this._interval = null;
       this._activeElement = null;
       this._isSliding = false;
@@ -7845,9 +9287,9 @@
       super.dispose();
     }
     // Private
-    _configAfterMerge(config) {
-      config.defaultInterval = config.interval;
-      return config;
+    _configAfterMerge(config2) {
+      config2.defaultInterval = config2.interval;
+      return config2;
     }
     _addEventListeners() {
       if (this._config.keyboard) {
@@ -7993,18 +9435,18 @@
       return order2 === ORDER_PREV ? DIRECTION_RIGHT : DIRECTION_LEFT;
     }
     // Static
-    static jQueryInterface(config) {
+    static jQueryInterface(config2) {
       return this.each(function() {
-        const data = _Carousel.getOrCreateInstance(this, config);
-        if (typeof config === "number") {
-          data.to(config);
+        const data = _Carousel.getOrCreateInstance(this, config2);
+        if (typeof config2 === "number") {
+          data.to(config2);
           return;
         }
-        if (typeof config === "string") {
-          if (data[config] === void 0 || config.startsWith("_") || config === "constructor") {
-            throw new TypeError(`No method named "${config}"`);
+        if (typeof config2 === "string") {
+          if (data[config2] === void 0 || config2.startsWith("_") || config2 === "constructor") {
+            throw new TypeError(`No method named "${config2}"`);
           }
-          data[config]();
+          data[config2]();
         }
       });
     }
@@ -8065,8 +9507,8 @@
     toggle: "boolean"
   };
   var Collapse = class _Collapse extends BaseComponent {
-    constructor(element, config) {
-      super(element, config);
+    constructor(element, config2) {
+      super(element, config2);
       this._isTransitioning = false;
       this._triggerArray = [];
       const toggleList = SelectorEngine.find(SELECTOR_DATA_TOGGLE$4);
@@ -8174,10 +9616,10 @@
       return element.classList.contains(CLASS_NAME_SHOW$7);
     }
     // Private
-    _configAfterMerge(config) {
-      config.toggle = Boolean(config.toggle);
-      config.parent = getElement(config.parent);
-      return config;
+    _configAfterMerge(config2) {
+      config2.toggle = Boolean(config2.toggle);
+      config2.parent = getElement(config2.parent);
+      return config2;
     }
     _getDimension() {
       return this._element.classList.contains(CLASS_NAME_HORIZONTAL) ? WIDTH : HEIGHT;
@@ -8208,18 +9650,18 @@
       }
     }
     // Static
-    static jQueryInterface(config) {
+    static jQueryInterface(config2) {
       const _config = {};
-      if (typeof config === "string" && /show|hide/.test(config)) {
+      if (typeof config2 === "string" && /show|hide/.test(config2)) {
         _config.toggle = false;
       }
       return this.each(function() {
         const data = _Collapse.getOrCreateInstance(this, _config);
-        if (typeof config === "string") {
-          if (typeof data[config] === "undefined") {
-            throw new TypeError(`No method named "${config}"`);
+        if (typeof config2 === "string") {
+          if (typeof data[config2] === "undefined") {
+            throw new TypeError(`No method named "${config2}"`);
           }
-          data[config]();
+          data[config2]();
         }
       });
     }
@@ -8288,8 +9730,8 @@
     reference: "(string|element|object)"
   };
   var Dropdown = class _Dropdown extends BaseComponent {
-    constructor(element, config) {
-      super(element, config);
+    constructor(element, config2) {
+      super(element, config2);
       this._popper = null;
       this._parent = this._element.parentNode;
       this._menu = SelectorEngine.next(this._element, SELECTOR_MENU)[0] || SelectorEngine.prev(this._element, SELECTOR_MENU)[0] || SelectorEngine.findOne(SELECTOR_MENU, this._parent);
@@ -8373,12 +9815,12 @@
       Manipulator.removeDataAttribute(this._menu, "popper");
       EventHandler.trigger(this._element, EVENT_HIDDEN$5, relatedTarget);
     }
-    _getConfig(config) {
-      config = super._getConfig(config);
-      if (typeof config.reference === "object" && !isElement2(config.reference) && typeof config.reference.getBoundingClientRect !== "function") {
+    _getConfig(config2) {
+      config2 = super._getConfig(config2);
+      if (typeof config2.reference === "object" && !isElement2(config2.reference) && typeof config2.reference.getBoundingClientRect !== "function") {
         throw new TypeError(`${NAME$a.toUpperCase()}: Option "reference" provided type "object" without a required "getBoundingClientRect" method.`);
       }
-      return config;
+      return config2;
     }
     _createPopper() {
       if (typeof lib_exports === "undefined") {
@@ -8471,16 +9913,16 @@
       getNextActiveElement(items, target, key === ARROW_DOWN_KEY$1, !items.includes(target)).focus();
     }
     // Static
-    static jQueryInterface(config) {
+    static jQueryInterface(config2) {
       return this.each(function() {
-        const data = _Dropdown.getOrCreateInstance(this, config);
-        if (typeof config !== "string") {
+        const data = _Dropdown.getOrCreateInstance(this, config2);
+        if (typeof config2 !== "string") {
           return;
         }
-        if (typeof data[config] === "undefined") {
-          throw new TypeError(`No method named "${config}"`);
+        if (typeof data[config2] === "undefined") {
+          throw new TypeError(`No method named "${config2}"`);
         }
-        data[config]();
+        data[config2]();
       });
     }
     static clearMenus(event) {
@@ -8565,10 +10007,10 @@
     isVisible: "boolean",
     rootElement: "(element|string)"
   };
-  var Backdrop = class extends Config {
-    constructor(config) {
+  var Backdrop = class extends Config2 {
+    constructor(config2) {
       super();
-      this._config = this._getConfig(config);
+      this._config = this._getConfig(config2);
       this._isAppended = false;
       this._element = null;
     }
@@ -8629,9 +10071,9 @@
       }
       return this._element;
     }
-    _configAfterMerge(config) {
-      config.rootElement = getElement(config.rootElement);
-      return config;
+    _configAfterMerge(config2) {
+      config2.rootElement = getElement(config2.rootElement);
+      return config2;
     }
     _append() {
       if (this._isAppended) {
@@ -8665,10 +10107,10 @@
     autofocus: "boolean",
     trapElement: "element"
   };
-  var FocusTrap = class extends Config {
-    constructor(config) {
+  var FocusTrap = class extends Config2 {
+    constructor(config2) {
       super();
-      this._config = this._getConfig(config);
+      this._config = this._getConfig(config2);
       this._isActive = false;
       this._lastTabNavDirection = null;
     }
@@ -8834,8 +10276,8 @@
     keyboard: "boolean"
   };
   var Modal = class _Modal extends BaseComponent {
-    constructor(element, config) {
-      super(element, config);
+    constructor(element, config2) {
+      super(element, config2);
       this._dialog = SelectorEngine.findOne(SELECTOR_DIALOG, this._element);
       this._backdrop = this._initializeBackDrop();
       this._focustrap = this._initializeFocusTrap();
@@ -9028,16 +10470,16 @@
       this._element.style.paddingRight = "";
     }
     // Static
-    static jQueryInterface(config, relatedTarget) {
+    static jQueryInterface(config2, relatedTarget) {
       return this.each(function() {
-        const data = _Modal.getOrCreateInstance(this, config);
-        if (typeof config !== "string") {
+        const data = _Modal.getOrCreateInstance(this, config2);
+        if (typeof config2 !== "string") {
           return;
         }
-        if (typeof data[config] === "undefined") {
-          throw new TypeError(`No method named "${config}"`);
+        if (typeof data[config2] === "undefined") {
+          throw new TypeError(`No method named "${config2}"`);
         }
-        data[config](relatedTarget);
+        data[config2](relatedTarget);
       });
     }
   };
@@ -9096,8 +10538,8 @@
     scroll: "boolean"
   };
   var Offcanvas = class _Offcanvas extends BaseComponent {
-    constructor(element, config) {
-      super(element, config);
+    constructor(element, config2) {
+      super(element, config2);
       this._isShown = false;
       this._backdrop = this._initializeBackDrop();
       this._focustrap = this._initializeFocusTrap();
@@ -9212,16 +10654,16 @@
       });
     }
     // Static
-    static jQueryInterface(config) {
+    static jQueryInterface(config2) {
       return this.each(function() {
-        const data = _Offcanvas.getOrCreateInstance(this, config);
-        if (typeof config !== "string") {
+        const data = _Offcanvas.getOrCreateInstance(this, config2);
+        if (typeof config2 !== "string") {
           return;
         }
-        if (data[config] === void 0 || config.startsWith("_") || config === "constructor") {
-          throw new TypeError(`No method named "${config}"`);
+        if (data[config2] === void 0 || config2.startsWith("_") || config2 === "constructor") {
+          throw new TypeError(`No method named "${config2}"`);
         }
-        data[config](this);
+        data[config2](this);
       });
     }
   };
@@ -9269,7 +10711,10 @@
     br: [],
     col: [],
     code: [],
+    dd: [],
     div: [],
+    dl: [],
+    dt: [],
     em: [],
     hr: [],
     h1: [],
@@ -9355,10 +10800,10 @@
     entry: "(string|element|function|null)",
     selector: "(string|element)"
   };
-  var TemplateFactory = class extends Config {
-    constructor(config) {
+  var TemplateFactory = class extends Config2 {
+    constructor(config2) {
       super();
-      this._config = this._getConfig(config);
+      this._config = this._getConfig(config2);
     }
     // Getters
     static get Default() {
@@ -9372,7 +10817,7 @@
     }
     // Public
     getContent() {
-      return Object.values(this._config.content).map((config) => this._resolvePossibleFunction(config)).filter(Boolean);
+      return Object.values(this._config.content).map((config2) => this._resolvePossibleFunction(config2)).filter(Boolean);
     }
     hasContent() {
       return this.getContent().length > 0;
@@ -9399,9 +10844,9 @@
       return template;
     }
     // Private
-    _typeCheckConfig(config) {
-      super._typeCheckConfig(config);
-      this._checkContent(config.content);
+    _typeCheckConfig(config2) {
+      super._typeCheckConfig(config2);
+      this._checkContent(config2.content);
     }
     _checkContent(arg) {
       for (const [selector, content] of Object.entries(arg)) {
@@ -9514,11 +10959,11 @@
     trigger: "string"
   };
   var Tooltip = class _Tooltip extends BaseComponent {
-    constructor(element, config) {
+    constructor(element, config2) {
       if (typeof lib_exports === "undefined") {
         throw new TypeError("Bootstrap's tooltips require Popper (https://popper.js.org)");
       }
-      super(element, config);
+      super(element, config2);
       this._isEnabled = true;
       this._timeout = 0;
       this._isHovered = null;
@@ -9838,48 +11283,48 @@
     _isWithActiveTrigger() {
       return Object.values(this._activeTrigger).includes(true);
     }
-    _getConfig(config) {
+    _getConfig(config2) {
       const dataAttributes = Manipulator.getDataAttributes(this._element);
       for (const dataAttribute of Object.keys(dataAttributes)) {
         if (DISALLOWED_ATTRIBUTES.has(dataAttribute)) {
           delete dataAttributes[dataAttribute];
         }
       }
-      config = {
+      config2 = {
         ...dataAttributes,
-        ...typeof config === "object" && config ? config : {}
+        ...typeof config2 === "object" && config2 ? config2 : {}
       };
-      config = this._mergeConfigObj(config);
-      config = this._configAfterMerge(config);
-      this._typeCheckConfig(config);
-      return config;
+      config2 = this._mergeConfigObj(config2);
+      config2 = this._configAfterMerge(config2);
+      this._typeCheckConfig(config2);
+      return config2;
     }
-    _configAfterMerge(config) {
-      config.container = config.container === false ? document.body : getElement(config.container);
-      if (typeof config.delay === "number") {
-        config.delay = {
-          show: config.delay,
-          hide: config.delay
+    _configAfterMerge(config2) {
+      config2.container = config2.container === false ? document.body : getElement(config2.container);
+      if (typeof config2.delay === "number") {
+        config2.delay = {
+          show: config2.delay,
+          hide: config2.delay
         };
       }
-      if (typeof config.title === "number") {
-        config.title = config.title.toString();
+      if (typeof config2.title === "number") {
+        config2.title = config2.title.toString();
       }
-      if (typeof config.content === "number") {
-        config.content = config.content.toString();
+      if (typeof config2.content === "number") {
+        config2.content = config2.content.toString();
       }
-      return config;
+      return config2;
     }
     _getDelegateConfig() {
-      const config = {};
+      const config2 = {};
       for (const [key, value] of Object.entries(this._config)) {
         if (this.constructor.Default[key] !== value) {
-          config[key] = value;
+          config2[key] = value;
         }
       }
-      config.selector = false;
-      config.trigger = "manual";
-      return config;
+      config2.selector = false;
+      config2.trigger = "manual";
+      return config2;
     }
     _disposePopper() {
       if (this._popper) {
@@ -9892,16 +11337,16 @@
       }
     }
     // Static
-    static jQueryInterface(config) {
+    static jQueryInterface(config2) {
       return this.each(function() {
-        const data = _Tooltip.getOrCreateInstance(this, config);
-        if (typeof config !== "string") {
+        const data = _Tooltip.getOrCreateInstance(this, config2);
+        if (typeof config2 !== "string") {
           return;
         }
-        if (typeof data[config] === "undefined") {
-          throw new TypeError(`No method named "${config}"`);
+        if (typeof data[config2] === "undefined") {
+          throw new TypeError(`No method named "${config2}"`);
         }
-        data[config]();
+        data[config2]();
       });
     }
   };
@@ -9947,16 +11392,16 @@
       return this._resolvePossibleFunction(this._config.content);
     }
     // Static
-    static jQueryInterface(config) {
+    static jQueryInterface(config2) {
       return this.each(function() {
-        const data = _Popover.getOrCreateInstance(this, config);
-        if (typeof config !== "string") {
+        const data = _Popover.getOrCreateInstance(this, config2);
+        if (typeof config2 !== "string") {
           return;
         }
-        if (typeof data[config] === "undefined") {
-          throw new TypeError(`No method named "${config}"`);
+        if (typeof data[config2] === "undefined") {
+          throw new TypeError(`No method named "${config2}"`);
         }
-        data[config]();
+        data[config2]();
       });
     }
   };
@@ -9996,8 +11441,8 @@
     threshold: "array"
   };
   var ScrollSpy = class _ScrollSpy extends BaseComponent {
-    constructor(element, config) {
-      super(element, config);
+    constructor(element, config2) {
+      super(element, config2);
       this._targetLinks = /* @__PURE__ */ new Map();
       this._observableSections = /* @__PURE__ */ new Map();
       this._rootElement = getComputedStyle(this._element).overflowY === "visible" ? null : this._element;
@@ -10037,13 +11482,13 @@
       super.dispose();
     }
     // Private
-    _configAfterMerge(config) {
-      config.target = getElement(config.target) || document.body;
-      config.rootMargin = config.offset ? `${config.offset}px 0px -30%` : config.rootMargin;
-      if (typeof config.threshold === "string") {
-        config.threshold = config.threshold.split(",").map((value) => Number.parseFloat(value));
+    _configAfterMerge(config2) {
+      config2.target = getElement(config2.target) || document.body;
+      config2.rootMargin = config2.offset ? `${config2.offset}px 0px -30%` : config2.rootMargin;
+      if (typeof config2.threshold === "string") {
+        config2.threshold = config2.threshold.split(",").map((value) => Number.parseFloat(value));
       }
-      return config;
+      return config2;
     }
     _maybeEnableSmoothScroll() {
       if (!this._config.smoothScroll) {
@@ -10150,16 +11595,16 @@
       }
     }
     // Static
-    static jQueryInterface(config) {
+    static jQueryInterface(config2) {
       return this.each(function() {
-        const data = _ScrollSpy.getOrCreateInstance(this, config);
-        if (typeof config !== "string") {
+        const data = _ScrollSpy.getOrCreateInstance(this, config2);
+        if (typeof config2 !== "string") {
           return;
         }
-        if (data[config] === void 0 || config.startsWith("_") || config === "constructor") {
-          throw new TypeError(`No method named "${config}"`);
+        if (data[config2] === void 0 || config2.startsWith("_") || config2 === "constructor") {
+          throw new TypeError(`No method named "${config2}"`);
         }
-        data[config]();
+        data[config2]();
       });
     }
   };
@@ -10362,16 +11807,16 @@
       return elem.closest(SELECTOR_OUTER) || elem;
     }
     // Static
-    static jQueryInterface(config) {
+    static jQueryInterface(config2) {
       return this.each(function() {
         const data = _Tab.getOrCreateInstance(this);
-        if (typeof config !== "string") {
+        if (typeof config2 !== "string") {
           return;
         }
-        if (data[config] === void 0 || config.startsWith("_") || config === "constructor") {
-          throw new TypeError(`No method named "${config}"`);
+        if (data[config2] === void 0 || config2.startsWith("_") || config2 === "constructor") {
+          throw new TypeError(`No method named "${config2}"`);
         }
-        data[config]();
+        data[config2]();
       });
     }
   };
@@ -10416,8 +11861,8 @@
     delay: 5e3
   };
   var Toast = class _Toast extends BaseComponent {
-    constructor(element, config) {
-      super(element, config);
+    constructor(element, config2) {
+      super(element, config2);
       this._timeout = null;
       this._hasMouseInteraction = false;
       this._hasKeyboardInteraction = false;
@@ -10525,14 +11970,14 @@
       this._timeout = null;
     }
     // Static
-    static jQueryInterface(config) {
+    static jQueryInterface(config2) {
       return this.each(function() {
-        const data = _Toast.getOrCreateInstance(this, config);
-        if (typeof config === "string") {
-          if (typeof data[config] === "undefined") {
-            throw new TypeError(`No method named "${config}"`);
+        const data = _Toast.getOrCreateInstance(this, config2);
+        if (typeof config2 === "string") {
+          if (typeof data[config2] === "undefined") {
+            throw new TypeError(`No method named "${config2}"`);
           }
-          data[config](this);
+          data[config2](this);
         }
       });
     }
@@ -11124,13 +12569,13 @@
     }
   };
   function add(map, key, value) {
-    fetch2(map, key).add(value);
+    fetch(map, key).add(value);
   }
   function del(map, key, value) {
-    fetch2(map, key).delete(value);
+    fetch(map, key).delete(value);
     prune(map, key);
   }
-  function fetch2(map, key) {
+  function fetch(map, key) {
     let values = map.get(key);
     if (!values) {
       values = /* @__PURE__ */ new Set();
@@ -13269,8 +14714,7 @@
   // app/javascript/controllers/multi_upload_controller.js
   var fileCount = 0;
   function formatBytes(bytes, decimals = 2) {
-    if (bytes === 0)
-      return "0 Bytes";
+    if (bytes === 0) return "0 Bytes";
     const k = 1024;
     const dm = decimals < 0 ? 0 : decimals;
     const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
@@ -13585,13 +15029,11 @@
       el.addEventListener("mouseover", function(e) {
         el.style.pointer = "Cursor";
         el.title = hintText;
-        if (el["data-spoiler-state"] === "shrouded")
-          applyBlur(partialBlur);
+        if (el["data-spoiler-state"] === "shrouded") applyBlur(partialBlur);
       });
       el.addEventListener("mouseout", function(e) {
         el.title = hintText;
-        if (el["data-spoiler-state"] === "shrouded")
-          applyBlur(maxBlur);
+        if (el["data-spoiler-state"] === "shrouded") applyBlur(maxBlur);
       });
       el.addEventListener("click", function(e) {
         switch (el["data-spoiler-state"]) {
@@ -13609,8 +15051,7 @@
         }
       });
     };
-    for (var i = 0; i !== elements.length; i++)
-      processElement(i);
+    for (var i = 0; i !== elements.length; i++) processElement(i);
   }
 
   // app/javascript/controllers/passwords_controller.js
@@ -13658,10 +15099,16 @@
 })();
 /*! Bundled license information:
 
+@hotwired/turbo/dist/turbo.es2017-esm.js:
+  (*!
+  Turbo 8.0.12
+  Copyright © 2024 37signals LLC
+   *)
+
 bootstrap/dist/js/bootstrap.esm.js:
   (*!
-    * Bootstrap v5.3.2 (https://getbootstrap.com/)
-    * Copyright 2011-2023 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+    * Bootstrap v5.3.3 (https://getbootstrap.com/)
+    * Copyright 2011-2024 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
     * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
     *)
 
