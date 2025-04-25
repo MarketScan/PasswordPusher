@@ -29,8 +29,7 @@ group :test do
   gem "minitest"
   gem "minitest-rails", ">= 6.1.0"
   gem "minitest-reporters"
-  gem "selenium-webdriver"
-  gem "webdrivers", "~> 5.3", require: false
+  gem "selenium-webdriver", ">= 4.20.1"
 end
 
 group :development, :test do
@@ -76,7 +75,7 @@ gem "cssbundling-rails", "~> 1.4"
 gem "terser", "~> 1.2"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "bootstrap"
-gem "json", "~> 2.10" # Legacy carry-over
+gem "json", "~> 2.11" # Legacy carry-over
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
@@ -108,7 +107,7 @@ gem "translation"
 # For File Uploads
 gem "aws-sdk-s3", require: false
 gem "azure-storage-blob", "~> 2.0", require: false
-gem "google-cloud-storage", "~> 1.55", require: false
+gem "google-cloud-storage", "~> 1.56", require: false
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
