@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-ruby ENV["CUSTOM_RUBY_VERSION"] || ">=3.2"
+ruby ENV["CUSTOM_RUBY_VERSION"] || ">=3.4.3"
 
 gem "rails", "~> 7.2.2"
 
@@ -21,6 +21,8 @@ group :development do
 
   # A fully configurable and extendable Git hook manager
   gem "overcommit", require: false
+
+  gem "mailbin"
 end
 
 group :test do
@@ -75,7 +77,7 @@ gem "cssbundling-rails", "~> 1.4"
 gem "terser", "~> 1.2"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "bootstrap"
-gem "json", "~> 2.11" # Legacy carry-over
+gem "json", "~> 2.12" # Legacy carry-over
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
