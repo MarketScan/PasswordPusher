@@ -21,18 +21,16 @@ class UserDashboard < Administrate::BaseDashboard
     password: Field::String.with_options(searchable: false),
     password_confirmation: Field::String.with_options(searchable: false),
     failed_attempts: Field::Number,
-    file_pushes: Field::HasMany,
     last_sign_in_at: Field::DateTime.with_options(timezone: Settings.timezone),
     last_sign_in_ip: Field::String,
     locked_at: Field::DateTime.with_options(timezone: Settings.timezone),
-    passwords: Field::HasMany,
+    pushes: Field::HasMany,
     remember_created_at: Field::DateTime.with_options(timezone: Settings.timezone),
     reset_password_sent_at: Field::DateTime.with_options(timezone: Settings.timezone),
     reset_password_token: Field::String,
     sign_in_count: Field::Number,
     unconfirmed_email: Field::String,
     unlock_token: Field::String,
-    urls: Field::HasMany,
     created_at: Field::DateTime.with_options(timezone: Settings.timezone),
     updated_at: Field::DateTime.with_options(timezone: Settings.timezone)
   }.freeze
@@ -76,9 +74,7 @@ class UserDashboard < Administrate::BaseDashboard
     unlock_token
     created_at
     updated_at
-    passwords
-    file_pushes
-    urls
+    pushes
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -95,18 +91,16 @@ class UserDashboard < Administrate::BaseDashboard
     email
     password
     failed_attempts
-    file_pushes
     last_sign_in_at
     last_sign_in_ip
     locked_at
-    passwords
+    pushes
     remember_created_at
     reset_password_sent_at
     reset_password_token
     sign_in_count
     unconfirmed_email
     unlock_token
-    urls
   ].freeze
 
   # COLLECTION_FILTERS
